@@ -1,4 +1,25 @@
-Workflow_Koordinasi_ABC.md
+# Referensi jobdesc tiap track
 Track_A_Data_Split_Plan.md
 Track_B_Model_Training_Plan.md
 Track_C_Evaluation_Submission_Plan.md
+
+# Agent rules
+.agents
+
+# Data train dan test (size sangat besar, download di masing-masing komputer)
+datasets
+
+# Track A outputs (artefak besar, share via Drive/Kaggle)
+track_a/outputs/folds.csv
+track_a/outputs/class_weights.npy
+track_a/outputs/eda_stats.json
+track_a/outputs/split_metadata.json
+track_a/outputs/skip_list.txt
+track_a/outputs/df_clean.csv
+track_a/outputs/*.png
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
