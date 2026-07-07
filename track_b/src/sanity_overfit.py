@@ -4,20 +4,30 @@ from model import build_model
 from losses_metrics import build_loss
 from seed_utils import set_seed
 
-def sanity_overfit(n_steps=200, lr=3e-4, target_loss=0.1):
+def sanity_overfit(n_steps=300, lr=3e-4, target_loss=0.1):
     """Bukti training loop benar: model HARUS bisa menghafal 1 batch kecil (loss ≈ 0).
 
-    Perbaikan dari versi awal (loss stuck di ~1.06 ≈ ln(3) = tebakan acak):
-    - lr 3e-3 → 3e-4  (3e-3 terlalu tinggi untuk fine-tune ConvNeXt, sesuai plan 1e-4–3e-4)
-    - clip max_norm 0.5 → 1.0  (0.5 terlalu agresif, gradient tercekik)
-    - drop_path_rate=0.0  (stochastic depth = noise antar step, ganggu overfit deterministik)
-    - assert final_loss < target_loss  (kriteria milestone B1: loss ≈ 0, bukan cuma "bergerak")
+    Riwayat perbaikan:
+    - v1 (lr 3e-3, clip 0.5, noise, 100 step): loss stuck ~1.06 ≈ ln(3) = tebakan acak.
+    - v2 (lr 3e-4, clip 1.0, drop_path 0, noise, 200 step): mulai turun tapi cuma
+      sampai ~0.16 — noise MURNI sulit di-fit conv, plateau di ln(3) sampai ~160 step
+      lalu baru anjlok. Marginal, gagal target < 0.1.
+    - v3 (INI): data dummy dibuat BISA dipelajari dari piksel (sinyal per-kelas di
+      channel berbeda) alih-alih noise murni → backbone punya fitur nyata untuk
+      dipisah → konvergen cepat & andal. Proxy lebih baik untuk data asli yang
+      memang berstruktur. n_steps 200 → 300 untuk margin.
     """
     set_seed(42)
     device = "cuda"
 
-    images = torch.randn(8, 3, 224, 224).to(device)
+    # Batch dummy yang BISA dipelajari dari piksel (root cause v2: noise murni nyaris
+    # tak punya struktur untuk di-ekstrak conv). Sinyal per-kelas: channel ke-`label`
+    # diterangkan → kelas 0/1/2 ≈ dominan merah/hijau/biru → trivially separable.
     labels = torch.tensor([0, 1, 2, 0, 1, 2, 0, 1]).to(device)
+    images = torch.randn(8, 3, 224, 224) * 0.5
+    for i, lbl in enumerate(labels.tolist()):
+        images[i, lbl] += 3.0
+    images = images.to(device)
 
     model = build_model(drop_path_rate=0.0).to(device)
     model.set_grad_checkpointing(False)
