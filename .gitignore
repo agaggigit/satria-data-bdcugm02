@@ -5,6 +5,8 @@ Track_C_Evaluation_Submission_Plan.md
 
 # Agent rules
 .agents
+.context
+.claude
 
 # Data train dan test (size sangat besar, download di masing-masing komputer)
 datasets
@@ -19,9 +21,9 @@ track_a/outputs/df_clean.csv
 track_a/outputs/*.png
 
 # Track B outputs (checkpoint & OOF besar, share via Drive/Kaggle)
+# Log JSON (baseline, cv_summary) TIDAK di-ignore — kecil & bukti reproducibility
 track_b/outputs/*.pt
 track_b/outputs/*.npy
-track_b/outputs/*.json
 track_b/outputs/*.png
 
 # Python

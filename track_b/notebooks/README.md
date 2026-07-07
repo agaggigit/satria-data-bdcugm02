@@ -12,9 +12,14 @@ fungsi, menjalankan training di Colab/Kaggle, dan menampilkan hasil.
 
 | # | File | Fase | Isi |
 |---|------|------|-----|
-| 1 | `01_sanity_scaffold.ipynb` | Fase 0 | Setup env, sanity overfit 1 batch (bukti loop benar) |
-| 2 | `02_baseline_fold0.ipynb` | Fase 1 | Swap stub → `dataset.py` asli, training fold 0, catat baseline Macro-F1 |
-| 3 | `03_full_5fold.ipynb` | Fase 2 | Training 5 fold + kumpulkan OOF + CV Macro-F1 |
+| 1 | `01_fase0_scaffold.ipynb` | Fase 0 | ✅ Env check, tulis modul `.py` via `%%writefile`, sanity check loop |
+| 2 | `02_baseline_fold0.ipynb` | Fase 1 | (rencana) Swap stub → `dataset.py` asli, training fold 0, catat baseline Macro-F1 |
+| 3 | `03_full_5fold.ipynb` | Fase 2 | (rencana) Training 5 fold + kumpulkan OOF + CV Macro-F1 |
+
+> **Catatan `01_fase0_scaffold.ipynb`:** notebook ini menulis 6 modul (`seed_utils.py`,
+> `dataset_stub.py`, `model.py`, `losses_metrics.py`, `train.py`, `sanity_overfit.py`)
+> ke working directory Colab via `%%writefile`. Versi kanonis file-file ini akan
+> di-mirror ke `../src/` untuk version control.
 
 > **Prerequisite Fase 1:** GATE 2 dari Track A harus hijau — `folds.csv`,
 > `dataset.py` asli, dan `class_weights.npy` sudah tersedia di storage bersama.
