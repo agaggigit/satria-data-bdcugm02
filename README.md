@@ -50,6 +50,16 @@ datasets/BDC2026/
 │       ├── folds.csv             # Artefak handoff ke Track B & C
 │       ├── class_weights.npy     # Bobot kelas untuk Track B
 │       └── eda_stats.json        # Statistik EDA
+├── track_b/             # Track B: Model & Training
+│   ├── notebooks/       # Orchestrator tipis (sanity, baseline fold 0, full 5-fold)
+│   ├── src/
+│   │   ├── config.py             # CFG — sumber kebenaran konstanta
+│   │   ├── model.py              # ConvNeXt-Tiny via timm
+│   │   ├── train.py              # Training loop (AMP + grad clipping)
+│   │   └── ...                   # seed_utils, losses_metrics, scheduler, dst.
+│   └── outputs/
+│       ├── fold{0..4}.pt         # Checkpoint terbaik per fold → Track C
+│       └── oof.npy               # Probabilitas OOF [N, 3] → Track C
 ├── datasets/            # Dataset lokal (di-gitignore)
 └── README.md
 ```
@@ -67,6 +77,18 @@ datasets/BDC2026/
 
 ---
 
+## Artefak Handoff (Track B → Track C)
+
+| File | Tujuan | Isi |
+|------|--------|-----|
+| `track_b/outputs/fold{0..4}.pt` | Track C | Checkpoint terbaik per fold (by val Macro-F1) — ensemble + inference test |
+| `track_b/outputs/oof.npy` | Track C | Probabilitas OOF `[N, 3]`, index cocok `folds.csv` — threshold tuning |
+| `track_b/outputs/cv_summary.json` | Track C + Report | CV Macro-F1 (mean ± std) + config inference |
+
+> ⚠️ Semua artefak `outputs/` di-gitignore (ukuran besar) — share via Google Drive / Kaggle Dataset privat.
+
+---
+
 ## Cara Mulai (Track A)
 
 1. Mount dataset di Google Colab:
@@ -80,17 +102,27 @@ datasets/BDC2026/
 
 ---
 
+## Cara Mulai (Track B)
+
+1. Tunggu GATE 2 hijau dari Track A (`folds.csv` + `dataset.py` + `class_weights.npy` di storage bersama)
+2. Sebelum itu, kerjakan yang tidak butuh data asli: `config.py`, `scheduler.py`, scaffold training loop (pakai `dataset_stub.py`)
+3. Training di Google Colab (T4, `num_workers=2`) atau Kaggle — lihat `track_b/notebooks/README.md`
+4. Konvensi terkunci: seed `42`, img `224`, norm ImageNet, mapping `0/1/2` — detail di `track_b/src/README.md`
+
+---
+
 ## Environment
 
 - Python 3.10+
 - PyTorch ≥ 2.0
 - torchvision, PIL/Pillow
 - pandas, numpy, matplotlib, seaborn
-- imagehash (untuk perceptual hash / cek duplikat)
-- scikit-learn (untuk StratifiedKFold)
+- imagehash (untuk perceptual hash / cek duplikat — Track A)
+- scikit-learn (StratifiedKFold — Track A; Macro-F1 — Track B/C)
+- timm (backbone pretrained ConvNeXt — Track B)
 
 ```bash
-pip install torch torchvision pandas numpy matplotlib seaborn imagehash scikit-learn
+pip install torch torchvision timm pandas numpy matplotlib seaborn imagehash scikit-learn
 ```
 
 ---
@@ -110,3 +142,19 @@ pip install torch torchvision pandas numpy matplotlib seaborn imagehash scikit-l
 - [ ] Assert mapping label 0/1/2 lolos
 - [ ] Test loader terurut 1..1458
 - [ ] Artefak di-freeze & didokumentasikan (handoff ke Track B & C)
+
+---
+
+## Quick Checklist Track B
+
+- [ ] Env siap (`timm`/`torch`, GPU terdeteksi)
+- [ ] Training loop jalan di data dummy (stub)
+- [ ] Sanity overfit 1 batch lolos (loss ≈ 0)
+- [ ] `config.py` + `scheduler.py` (warmup + cosine) dibuat
+- [ ] Stub diganti `dataset.py` asli + `class_weights` asli (setelah GATE 2)
+- [ ] 1 batch data asli terverifikasi (shape, label, visual)
+- [ ] Baseline fold 0 selesai + Macro-F1 tercatat
+- [ ] Estimasi waktu/epoch → biaya 5-fold dicek vs budget GPU
+- [ ] 5 fold dilatih, checkpoint terbaik tersimpan
+- [ ] OOF terkumpul + CV Macro-F1 (mean ± std) dihitung
+- [ ] Checkpoint + OOF + config diserahkan ke Track C
