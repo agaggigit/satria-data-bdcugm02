@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 
 CFG = SimpleNamespace(
+    # === DARI FASE 0 (tidak dihapus) ===
     # Reproducibility
     seed=42,
     # Data
@@ -25,4 +26,10 @@ CFG = SimpleNamespace(
     label_smoothing=0.1,
     # Stability
     max_grad_norm=1.0,
+
+    # === BARU FASE 1 (ditambah) ===
+    # Paths — sesuai struktur Drive tim (sudah dikonfirmasi)
+    folds_csv="/content/drive/MyDrive/Outputs_Track_A/folds.csv",
+    class_weights_path="/content/drive/MyDrive/Outputs_Track_A/class_weights.npy",
+    save_dir="/content/drive/MyDrive/Outputs_Track_B",
 )

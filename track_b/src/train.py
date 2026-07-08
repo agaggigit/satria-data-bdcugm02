@@ -1,35 +1,43 @@
+import time
 import torch
 from torch.amp import GradScaler
-from dataset_stub import get_loaders
+from dataset import get_loaders              # ASLI Track A (was: dataset_stub)
 from model import build_model
 from losses_metrics import build_loss, macro_f1, print_report
 from seed_utils import set_seed
+from scheduler import build_scheduler
 
-def train_one_epoch(model, loader, optimizer, criterion, scaler, device, accum_steps=1):
-    """accum_steps > 1: akumulasi gradien N batch sebelum optimizer.step().
-    Dipakai kalau naik image_size (mis. 256) dan batch fisik harus diturunkan
-    di T4 — batch efektif tetap batch_fisik * accum_steps."""
+
+def train_one_epoch(model, loader, optimizer, scheduler, criterion, scaler, device, cfg):
+    """Gradient accumulation dipertahankan dari Fase 0.
+    cfg.accum_steps > 1: akumulasi N batch sebelum optimizer.step().
+    scheduler.step() dipanggil per optimizer step, bukan per batch."""
     model.train()
     total_loss = 0.0
+    accum = cfg.accum_steps
     n_batches = len(loader)
     optimizer.zero_grad()
+
     for i, (images, labels) in enumerate(loader):
-        images, labels = images.to(device, non_blocking=True), labels.to(device, non_blocking=True)
+        images = images.to(device, non_blocking=True)
+        labels = labels.to(device, non_blocking=True)
         with torch.autocast(device_type="cuda", dtype=torch.float16):
             outputs = model(images)
-            loss = criterion(outputs, labels) / accum_steps
+            loss = criterion(outputs, labels) / accum
         scaler.scale(loss).backward()
 
-        is_last_batch = (i + 1) == n_batches
-        if (i + 1) % accum_steps == 0 or is_last_batch:
+        is_last = (i + 1) == n_batches
+        if (i + 1) % accum == 0 or is_last:
             scaler.unscale_(optimizer)
-            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=cfg.max_grad_norm)
             scaler.step(optimizer)
             scaler.update()
+            scheduler.step()  # per optimizer step
             optimizer.zero_grad()
 
-        total_loss += loss.item() * accum_steps * images.size(0)
+        total_loss += loss.item() * accum * images.size(0)
     return total_loss / len(loader.dataset)
+
 
 def validate(model, loader, criterion, device):
     model.eval()
@@ -37,7 +45,8 @@ def validate(model, loader, criterion, device):
     all_preds, all_labels = [], []
     with torch.no_grad():
         for images, labels in loader:
-            images, labels = images.to(device, non_blocking=True), labels.to(device, non_blocking=True)
+            images = images.to(device, non_blocking=True)
+            labels = labels.to(device, non_blocking=True)
             with torch.autocast(device_type="cuda", dtype=torch.float16):
                 outputs = model(images)
                 loss = criterion(outputs, labels)
@@ -46,38 +55,55 @@ def validate(model, loader, criterion, device):
             all_labels.append(labels)
     preds = torch.cat(all_preds)
     labels = torch.cat(all_labels)
-    val_loss = total_loss / len(loader.dataset)
-    val_f1 = macro_f1(preds, labels)
-    return val_loss, val_f1, preds, labels
+    return total_loss / len(loader.dataset), macro_f1(preds, labels), preds, labels
 
-def run_training(fold=0, epochs=5, img_size=224, batch=32, lr=3e-4, save_dir=".", accum_steps=1):
-    set_seed(42)
+
+def run_training(fold, cfg, class_weights, max_epochs=None):
+    """Signature baru Fase 1 — semua config dibaca dari cfg.
+    accum_steps dari cfg.accum_steps (default 1, naikkan kalau OOM di 256)."""
+    set_seed(cfg.seed)
     device = "cuda"
+    epochs = max_epochs or cfg.epochs
 
-    train_loader, val_loader = get_loaders(fold=fold, img_size=img_size, batch=batch)
-    model = build_model().to(device)
-    criterion = build_loss(torch.tensor([1.0, 1.0, 1.0]).to(device))
-    optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=0.05)
-    scaler = GradScaler("cuda")  # satu instance baru per fold
+    train_loader, val_loader = get_loaders(fold=fold, img_size=cfg.img_size, batch=cfg.batch)
+    model = build_model(num_classes=cfg.num_classes, drop_path_rate=cfg.drop_path_rate).to(device)
+    criterion = build_loss(class_weights.to(device), label_smoothing=cfg.label_smoothing)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay)
 
-    if accum_steps > 1:
-        print(f"  grad accumulation: {accum_steps} steps -> batch efektif {batch * accum_steps}")
+    # steps_per_epoch = optimizer steps, bukan raw batches
+    opt_steps_per_epoch = len(train_loader) // cfg.accum_steps
+    scheduler = build_scheduler(optimizer, steps_per_epoch=opt_steps_per_epoch, cfg=cfg)
+    scaler = GradScaler("cuda")
+
+    if cfg.accum_steps > 1:
+        print(f"  grad accumulation: {cfg.accum_steps} steps → batch efektif {cfg.batch * cfg.accum_steps}")
 
     best_f1 = 0.0
-    save_path = f"{save_dir}/fold{fold}.pt"
+    save_path = f"{cfg.save_dir}/fold{fold}.pt"
+    epoch_times = []
 
     for epoch in range(epochs):
-        train_loss = train_one_epoch(model, train_loader, optimizer, criterion, scaler, device, accum_steps=accum_steps)
+        t0 = time.time()
+        tr_loss = train_one_epoch(model, train_loader, optimizer, scheduler, criterion, scaler, device, cfg)
         val_loss, val_f1, preds, labels = validate(model, val_loader, criterion, device)
-        print(f"  epoch {epoch+1}/{epochs} | train_loss {train_loss:.4f} | val_loss {val_loss:.4f} | val_f1 {val_f1:.4f}")
+        elapsed = time.time() - t0
+        epoch_times.append(elapsed)
+        lr_now = optimizer.param_groups[0]["lr"]
+        print(f"  epoch {epoch+1}/{epochs} | lr {lr_now:.2e} | train {tr_loss:.4f} | val {val_loss:.4f} | val_f1 {val_f1:.4f} | {elapsed/60:.1f} mnt")
         if val_f1 > best_f1:
             best_f1 = val_f1
             torch.save(model.state_dict(), save_path)
+            print(f"    ✅ checkpoint: {save_path} (f1 {best_f1:.4f})")
 
-    # Report per-kelas di akhir fold
-    print(f"\n  best val macro-f1: {best_f1:.4f}")
+    mins_per_epoch = (sum(epoch_times) / len(epoch_times)) / 60
+    print(f"\n  BEST fold {fold} macro-f1: {best_f1:.4f}")
     print_report(preds, labels)
-    return best_f1
+    return best_f1, mins_per_epoch
+
 
 if __name__ == "__main__":
-    run_training(epochs=2)
+    from config import CFG
+    import numpy as np
+    cw = np.load(CFG.class_weights_path)
+    class_weights = torch.tensor(cw, dtype=torch.float32)
+    run_training(fold=0, cfg=CFG, class_weights=class_weights, max_epochs=2)
