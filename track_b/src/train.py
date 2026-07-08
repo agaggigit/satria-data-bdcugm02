@@ -30,9 +30,13 @@ def train_one_epoch(model, loader, optimizer, scheduler, criterion, scaler, devi
         if (i + 1) % accum == 0 or is_last:
             scaler.unscale_(optimizer)
             torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=cfg.max_grad_norm)
+            scale_before = scaler.get_scale()
             scaler.step(optimizer)
             scaler.update()
-            scheduler.step()  # per optimizer step
+            # Hanya step scheduler kalau optimizer benar-benar jalan
+            # (scaler skip optimizer kalau ada inf/nan gradient)
+            if scaler.get_scale() == scale_before:
+                scheduler.step()
             optimizer.zero_grad()
 
         total_loss += loss.item() * accum * images.size(0)
