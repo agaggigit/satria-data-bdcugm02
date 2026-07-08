@@ -5,21 +5,30 @@ from model import build_model
 from losses_metrics import build_loss, macro_f1, print_report
 from seed_utils import set_seed
 
-def train_one_epoch(model, loader, optimizer, criterion, scaler, device):
+def train_one_epoch(model, loader, optimizer, criterion, scaler, device, accum_steps=1):
+    """accum_steps > 1: akumulasi gradien N batch sebelum optimizer.step().
+    Dipakai kalau naik image_size (mis. 256) dan batch fisik harus diturunkan
+    di T4 — batch efektif tetap batch_fisik * accum_steps."""
     model.train()
     total_loss = 0.0
-    for images, labels in loader:
+    n_batches = len(loader)
+    optimizer.zero_grad()
+    for i, (images, labels) in enumerate(loader):
         images, labels = images.to(device, non_blocking=True), labels.to(device, non_blocking=True)
-        optimizer.zero_grad()
         with torch.autocast(device_type="cuda", dtype=torch.float16):
             outputs = model(images)
-            loss = criterion(outputs, labels)
+            loss = criterion(outputs, labels) / accum_steps
         scaler.scale(loss).backward()
-        scaler.unscale_(optimizer)
-        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-        scaler.step(optimizer)
-        scaler.update()
-        total_loss += loss.item() * images.size(0)
+
+        is_last_batch = (i + 1) == n_batches
+        if (i + 1) % accum_steps == 0 or is_last_batch:
+            scaler.unscale_(optimizer)
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+            scaler.step(optimizer)
+            scaler.update()
+            optimizer.zero_grad()
+
+        total_loss += loss.item() * accum_steps * images.size(0)
     return total_loss / len(loader.dataset)
 
 def validate(model, loader, criterion, device):
@@ -41,7 +50,7 @@ def validate(model, loader, criterion, device):
     val_f1 = macro_f1(preds, labels)
     return val_loss, val_f1, preds, labels
 
-def run_training(fold=0, epochs=5, img_size=224, batch=32, lr=3e-4, save_dir="."):
+def run_training(fold=0, epochs=5, img_size=224, batch=32, lr=3e-4, save_dir=".", accum_steps=1):
     set_seed(42)
     device = "cuda"
 
@@ -51,11 +60,14 @@ def run_training(fold=0, epochs=5, img_size=224, batch=32, lr=3e-4, save_dir="."
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=0.05)
     scaler = GradScaler("cuda")  # satu instance baru per fold
 
+    if accum_steps > 1:
+        print(f"  grad accumulation: {accum_steps} steps -> batch efektif {batch * accum_steps}")
+
     best_f1 = 0.0
     save_path = f"{save_dir}/fold{fold}.pt"
 
     for epoch in range(epochs):
-        train_loss = train_one_epoch(model, train_loader, optimizer, criterion, scaler, device)
+        train_loss = train_one_epoch(model, train_loader, optimizer, criterion, scaler, device, accum_steps=accum_steps)
         val_loss, val_f1, preds, labels = validate(model, val_loader, criterion, device)
         print(f"  epoch {epoch+1}/{epochs} | train_loss {train_loss:.4f} | val_loss {val_loss:.4f} | val_f1 {val_f1:.4f}")
         if val_f1 > best_f1:

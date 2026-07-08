@@ -6,6 +6,7 @@ CFG = SimpleNamespace(
     # Data
     img_size=224,
     batch=32,
+    accum_steps=1,          # >1 kalau naik img_size (mis. 256) & batch fisik harus turun di T4
     num_workers=2,          # Colab: 2 CPU cores
     num_classes=3,
     class_names=["Recyclable", "Electronic", "Organic"],  # index = label
