@@ -185,6 +185,34 @@ def make_fold_loaders(
           f"train: {len(df_train)} | val: {len(df_val)}")
     return train_loader, val_loader
 
+def get_loaders(fold, img_size=224, batch=32, folds_csv=None, num_workers=2):
+    """
+    Wrapper sesuai kontrak Workflow_Koordinasi_ABC.md.
+    Signature: get_loaders(fold, img_size, batch) -> (train_loader, val_loader)
+    
+    Args:
+        fold      : nomor fold validasi (0–4)
+        img_size  : resolusi input (default 224)
+        batch     : ukuran batch (default 32)
+        folds_csv : path ke folds.csv — wajib diisi, atau set env FOLDS_CSV
+        num_workers: worker DataLoader (default 2)
+    """
+    import os
+    if folds_csv is None:
+        folds_csv = os.environ.get("FOLDS_CSV")
+    if not folds_csv:
+        raise ValueError(
+            "folds_csv harus diisi. Contoh:\n"
+            "  get_loaders(0, folds_csv='/content/drive/MyDrive/BDC2026/folds.csv')\n"
+            "  atau set env: os.environ['FOLDS_CSV'] = '...'"
+        )
+    return make_fold_loaders(
+        folds_csv=folds_csv,
+        val_fold=fold,
+        img_size=img_size,
+        batch_size=batch,
+        num_workers=num_workers,
+    )
 
 def make_test_loader(
     test_dir: str,

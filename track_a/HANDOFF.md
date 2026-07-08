@@ -22,30 +22,28 @@ Kalian juga membutuhkan modul `src/` dari repo ini:
 
 ## 💻 2. Quick Start: Track B (Training)
 
-Track A sudah membungkus semua kompleksitas augmentasi dan loading gambar. Kalian cukup memanggil satu fungsi: `make_fold_loaders`.
+Track A sudah membungkus semua kompleksitas augmentasi dan loading gambar. Kalian cukup memanggil satu fungsi: `get_loaders` (wrapper kontrak) atau `make_fold_loaders` (versi lengkap).
 
 ```python
 import torch
 import torch.nn as nn
 import numpy as np
-import pandas as pd
-from track_a.src.dataset import make_fold_loaders
+from track_a.src.dataset import get_loaders
 
-# 1. Load data
-df_folds = pd.read_csv("path/to/drive/BDC2026_TrackA_Outputs/folds.csv")
+FOLDS_CSV = "/content/drive/MyDrive/BDC2026/folds.csv"  # sesuaikan path Drive kalian
 
-# 2. Buat Dataloader (misal untuk Fold 0)
-# Ini otomatis akan menset Fold 0 sebagai Validation, dan Fold 1-4 sebagai Training
-train_loader, val_loader = make_fold_loaders(
-    df=df_folds, 
-    val_fold=0, 
-    batch_size=32, 
-    num_workers=2
+# 2. Buat DataLoader (misal untuk Fold 0)
+# Fold 0 jadi Validation, Fold 1–4 jadi Training — otomatis.
+train_loader, val_loader = get_loaders(
+    fold=0,
+    img_size=224,
+    batch=32,
+    folds_csv=FOLDS_CSV,
 )
 
 # 3. Tangani Class Imbalance (Krusial!)
 # Kelas 'Electronic' sangat minoritas (14.9%), wajib gunakan class weights ini di Loss Function.
-weights = torch.tensor(np.load("path/to/drive/BDC2026_TrackA_Outputs/class_weights.npy"), dtype=torch.float)
+weights = torch.tensor(np.load("/content/drive/MyDrive/BDC2026/class_weights.npy"), dtype=torch.float)
 criterion = nn.CrossEntropyLoss(weight=weights.to(device))
 
 # 4. Loop Training seperti biasa...
@@ -53,6 +51,8 @@ for images, labels in train_loader:
     # images shape: [32, 3, 224, 224]
     pass
 ```
+
+> **Catatan:** `get_loaders` adalah wrapper tipis di atas `make_fold_loaders` sesuai kontrak signature Track B (`get_loaders(fold, img_size, batch)`). Kalau butuh kontrol penuh (misalnya `skip_filepaths`), import langsung `make_fold_loaders` dari modul yang sama.
 
 ---
 
