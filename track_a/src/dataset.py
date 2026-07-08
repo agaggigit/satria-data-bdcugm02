@@ -51,10 +51,13 @@ def get_train_transform(img_size: int = 224) -> T.Compose:
 
 def get_eval_transform(img_size: int = 224) -> T.Compose:
     """
-    Transform untuk validasi & test — hanya resize + normalize.
+    Transform untuk validasi & test — tanpa augmentasi.
+    Pakai Resize + CenterCrop (bukan Resize langsung ke square) untuk
+    menghindari distorsi gambar dengan aspect ratio ekstrem (EDA: 0.5–6.0).
     """
     return T.Compose([
-        T.Resize((img_size, img_size)),
+        T.Resize(img_size),           # resize sisi terpendek ke img_size
+        T.CenterCrop(img_size),       # crop tengah → square tanpa distorsi
         T.ToTensor(),
         T.Normalize(mean=IMAGENET_MEAN, std=IMAGENET_STD),
     ])
