@@ -8,6 +8,9 @@
 ## 📁 1. Lokasi Artefak
 
 Semua output dari Track A sudah disimpan di Google Drive: **`BDC2026_TrackA_Outputs/`**
+
+Link: https://drive.google.com/drive/folders/1m8AeQGumLfoGvwP9AZUiTChyXjoUANrD?usp=sharing
+
 File yang kalian butuhkan:
 1. `folds.csv`: Berisi daftar lengkap path gambar, label, dan pembagian 5-Fold. **Jangan buat split/k-fold sendiri.**
 2. `class_weights.npy`: Bobot kelas untuk menyeimbangkan loss function.
