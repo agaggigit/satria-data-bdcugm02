@@ -31,7 +31,7 @@ CFG_C = SimpleNamespace(
     
     # Paths output untuk Track C
     output_dir=DRIVE_BASE_PATH,
-    team_name="",  # Dikosongkan → file output: submission.csv
+    team_name="apace",  # Nama tim → file output: submission_apace.csv
     
     # Inference config
     use_tta=True,

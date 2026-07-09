@@ -44,8 +44,9 @@ def main():
     sub_df = pd.read_csv(CFG_C.sample_sub_path)
     sub_df['predicted'] = final_labels
     
-    # Nama file: 'submission.csv' (sesuai permintaan panitia)
-    submission_filename = "submission.csv"
+    # Nama file: 'submission_NamaTim.csv' sesuai konvensi plan & checklist format
+    team_suffix = f"_{CFG_C.team_name}" if CFG_C.team_name else ""
+    submission_filename = f"submission{team_suffix}.csv"
     submission_path = os.path.join(CFG_C.output_dir, submission_filename)
     sub_df.to_csv(submission_path, index=False)
     print(f"✅ Submission file dibuat: {submission_path}")
