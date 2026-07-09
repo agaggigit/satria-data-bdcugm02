@@ -1,0 +1,14 @@
+{
+  "shape": [
+    26527,
+    3
+  ],
+  "index_source": "folds.csv baris ke-i oof = baris ke-i folds.csv",
+  "content": "softmax probabilities kelas 0/1/2",
+  "oof_overall_macro_f1_argmax": 0.9420830924768465,
+  "backbone": "convnext_tiny.in12k_ft_in1k",
+  "img_size": 224,
+  "accum_steps": 1,
+  "seed": 42,
+  "tta_hint_test_size": 288
+}

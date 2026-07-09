@@ -1,0 +1,20 @@
+{
+  "backbone": "convnext_tiny.in12k_ft_in1k",
+  "folds": {
+    "fold0": 0.9370426078856152,
+    "fold1": 0.9438141180255025,
+    "fold2": 0.934393550895987,
+    "fold3": 0.9459096209405704,
+    "fold4": 0.9493607389437161
+  },
+  "cv_mean_macro_f1": 0.9421041273382782,
+  "cv_std_macro_f1": 0.006227684761244722,
+  "oof_overall_macro_f1_argmax": 0.9420830924768465,
+  "epochs": 8,
+  "lr": 0.0003,
+  "img_size": 224,
+  "batch": 32,
+  "accum_steps": 1,
+  "seed": 42,
+  "loss": "weighted CE + label_smoothing 0.1"
+}

@@ -1,0 +1,6 @@
+{
+  "fold": 4,
+  "best_macro_f1": 0.9493607389437161,
+  "minutes_per_epoch": 5.8346819897492725,
+  "accum_steps": 1
+}

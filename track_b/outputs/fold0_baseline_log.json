@@ -1,0 +1,34 @@
+{
+  "phase": "fase1_baseline",
+  "fold": 0,
+  "baseline_macro_f1": 0.9370426078856152,
+  "minutes_per_epoch": 5.881936794022719,
+  "accum_steps": 1,
+  "backbone": "convnext_tiny.in12k_ft_in1k",
+  "config": {
+    "seed": 42,
+    "img_size": 224,
+    "batch": 32,
+    "accum_steps": 1,
+    "num_workers": 2,
+    "num_classes": 3,
+    "class_names": [
+      "Recyclable",
+      "Electronic",
+      "Organic"
+    ],
+    "label_map": "{0: 'Recyclable', 1: 'Electronic', 2: 'Organic'}",
+    "backbone": "convnext_tiny.in12k_ft_in1k",
+    "drop_path_rate": 0.1,
+    "lr": 0.0003,
+    "min_lr": 1e-06,
+    "weight_decay": 0.05,
+    "epochs": 8,
+    "warmup_epochs": 1,
+    "label_smoothing": 0.1,
+    "max_grad_norm": 1.0,
+    "folds_csv": "/content/drive/MyDrive/Outputs_Track_A/folds.csv",
+    "class_weights_path": "/content/drive/MyDrive/Outputs_Track_A/class_weights.npy",
+    "save_dir": "/content/drive/MyDrive/Outputs_Track_B"
+  }
+}
