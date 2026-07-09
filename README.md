@@ -60,6 +60,17 @@ datasets/BDC2026/
 │   └── outputs/
 │       ├── fold{0..4}.pt         # Checkpoint terbaik per fold → Track C
 │       └── oof.npy               # Probabilitas OOF [N, 3] → Track C
+├── track_c/             # Track C: Evaluasi & Submission
+│   ├── notebooks/
+│   │   └── 01_track_c_pipeline.ipynb  # Orchestrator Colab (jalankan dari sini)
+│   ├── src/
+│   │   ├── config_c.py           # CFG_C — path, backbone, TTA, team_name
+│   │   ├── inference.py          # load_model() + predict_test() + assert_label_mapping()
+│   │   ├── threshold_tuning.py   # tune_thresholds_oof() + apply_thresholds()
+│   │   ├── ensemble_tta.py       # run_5fold_ensemble_inference() + TTA
+│   │   ├── generate_submission.py# Pipeline end-to-end → submission_apace.csv
+│   │   └── validator.py          # validate_submission() — wajib lolos sebelum upload
+│   └── outputs/                  # Output disimpan di Google Drive (lihat config_c.py)
 ├── datasets/            # Dataset lokal (di-gitignore)
 └── README.md
 ```
@@ -111,6 +122,92 @@ datasets/BDC2026/
 
 ---
 
+## Cara Mulai (Track C)
+
+> **Prasyarat:** GATE 3 sudah hijau — Track B sudah menyerahkan `fold0.pt`..`fold4.pt` dan `oof.npy` ke Google Drive.
+
+1. Mount Drive dan clone repo di Google Colab:
+   ```python
+   from google.colab import drive
+   drive.mount('/content/drive')
+   !git clone https://github.com/agaggigit/satria-data-bdcugm02.git
+   import sys; sys.path.insert(0, '/content/satria-data-bdcugm02')
+   ```
+2. Buka `track_c/notebooks/01_track_c_pipeline.ipynb` — semua langkah sudah tersusun
+3. Pastikan path di `track_c/src/config_c.py` sudah sesuai lokasi Drive kamu (`DRIVE_BASE_PATH`)
+4. Jalankan pipeline secara berurutan:
+   - **Step 1** — Assert label mapping (safety check)
+   - **Step 2** — Threshold tuning di OOF
+   - **Step 3** — Ensemble + TTA inference pada test data
+   - **Step 4** — Apply threshold → generate `submission_apace.csv`
+   - **Step 5** — Validator format wajib lolos sebelum upload
+
+---
+
+## Cara Verifikasi Manual Track C
+
+Berikut langkah untuk memastikan semua kode Track C benar **sebelum checkpoint Track B tersedia**:
+
+### 1. Cek struktur file sudah lengkap
+```bash
+ls track_c/src/
+# Harus ada: config_c.py, inference.py, threshold_tuning.py,
+#            ensemble_tta.py, generate_submission.py, validator.py, __init__.py
+```
+
+### 2. Smoke test validator dengan data dummy (di Colab)
+```python
+import sys
+sys.path.insert(0, '/content/satria-data-bdcugm02')
+import pandas as pd, numpy as np
+
+# Buat submission dummy yang VALID
+template = pd.read_csv('/path/ke/submission.csv')  # template panitia
+dummy = template.copy()
+dummy['predicted'] = np.random.choice([0,1,2], size=len(dummy))
+dummy.to_csv('/tmp/dummy_submission.csv', index=False)
+
+from track_c.src.validator import validate_submission
+result = validate_submission('/tmp/dummy_submission.csv', '/path/ke/submission.csv')
+print('VALID' if result else 'INVALID')  # harus VALID
+```
+
+### 3. Smoke test threshold tuning dengan data dummy
+```python
+import numpy as np
+from track_c.src.threshold_tuning import tune_thresholds_oof, apply_thresholds
+
+# Dummy OOF probs & labels
+np.random.seed(42)
+oof_probs  = np.random.dirichlet([1,1,1], size=500)  # [500, 3]
+true_labels = np.random.choice([0,1,2], size=500)
+
+thresholds = tune_thresholds_oof(oof_probs, true_labels)
+print('Thresholds:', thresholds)  # harus 3 nilai float
+
+preds = apply_thresholds(oof_probs, thresholds)
+print('Preds shape:', preds.shape)  # harus (500,)
+print('Unique labels:', np.unique(preds))  # harus subset {0,1,2}
+```
+
+### 4. Cek assert label mapping
+```python
+from track_c.src.config_c import CFG_C
+from track_c.src.inference import assert_label_mapping
+assert_label_mapping(CFG_C)  # harus tidak error
+print('Label mapping OK:', CFG_C.label_map)
+```
+
+### 5. Cek nama file output sudah benar
+```python
+from track_c.src.config_c import CFG_C
+team_suffix = f'_{CFG_C.team_name}' if CFG_C.team_name else ''
+print(f'Output file: submission{team_suffix}.csv')
+# Harus print: submission_apace.csv
+```
+
+---
+
 ## Environment
 
 - Python 3.10+
@@ -158,3 +255,34 @@ pip install torch torchvision timm pandas numpy matplotlib seaborn imagehash sci
 - [ ] 5 fold dilatih, checkpoint terbaik tersimpan
 - [ ] OOF terkumpul + CV Macro-F1 (mean ± std) dihitung
 - [ ] Checkpoint + OOF + config diserahkan ke Track C
+
+---
+
+## Quick Checklist Track C
+
+> Status per **9 Juli 2026** — dikerjakan bersama Antigravity AI
+
+### Fase 0 — Setup & Format Guard
+- [x] Template submission dipahami (`id`, `predicted`, 1458 baris, nilai {0,1,2})
+- [x] Validator format dibuat — `validator.py` (cek baris, kolom, NaN, urutan ID, nilai label)
+- [x] Fungsi inference checkpoint → prob test — `inference.py` (`load_model`, `predict_test`)
+- [x] Assert mapping label 0/1/2 = Track A — `assert_label_mapping()` di `inference.py`
+- [x] Package `__init__.py` dibuat di semua track (track_a, track_a/src, track_b, track_b/src, track_c, track_c/src)
+
+### Fase 1 — Threshold Tuning
+- [x] Baseline Macro-F1 OOF (argmax) dihitung otomatis di `threshold_tuning.py`
+- [x] Threshold per kelas di-tuning di OOF — grid search W1, W2 ∈ [0.5, 2.0]
+- [x] Fungsi `apply_thresholds()` final dikunci
+
+### Fase 2 — Ensemble & TTA
+- [x] Ensemble 5 model (rata-rata prob) — `ensemble_tta.py`
+- [x] TTA horizontal flip — toggle via `CFG_C.use_tta`
+- [x] Hardcoded `1458` diperbaiki → dinamis `len(test_loader.dataset)`
+- [x] Pipeline end-to-end — `generate_submission.py`
+- [x] Nama file submission diperbaiki → `submission_apace.csv` (via `CFG_C.team_name`)
+
+### Fase 3 — Submission & Report
+- [ ] Validator format dijalankan pada file submission nyata *(butuh checkpoint Track B)*
+- [ ] Submission 1 (safety net) terunggah *(butuh checkpoint Track B)*
+- [ ] Kode eval didokumentasikan untuk verifikasi panitia
+- [ ] Bagian Metrik + Metodologi + poin diskusi report tertulis
