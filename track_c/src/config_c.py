@@ -1,4 +1,4 @@
-﻿import os
+import os
 from types import SimpleNamespace
 
 # Base path folder utama di Google Drive
@@ -25,7 +25,8 @@ CFG_C = SimpleNamespace(
 
     # Paths ke artefak Track A
     folds_csv=os.path.join(OUTPUT_TRACK_A, "folds.csv"),
-    test_dir=os.path.join(OUTPUT_TRACK_A, "test"),
+    # Folder gambar test (berisi 1458 gambar)
+    test_dir=os.path.join(DRIVE_BASE_PATH, "test"),
 
     # Template submission dari panitia - ada di root BDC2026 apace/
     sample_sub_path=os.path.join(DRIVE_BASE_PATH, "submission.csv"),
