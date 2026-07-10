@@ -62,16 +62,16 @@ def sanity_overfit(n_steps=300, lr=3e-4, target_loss=0.1):
     print(f"  final loss: {final_loss:.4f}")
 
     # Cek 1: tidak ada NaN
-    assert not any(l != l for l in losses), "❌ Ada NaN dalam training"
+    assert not any(l != l for l in losses), "FAILED: Ada NaN dalam training"
     # Cek 2: loss turun signifikan (bukan sekadar bergerak)
     assert final_loss < first_loss * 0.5, \
-        f"❌ Loss tidak turun berarti: {first_loss:.4f} → {final_loss:.4f}"
+        f"FAILED: Loss tidak turun berarti: {first_loss:.4f} → {final_loss:.4f}"
     # Cek 3: KRITERIA UTAMA milestone B1 — model menghafal batch (loss ≈ 0)
     assert final_loss < target_loss, \
-        f"❌ Gagal overfit 1 batch: final loss {final_loss:.4f} ≥ {target_loss}. " \
+        f"FAILED: Gagal overfit 1 batch: final loss {final_loss:.4f} ≥ {target_loss}. " \
         f"Loop belum terbukti benar — cek LR / grad clipping / AMP scale."
 
-    print("✅ Loop terbukti benar:")
+    print("OK: Loop terbukti benar:")
     print(f"   - Tidak ada NaN")
     print(f"   - Loss {first_loss:.4f} → {final_loss:.4f} (< {target_loss})")
     print(f"   - Model menghafal 1 batch → gradient, AMP, dan optimizer bekerja")

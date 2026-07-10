@@ -36,13 +36,13 @@ def collect_oof():
         probs = np.concatenate(probs_list, axis=0)
 
         assert len(probs) == len(val_idx), \
-            f"❌ fold {fold}: prediksi {len(probs)} != val rows {len(val_idx)}"
+            f"FAILED: fold {fold}: prediksi {len(probs)} != val rows {len(val_idx)}"
         oof[val_idx] = probs
-        print(f"✅ fold {fold}: {len(val_idx)} sampel terisi")
+        print(f"OK: fold {fold}: {len(val_idx)} sampel terisi")
         del model
         torch.cuda.empty_cache()
 
-    assert not np.isnan(oof).any(), "❌ Ada sampel tanpa prediksi OOF"
+    assert not np.isnan(oof).any(), "FAILED: Ada sampel tanpa prediksi OOF"
     labels = df["label"].to_numpy()
     preds = oof.argmax(axis=1)
     overall_f1 = macro_f1(preds, labels)
@@ -61,8 +61,8 @@ def collect_oof():
     }
     with open(f"{CFG.save_dir}/oof_meta.json", "w") as f:
         json.dump(meta, f, indent=2)
-    print(f"\n📊 OOF overall Macro-F1 (argmax): {overall_f1:.4f}")
-    print(f"✅ oof.npy + oof_meta.json tersimpan di {CFG.save_dir}")
+    print(f"\nOOF overall Macro-F1 (argmax): {overall_f1:.4f}")
+    print(f"OK: oof.npy + oof_meta.json tersimpan di {CFG.save_dir}")
     return overall_f1
 
 

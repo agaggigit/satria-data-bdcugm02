@@ -42,7 +42,7 @@ def tune_thresholds_oof(oof_probs, true_labels, n_steps=100):
                 best_f1 = f1
                 best_thresholds = [1.0, w1, w2]
                 
-    print(f"✅ Tuning Selesai!")
+    print(f"Tuning selesai")
     print(f"Best OOF Macro-F1: {best_f1:.5f} (Naik +{best_f1 - baseline_f1:.5f})")
     print(f"Best Multiplier: Kelas 0 = {best_thresholds[0]:.2f}, Kelas 1 = {best_thresholds[1]:.2f}, Kelas 2 = {best_thresholds[2]:.2f}")
     

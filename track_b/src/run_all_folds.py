@@ -26,9 +26,9 @@ def run_folds(folds_to_run):
             with open(f"{CFG.save_dir}/fold{fold}_log.json") as f:
                 prev = json.load(f)
             results[fold] = prev["best_macro_f1"]
-            print(f"⏭️  fold {fold} sudah selesai (f1 {results[fold]:.4f}) — skip")
+            print(f"SKIP: fold {fold} sudah selesai (f1 {results[fold]:.4f})")
             continue
-        print(f"\n{'='*60}\n🚀 FOLD {fold}\n{'='*60}")
+        print(f"\n{'='*60}\nFOLD {fold}\n{'='*60}")
         best_f1, mins = run_training(fold=fold, cfg=CFG, class_weights=class_weights)
         log = {
             "fold": fold,
@@ -44,4 +44,4 @@ def run_folds(folds_to_run):
 
 if __name__ == "__main__":
     results = run_folds([0, 1, 2, 3, 4])
-    print("\n📊 Hasil semua fold:", results)
+    print("\nHasil semua fold:", results)

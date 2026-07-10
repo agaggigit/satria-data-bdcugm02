@@ -261,7 +261,7 @@ def make_test_loader(
                 missing.append(fname)
 
     if missing:
-        print(f"[make_test_loader] ⚠️  {len(missing)} file tidak ditemukan di test_dir")
+        print(f"[make_test_loader] WARNING: {len(missing)} file tidak ditemukan di test_dir")
 
     df_test = pd.DataFrame({"filepath": filepaths})
     test_ds = WasteDataset(df_test, transform=get_eval_transform(img_size), is_test=True)
@@ -295,12 +295,12 @@ if __name__ == "__main__":
 
     # Cek 1 batch train
     imgs, labels = next(iter(train_loader))
-    print(f"\n✅ Train batch — images: {imgs.shape}, labels: {labels.tolist()}")
+    print(f"\nOK: Train batch — images: {imgs.shape}, labels: {labels.tolist()}")
     assert imgs.shape[1:] == (3, 224, 224), "Shape gambar salah!"
     assert all(l in {0, 1, 2} for l in labels.tolist()), "Label di luar 0/1/2!"
 
     # Cek 1 batch val
     imgs_v, labels_v = next(iter(val_loader))
-    print(f"✅ Val batch   — images: {imgs_v.shape}, labels: {labels_v.tolist()}")
+    print(f"OK: Val batch   — images: {imgs_v.shape}, labels: {labels_v.tolist()}")
 
-    print("\n✅ Semua assertion lolos! Dataset siap untuk Track B.")
+    print("\nOK: Semua assertion lolos! Dataset siap untuk Track B.")

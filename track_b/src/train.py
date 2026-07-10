@@ -96,8 +96,12 @@ def run_training(fold, cfg, class_weights, max_epochs=None):
         print(f"  epoch {epoch+1}/{epochs} | lr {lr_now:.2e} | train {tr_loss:.4f} | val {val_loss:.4f} | val_f1 {val_f1:.4f} | {elapsed/60:.1f} mnt")
         if val_f1 > best_f1:
             best_f1 = val_f1
-            torch.save(model.state_dict(), save_path)
-            print(f"    ✅ checkpoint: {save_path} (f1 {best_f1:.4f})")
+            # Workaround for Google Drive FUSE permission error
+            local_save_path = f"/tmp/fold{fold}_best.pt"
+            torch.save(model.state_dict(), local_save_path)
+            import shutil
+            shutil.copy(local_save_path, save_path)
+            print(f"    checkpoint saved: {save_path} (f1 {best_f1:.4f})")
 
     mins_per_epoch = (sum(epoch_times) / len(epoch_times)) / 60
     print(f"\n  BEST fold {fold} macro-f1: {best_f1:.4f}")

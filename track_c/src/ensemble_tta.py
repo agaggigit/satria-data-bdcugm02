@@ -87,7 +87,7 @@ def run_5fold_ensemble_inference(device='cuda'):
     # Rata-ratakan probabilitas dari ke-5 fold
     ensemble_probs /= 5.0
     
-    print("\n✅ Ensemble Inference Selesai!")
+    print("\nEnsemble inference selesai")
     return ensemble_probs
 
 if __name__ == "__main__":
