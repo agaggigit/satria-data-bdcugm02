@@ -2,7 +2,7 @@ import os
 from types import SimpleNamespace
 
 # Base path folder utama di Google Drive
-DRIVE_BASE_PATH = "/content/drive/MyDrive/BDC2026 apace"
+DRIVE_BASE_PATH = "/content/drive/MyDrive/BDC2026apace"
 
 # Sub-folder per track (sesuai struktur Drive yang terlihat di foto)
 OUTPUT_TRACK_A = os.path.join(DRIVE_BASE_PATH, "output_trackA")
@@ -28,7 +28,7 @@ CFG_C = SimpleNamespace(
     # Folder gambar test (berisi 1458 gambar)
     test_dir=os.path.join(DRIVE_BASE_PATH, "test"),
 
-    # Template submission dari panitia - ada di root BDC2026 apace/
+    # Template submission dari panitia - ada di root BDC2026apace/
     sample_sub_path=os.path.join(DRIVE_BASE_PATH, "submission.csv"),
 
     # Paths ke output Track B

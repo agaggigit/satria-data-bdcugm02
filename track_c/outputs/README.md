@@ -1,6 +1,6 @@
 # outputs/ — Artefak Track C
 
-Folder ini tidak di-push ke git jika berisi output besar, namun karena setup kita menyimpan output langsung ke Google Drive (`/content/drive/MyDrive/BDC2026 apace`), folder ini bisa saja kosong secara lokal.
+Folder ini tidak di-push ke git jika berisi output besar, namun karena setup kita menyimpan output langsung ke Google Drive (`/content/drive/MyDrive/BDC2026apace`), folder ini bisa saja kosong secara lokal.
 
 Namun, di Google Drive, file yang akan di-generate oleh Track C adalah:
 
