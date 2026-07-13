@@ -1,13 +1,15 @@
 import json
+import shutil
 import time
 import torch
 from torch.amp import GradScaler
 from dataset import get_loaders              # ASLI Track A (was: dataset_stub)
-from model import build_model
+from model import build_model, get_data_config
 from losses_metrics import build_loss, macro_f1, print_report
 from seed_utils import set_seed
 from scheduler import build_scheduler
 from optim_utils import build_optimizer
+from ckpt import checkpoint_path, history_path, save_checkpoint
 
 
 def train_one_epoch(model, loader, optimizer, scheduler, criterion, scaler, device, cfg):
@@ -73,18 +75,29 @@ def validate(model, loader, criterion, device):
 
 
 def run_training(fold, cfg, class_weights, max_epochs=None):
-    """Signature baru Fase 1 — semua config dibaca dari cfg.
-    accum_steps dari cfg.accum_steps (default 1, naikkan kalau OOM di 256)."""
+    """Signature TIDAK BERUBAH -- Track C & skrip lama bergantung padanya."""
     set_seed(cfg.seed)
     device = "cuda"
     epochs = max_epochs or cfg.epochs
+
+    # Guard sekali di awal: run_name yang sama dipakai ulang tanpa allow_overwrite
+    # eksplisit = kemungkinan besar menimpa checkpoint run lain diam-diam.
+    ckpt_path = checkpoint_path(cfg, fold)
+    hist_path = history_path(cfg, fold)
+    if ckpt_path.exists() and not cfg.allow_overwrite:
+        raise FileExistsError(
+            f"{ckpt_path} sudah ada — run_name '{cfg.run_name}' kemungkinan dipakai ulang. "
+            f"Ganti cfg.run_name, atau set cfg.allow_overwrite=True kalau memang sengaja."
+        )
 
     train_loader, val_loader = get_loaders(fold=fold, img_size=cfg.img_size, batch=cfg.batch)
     model = build_model(
         num_classes=cfg.num_classes,
         drop_path_rate=cfg.drop_path_rate,
+        backbone=cfg.backbone,
         grad_checkpointing=getattr(cfg, "grad_checkpointing", False),
     ).to(device)
+    data_config = get_data_config(model)
     criterion = build_loss(class_weights.to(device), label_smoothing=cfg.label_smoothing)
     optimizer = build_optimizer(
         model, lr=cfg.lr, weight_decay=cfg.weight_decay,
@@ -100,7 +113,6 @@ def run_training(fold, cfg, class_weights, max_epochs=None):
         print(f"  grad accumulation: {cfg.accum_steps} steps → batch efektif {cfg.batch * cfg.accum_steps}")
 
     best_f1 = 0.0
-    save_path = f"{cfg.save_dir}/fold{fold}.pt"
     epoch_times = []
     history = []
     lr_per_step = []
@@ -127,12 +139,21 @@ def run_training(fold, cfg, class_weights, max_epochs=None):
         if val_f1 > best_f1:
             best_f1 = val_f1
             epochs_no_improve = 0
-            # Workaround for Google Drive FUSE permission error
-            local_save_path = f"/tmp/fold{fold}_best.pt"
-            torch.save(model.state_dict(), local_save_path)
-            import shutil
-            shutil.copy(local_save_path, save_path)
-            print(f"    checkpoint saved: {save_path} (f1 {best_f1:.4f})")
+            # Workaround for Google Drive FUSE permission error: simpan lokal dulu, baru copy.
+            local_tmp = f"/tmp/{cfg.run_name}_fold{fold}_best.pt"
+            payload = {
+                "model_state_dict": model.state_dict(),
+                "model_name": cfg.backbone,
+                "data_config": data_config,
+                "run_name": cfg.run_name,
+                "fold": fold,
+                "img_size": cfg.img_size,
+                "seed": cfg.seed,
+                "best_f1": best_f1,
+            }
+            save_checkpoint(payload, local_tmp, allow_overwrite=True)
+            shutil.copy(local_tmp, ckpt_path)
+            print(f"    checkpoint saved: {ckpt_path} (f1 {best_f1:.4f})")
         else:
             epochs_no_improve += 1
             if patience is not None and epochs_no_improve >= patience:
@@ -143,11 +164,11 @@ def run_training(fold, cfg, class_weights, max_epochs=None):
     print(f"\n  BEST fold {fold} macro-f1: {best_f1:.4f}")
     print_report(preds, labels)
 
-    history_path = f"{cfg.save_dir}/fold{fold}_history.json"
     try:
-        with open(history_path, "w") as f:
-            json.dump({"fold": fold, "history": history, "lr_per_step": lr_per_step}, f, indent=2)
-        print(f"    history saved: {history_path}")
+        with open(hist_path, "w") as f:
+            json.dump({"fold": fold, "run_name": cfg.run_name, "history": history,
+                       "lr_per_step": lr_per_step}, f, indent=2)
+        print(f"    history saved: {hist_path}")
     except OSError as e:
         print(f"    WARNING: gagal simpan history ({e}); lanjut tanpa history")
 

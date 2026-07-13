@@ -10,6 +10,13 @@ Urutan RUNS mengikuti rasio dampak/biaya dari plan: epoch+early-stop dulu
 RandomVerticalFlip(p=0.2) sudah hardcode di track_a/src/dataset.py, Track B
 tidak bisa mematikan/menyalakannya tanpa koordinasi breaking-change ke Track A.
 
+Tiap run punya run_name sendiri ("hp_epochs20", dst) -- checkpoint & history-nya
+otomatis ke file terpisah (lihat src/ckpt.py), tidak saling menimpa. Kalau mau
+mengulang run yang sama (mis. img288 kepotong kuota), jalankan lagi dengan
+override run_name yang sama akan gagal keras (FileExistsError) kecuali kamu
+hapus dulu checkpoint lama atau tambahkan allow_overwrite=True di overrides
+RUNS -- ini disengaja, bukan bug.
+
 Jalankan dari track_b/src/ (sys.path & cwd harus di sini, sama seperti cell
 notebook 0d) supaya import flat (`from config import CFG`) jalan:
     python run_hp_experiments.py                  # jalanin semua run
@@ -20,25 +27,24 @@ Hasil disimpan ke ../results/hp_results.csv SETELAH TIAP RUN (bukan cuma di
 akhir) -- kalau kuota Colab habis di tengah run berikutnya, hasil run yang
 sudah selesai tetap aman tercatat.
 """
-import copy
 import os
-import shutil
 import sys
 
 import numpy as np
 import pandas as pd
 import torch
 
-from config import CFG
+from config import CFG, make_cfg
 from train import run_training
 
 BASELINE_F1 = 0.9520  # fold0_history.json, batch=64, no grad-checkpointing, 8 epoch
 RESULTS_PATH = "../results/hp_results.csv"
 
 RUNS = [
-    ("epochs20", dict(epochs=20, patience=4)),
-    ("img288", dict(epochs=20, patience=4, img_size=288, batch=32, accum_steps=2)),
-    ("llrd090", dict(epochs=20, patience=4, layer_decay=0.9)),
+    ("epochs20", dict(run_name="hp_epochs20", epochs=20, patience=4)),
+    ("img288", dict(run_name="hp_img288", epochs=20, patience=4,
+                    img_size=288, batch=32, accum_steps=2)),
+    ("llrd090", dict(run_name="hp_llrd090", epochs=20, patience=4, layer_decay=0.9)),
 ]
 
 
@@ -65,17 +71,10 @@ def main(run_names=None):
     class_weights = torch.tensor(np.load(CFG.class_weights_path), dtype=torch.float32)
 
     for name, overrides in selected:
-        cfg = copy.copy(CFG)
-        for k, v in overrides.items():
-            setattr(cfg, k, v)
+        cfg = make_cfg(**overrides)
 
         print(f"\n{'=' * 60}\n[{name}] {overrides}\n{'=' * 60}")
         best_f1, mins = run_training(fold=0, cfg=cfg, class_weights=class_weights)
-
-        # fold0.pt & fold0_history.json baru ditimpa run ini -- simpan salinan
-        # bernama supaya tidak hilang tertimpa run berikutnya.
-        shutil.copy(f"{cfg.save_dir}/fold0.pt", f"{cfg.save_dir}/hp_{name}_fold0.pt")
-        shutil.copy(f"{cfg.save_dir}/fold0_history.json", f"{cfg.save_dir}/hp_{name}_history.json")
 
         delta = best_f1 - BASELINE_F1
         row = {
