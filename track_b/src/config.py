@@ -1,4 +1,10 @@
+import os
 from types import SimpleNamespace
+
+# Base path folder utama di Google Drive (sesuai struktur Drive tim: BDC2026 apace/)
+DRIVE_BASE_PATH = "/content/drive/MyDrive/BDC2026 apace"
+OUTPUT_TRACK_A = os.path.join(DRIVE_BASE_PATH, "output_trackA")
+OUTPUT_TRACK_B = os.path.join(DRIVE_BASE_PATH, "output_trackB")
 
 CFG = SimpleNamespace(
     # === DARI FASE 0 (tidak dihapus) ===
@@ -28,8 +34,8 @@ CFG = SimpleNamespace(
     max_grad_norm=1.0,
 
     # === BARU FASE 1 (ditambah) ===
-    # Paths — sesuai struktur Drive tim (sudah dikonfirmasi)
-    folds_csv="/content/drive/MyDrive/Outputs_Track_A/folds.csv",
-    class_weights_path="/content/drive/MyDrive/Outputs_Track_A/class_weights.npy",
-    save_dir="/content/drive/MyDrive/Outputs_Track_B",
+    # Paths — sesuai struktur Drive tim asli (BDC2026 apace/output_trackA|B)
+    folds_csv=os.path.join(OUTPUT_TRACK_A, "folds.csv"),
+    class_weights_path=os.path.join(OUTPUT_TRACK_A, "class_weights.npy"),
+    save_dir=OUTPUT_TRACK_B,
 )
