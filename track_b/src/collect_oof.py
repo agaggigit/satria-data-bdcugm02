@@ -18,7 +18,8 @@ def collect_oof():
     from dataset import get_loaders
 
     for fold in range(5):
-        model = build_model(num_classes=CFG.num_classes, drop_path_rate=CFG.drop_path_rate)
+        model, _ = build_model(CFG.backbone, num_classes=CFG.num_classes,
+                                drop_path_rate=CFG.drop_path_rate, pretrained=False)
         state = torch.load(f"{CFG.save_dir}/fold{fold}.pt", map_location=device, weights_only=True)
         model.load_state_dict(state)
         model = model.to(device).eval()

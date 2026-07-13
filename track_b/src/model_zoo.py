@@ -7,11 +7,15 @@ Kandidat di sini di-scaffold sekarang (tidak butuh data asli Track A) sekadar
 untuk memastikan arsitekturnya bisa dibuat + forward pass benar, supaya siap
 dipakai kalau butuh diversity ensemble di minggu akhir.
 """
+import timm
 import torch
-from model import build_model
 
+# Kandidat eksplorasi arsitektur di luar FAMILY_REGISTRY (lihat model.py) --
+# smoke test murni pakai timm langsung, TIDAK lewat build_model(), karena
+# kandidat di sini belum didaftarkan (drop_path/native_size/short belum
+# didefinisikan). Daftarkan ke FAMILY_REGISTRY dulu kalau mau dipakai training.
 CANDIDATE_BACKBONES = [
-    "convnext_tiny.in12k_ft_in1k",       # baseline (sudah dipakai model.py)
+    "convnext_tiny.in12k_ft_in1k",       # baseline (sudah ada di FAMILY_REGISTRY)
     "convnextv2_tiny.fcmae_ft_in22k_in1k",
     "efficientnet_b3",
 ]
@@ -20,7 +24,7 @@ CANDIDATE_BACKBONES = [
 def test_backbone_forward(backbone, num_classes=3, img_size=224, device="cpu"):
     """Smoke test: backbone bisa dibuat + forward pass shape benar.
     Cukup di CPU — ini cek arsitektur, bukan benchmark kecepatan training."""
-    model = build_model(num_classes=num_classes, backbone=backbone).to(device)
+    model = timm.create_model(backbone, pretrained=False, num_classes=num_classes).to(device)
     model.eval()
     dummy = torch.randn(2, 3, img_size, img_size).to(device)
     with torch.no_grad():

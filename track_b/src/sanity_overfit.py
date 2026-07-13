@@ -29,8 +29,8 @@ def sanity_overfit(n_steps=300, lr=3e-4, target_loss=0.1):
         images[i, lbl] += 3.0
     images = images.to(device)
 
-    model = build_model(drop_path_rate=0.0).to(device)
-    model.set_grad_checkpointing(False)
+    model, _ = build_model("convnext_tiny.in12k_ft_in1k", drop_path_rate=0.0)
+    model = model.to(device)
 
     criterion = build_loss(
         torch.tensor([1.0, 1.0, 1.0]).to(device),

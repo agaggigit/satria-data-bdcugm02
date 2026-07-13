@@ -3,13 +3,47 @@ import shutil
 import time
 import torch
 from torch.amp import GradScaler
-from dataset import get_loaders              # ASLI Track A (was: dataset_stub)
-from model import build_model, get_data_config
+from model import build_model
+from loaders import get_loaders_b
 from losses_metrics import build_loss, macro_f1, print_report
 from seed_utils import set_seed
 from scheduler import build_scheduler
 from optim_utils import build_optimizer
 from ckpt import checkpoint_path, history_path, save_checkpoint
+
+
+def setup_run(cfg, fold: int) -> dict:
+    """Bangun model + loader + optimizer + scheduler. Bisa di-test di CPU tanpa training.
+
+    cfg.backbone dikirim ke build_model() secara eksplisit -- ini yang dulu
+    (Fase 1) tidak pernah tersambung, jadi ganti backbone tidak pernah berefek.
+    """
+    model, data_config = build_model(
+        cfg.backbone,
+        num_classes=cfg.num_classes,
+        pretrained=cfg.pretrained,
+        drop_path_rate=cfg.drop_path_rate,
+        grad_checkpointing=getattr(cfg, "grad_checkpointing", False),
+    )
+
+    train_loader, val_loader, val_row_idx = get_loaders_b(fold, cfg, data_config)
+
+    optimizer = build_optimizer(
+        model, lr=cfg.lr, weight_decay=cfg.weight_decay,
+        layer_decay=getattr(cfg, "layer_decay", None),
+    )
+    opt_steps_per_epoch = max(1, len(train_loader) // cfg.accum_steps)
+    scheduler = build_scheduler(optimizer, steps_per_epoch=opt_steps_per_epoch, cfg=cfg)
+
+    return {
+        "model": model,
+        "data_config": data_config,
+        "train_loader": train_loader,
+        "val_loader": val_loader,
+        "val_row_idx": val_row_idx,
+        "optimizer": optimizer,
+        "scheduler": scheduler,
+    }
 
 
 def train_one_epoch(model, loader, optimizer, scheduler, criterion, scaler, device, cfg):
@@ -90,23 +124,13 @@ def run_training(fold, cfg, class_weights, max_epochs=None):
             f"Ganti cfg.run_name, atau set cfg.allow_overwrite=True kalau memang sengaja."
         )
 
-    train_loader, val_loader = get_loaders(fold=fold, img_size=cfg.img_size, batch=cfg.batch)
-    model = build_model(
-        num_classes=cfg.num_classes,
-        drop_path_rate=cfg.drop_path_rate,
-        backbone=cfg.backbone,
-        grad_checkpointing=getattr(cfg, "grad_checkpointing", False),
-    ).to(device)
-    data_config = get_data_config(model)
-    criterion = build_loss(class_weights.to(device), label_smoothing=cfg.label_smoothing)
-    optimizer = build_optimizer(
-        model, lr=cfg.lr, weight_decay=cfg.weight_decay,
-        layer_decay=getattr(cfg, "layer_decay", None),
-    )
+    ctx = setup_run(cfg, fold)
+    model = ctx["model"].to(device)
+    data_config = ctx["data_config"]
+    train_loader, val_loader = ctx["train_loader"], ctx["val_loader"]
+    optimizer, scheduler = ctx["optimizer"], ctx["scheduler"]
 
-    # steps_per_epoch = optimizer steps, bukan raw batches
-    opt_steps_per_epoch = len(train_loader) // cfg.accum_steps
-    scheduler = build_scheduler(optimizer, steps_per_epoch=opt_steps_per_epoch, cfg=cfg)
+    criterion = build_loss(class_weights.to(device), label_smoothing=cfg.label_smoothing)
     scaler = GradScaler("cuda")
 
     if cfg.accum_steps > 1:

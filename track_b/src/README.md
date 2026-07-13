@@ -20,8 +20,14 @@ Notebook di `notebooks/` hanya memanggil fungsi dari sini.
 | `model.py` | `build_model()` — ConvNeXt-Tiny `convnext_tiny.in12k_ft_in1k` via timm, grad checkpointing ON | Fase 0 |
 | `losses_metrics.py` | `build_loss()` (weighted CE + label smoothing 0.1), `macro_f1()`, `print_report()` | Fase 0 |
 | `scheduler.py` | `build_scheduler()` — warmup linear + cosine decay, `.step()` per batch | Fase 1 Task 2 |
-| `train.py` | `train_one_epoch()`, `validate()`, `run_training()` — AMP + grad clipping + checkpoint | Fase 0 |
+| `train.py` | `setup_run()`, `train_one_epoch()`, `validate()`, `run_training()` — AMP + grad clipping + checkpoint | Fase 0 |
 | `sanity_overfit.py` | `sanity_overfit()` — bukti loop benar (loss ≈ 0 di 1 batch) | Fase 0 |
+| `ckpt.py` | `checkpoint_path()`, `history_path()`, `save_checkpoint()` — nama file dari `run_name` + guard anti-overwrite | Fase 2/3 fix |
+| `transforms.py` | `build_transforms()`, `normalize_of()` — transform per-backbone dari `data_config` timm (dipakai juga Track C) | Fase 2/3 fix |
+| `loaders.py` | `get_loaders_b()` — reuse `WasteDataset` Track A + transform disuntik, kembalikan `val_row_idx` utk OOF | Fase 2/3 fix |
+
+`model.py` sekarang punya `FAMILY_REGISTRY` (convnext/swin/effnetv2s/densenet201) + `build_model(model_name, ...)`
+tanpa default — `model_name` wajib, salah kirim = `TypeError` langsung, bukan diam-diam melatih ConvNeXt lagi.
 
 ---
 
