@@ -2,4 +2,4 @@ run_name,img_size,batch,epochs_ran,patience,layer_decay,best_f1,delta_vs_baselin
 baseline,224,64,8,,,0.9520,0.0000,4.5,selesai (fixed 8 epoch, tanpa early stopping)
 epochs20,224,64,17,4,,0.9509,-0.0011,4.5,selesai (early-stop epoch 17, best epoch 13)
 img288,288,32,17,4,,0.9511,-0.0009,6.2,TERPOTONG kuota GPU habis @ epoch 17 (best epoch 15, belum early-stop natural, epochs_no_improve baru 2/4)
-llrd090,224,64,,4,0.9,,,,belum jalan
+llrd090,224,64,20,4,0.9,0.9678,0.0158,4.5,"selesai (best epoch 18; checkpoint fold0.pt hilang - Drive-to-Drive copy gagal setelah training, TIDAK diulang - config ini akan otomatis terpakai lagi di retrain v2 Fase 2)"
