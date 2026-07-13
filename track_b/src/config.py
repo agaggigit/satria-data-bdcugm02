@@ -26,9 +26,11 @@ CFG = SimpleNamespace(
     lr=3e-4,
     min_lr=1e-6,
     weight_decay=0.05,
+    layer_decay=None,       # None = LLRD mati. Isi mis. 0.9 utk eksperimen Task 7 (lihat optim_utils.py)
     # Schedule
     epochs=8,
     warmup_epochs=1,
+    patience=None,          # None = tidak ada early stopping. Isi mis. 4 utk eksperimen epoch>=20
     # Loss
     label_smoothing=0.1,
     # Stability

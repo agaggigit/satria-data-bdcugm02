@@ -7,6 +7,7 @@ from model import build_model
 from losses_metrics import build_loss, macro_f1, print_report
 from seed_utils import set_seed
 from scheduler import build_scheduler
+from optim_utils import build_optimizer
 
 
 def train_one_epoch(model, loader, optimizer, scheduler, criterion, scaler, device, cfg):
@@ -85,7 +86,10 @@ def run_training(fold, cfg, class_weights, max_epochs=None):
         grad_checkpointing=getattr(cfg, "grad_checkpointing", False),
     ).to(device)
     criterion = build_loss(class_weights.to(device), label_smoothing=cfg.label_smoothing)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay)
+    optimizer = build_optimizer(
+        model, lr=cfg.lr, weight_decay=cfg.weight_decay,
+        layer_decay=getattr(cfg, "layer_decay", None),
+    )
 
     # steps_per_epoch = optimizer steps, bukan raw batches
     opt_steps_per_epoch = len(train_loader) // cfg.accum_steps
@@ -100,6 +104,8 @@ def run_training(fold, cfg, class_weights, max_epochs=None):
     epoch_times = []
     history = []
     lr_per_step = []
+    patience = getattr(cfg, "patience", None)  # None = tidak ada early stopping (perilaku lama)
+    epochs_no_improve = 0
 
     for epoch in range(epochs):
         t0 = time.time()
@@ -120,12 +126,18 @@ def run_training(fold, cfg, class_weights, max_epochs=None):
         })
         if val_f1 > best_f1:
             best_f1 = val_f1
+            epochs_no_improve = 0
             # Workaround for Google Drive FUSE permission error
             local_save_path = f"/tmp/fold{fold}_best.pt"
             torch.save(model.state_dict(), local_save_path)
             import shutil
             shutil.copy(local_save_path, save_path)
             print(f"    checkpoint saved: {save_path} (f1 {best_f1:.4f})")
+        else:
+            epochs_no_improve += 1
+            if patience is not None and epochs_no_improve >= patience:
+                print(f"  early stopping: {epochs_no_improve} epoch tanpa perbaikan val_f1 (patience={patience})")
+                break
 
     mins_per_epoch = (sum(epoch_times) / len(epoch_times)) / 60
     print(f"\n  BEST fold {fold} macro-f1: {best_f1:.4f}")
