@@ -1,3 +1,4 @@
+import json
 import time
 import torch
 from torch.amp import GradScaler
@@ -11,12 +12,15 @@ from scheduler import build_scheduler
 def train_one_epoch(model, loader, optimizer, scheduler, criterion, scaler, device, cfg):
     """Gradient accumulation dipertahankan dari Fase 0.
     cfg.accum_steps > 1: akumulasi N batch sebelum optimizer.step().
-    scheduler.step() dipanggil per optimizer step, bukan per batch."""
+    scheduler.step() dipanggil per optimizer step, bukan per batch.
+    Mengembalikan juga train_f1 (dari prediksi selama training, tanpa forward
+    pass ekstra) dan lr_history per optimizer-step (bukti visual warmup+cosine)."""
     model.train()
     total_loss = 0.0
     accum = cfg.accum_steps
     n_batches = len(loader)
     optimizer.zero_grad()
+    all_preds, all_labels, lr_history = [], [], []
 
     for i, (images, labels) in enumerate(loader):
         images = images.to(device, non_blocking=True)
@@ -25,6 +29,8 @@ def train_one_epoch(model, loader, optimizer, scheduler, criterion, scaler, devi
             outputs = model(images)
             loss = criterion(outputs, labels) / accum
         scaler.scale(loss).backward()
+        all_preds.append(outputs.detach().argmax(dim=1))
+        all_labels.append(labels)
 
         is_last = (i + 1) == n_batches
         if (i + 1) % accum == 0 or is_last:
@@ -37,10 +43,13 @@ def train_one_epoch(model, loader, optimizer, scheduler, criterion, scaler, devi
             # (scaler skip optimizer kalau ada inf/nan gradient)
             if scaler.get_scale() == scale_before:
                 scheduler.step()
+            lr_history.append(optimizer.param_groups[0]["lr"])
             optimizer.zero_grad()
 
         total_loss += loss.item() * accum * images.size(0)
-    return total_loss / len(loader.dataset)
+
+    train_f1 = macro_f1(torch.cat(all_preds), torch.cat(all_labels))
+    return total_loss / len(loader.dataset), train_f1, lr_history
 
 
 def validate(model, loader, criterion, device):
@@ -85,15 +94,26 @@ def run_training(fold, cfg, class_weights, max_epochs=None):
     best_f1 = 0.0
     save_path = f"{cfg.save_dir}/fold{fold}.pt"
     epoch_times = []
+    history = []
+    lr_per_step = []
 
     for epoch in range(epochs):
         t0 = time.time()
-        tr_loss = train_one_epoch(model, train_loader, optimizer, scheduler, criterion, scaler, device, cfg)
+        tr_loss, tr_f1, lr_steps = train_one_epoch(model, train_loader, optimizer, scheduler, criterion, scaler, device, cfg)
         val_loss, val_f1, preds, labels = validate(model, val_loader, criterion, device)
         elapsed = time.time() - t0
         epoch_times.append(elapsed)
+        lr_per_step.extend(lr_steps)
         lr_now = optimizer.param_groups[0]["lr"]
-        print(f"  epoch {epoch+1}/{epochs} | lr {lr_now:.2e} | train {tr_loss:.4f} | val {val_loss:.4f} | val_f1 {val_f1:.4f} | {elapsed/60:.1f} mnt")
+        print(f"  epoch {epoch+1}/{epochs} | lr {lr_now:.2e} | train {tr_loss:.4f} (f1 {tr_f1:.4f}) | val {val_loss:.4f} | val_f1 {val_f1:.4f} | {elapsed/60:.1f} mnt")
+        history.append({
+            "epoch": epoch + 1,
+            "train_loss": tr_loss,
+            "val_loss": val_loss,
+            "train_f1": tr_f1,
+            "val_f1": val_f1,
+            "lr": lr_now,
+        })
         if val_f1 > best_f1:
             best_f1 = val_f1
             # Workaround for Google Drive FUSE permission error
@@ -106,6 +126,15 @@ def run_training(fold, cfg, class_weights, max_epochs=None):
     mins_per_epoch = (sum(epoch_times) / len(epoch_times)) / 60
     print(f"\n  BEST fold {fold} macro-f1: {best_f1:.4f}")
     print_report(preds, labels)
+
+    history_path = f"{cfg.save_dir}/fold{fold}_history.json"
+    try:
+        with open(history_path, "w") as f:
+            json.dump({"fold": fold, "history": history, "lr_per_step": lr_per_step}, f, indent=2)
+        print(f"    history saved: {history_path}")
+    except OSError as e:
+        print(f"    WARNING: gagal simpan history ({e}); lanjut tanpa history")
+
     return best_f1, mins_per_epoch
 
 

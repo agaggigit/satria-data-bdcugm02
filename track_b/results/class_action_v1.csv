@@ -1,0 +1,4 @@
+class_id,class_name,precision,recall,f1,support,gap_to_target,top_confusion_with,n_confused,recommended_action
+0,Recyclable,0.9279306220095693,0.930993099309931,0.9294593380260596,9999,0.06054066197394037,Organic,467,Precision rendah (banyak Organic salah masuk Recyclable) -> naikkan threshold kelas ini; review sampel ambigu pasangan ini.
+1,Electronic,0.9233173076923077,0.9697046200454431,0.945942617904199,3961,0.04405738209580101,Recyclable,91,Precision rendah (banyak Recyclable salah masuk Electronic) -> naikkan threshold kelas ini; review sampel ambigu pasangan ini.
+2,Organic,0.9597892176732874,0.9420705021086974,0.9508473215002811,12567,0.03915267849971893,Recyclable,632,Recall rendah (banyak Organic lolos jadi Recyclable) -> turunkan threshold kelas ini di Track C; cek kandidat mislabel pasangan Organic<->Recyclable.
