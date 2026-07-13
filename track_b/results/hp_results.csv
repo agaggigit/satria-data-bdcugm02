@@ -1,0 +1,5 @@
+run_name,img_size,batch,epochs_ran,patience,layer_decay,best_f1,delta_vs_baseline,minutes_per_epoch,status
+baseline,224,64,8,,,0.9520,0.0000,4.5,selesai (fixed 8 epoch, tanpa early stopping)
+epochs20,224,64,17,4,,0.9509,-0.0011,4.5,selesai (early-stop epoch 17, best epoch 13)
+img288,288,32,17,4,,0.9511,-0.0009,6.2,TERPOTONG kuota GPU habis @ epoch 17 (best epoch 15, belum early-stop natural, epochs_no_improve baru 2/4)
+llrd090,224,64,,4,0.9,,,,belum jalan
