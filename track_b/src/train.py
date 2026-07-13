@@ -79,7 +79,11 @@ def run_training(fold, cfg, class_weights, max_epochs=None):
     epochs = max_epochs or cfg.epochs
 
     train_loader, val_loader = get_loaders(fold=fold, img_size=cfg.img_size, batch=cfg.batch)
-    model = build_model(num_classes=cfg.num_classes, drop_path_rate=cfg.drop_path_rate).to(device)
+    model = build_model(
+        num_classes=cfg.num_classes,
+        drop_path_rate=cfg.drop_path_rate,
+        grad_checkpointing=getattr(cfg, "grad_checkpointing", False),
+    ).to(device)
     criterion = build_loss(class_weights.to(device), label_smoothing=cfg.label_smoothing)
     optimizer = torch.optim.AdamW(model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay)
 

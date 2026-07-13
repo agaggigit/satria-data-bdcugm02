@@ -12,9 +12,10 @@ CFG = SimpleNamespace(
     seed=42,
     # Data
     img_size=224,
-    batch=32,
-    accum_steps=1,          # >1 kalau naik img_size (mis. 256) & batch fisik harus turun di T4
+    batch=64,               # naik dari 32 — grad checkpointing dimatikan, T4 15GB masih longgar (lihat model.py)
+    accum_steps=1,          # >1 kalau naik img_size (mis. 288) & batch fisik harus turun di T4
     num_workers=2,          # Colab: 2 CPU cores
+    grad_checkpointing=False,  # OFF: ConvNeXt-Tiny @224 cuma pakai ~2GB/15GB, checkpointing cuma bikin lambat tanpa manfaat VRAM
     num_classes=3,
     class_names=["Recyclable", "Electronic", "Organic"],  # index = label
     label_map={0: "Recyclable", 1: "Electronic", 2: "Organic"},

@@ -43,7 +43,11 @@ IMG_SIZE    = 224
   JANGAN `torch.cuda.amp.autocast` (deprecated).
 - **Grad clipping:** `scaler.unscale_(optimizer)` → `clip_grad_norm_(max_norm=1.0)` → `scaler.step()`.
 - **GradScaler baru per fold** — jangan reuse antar fold.
-- **Grad checkpointing ON** saat training; hanya OFF di sanity check.
+- **Grad checkpointing OFF secara default** (13 Juli, revisi) — GPU T4 15GB cuma kepakai
+  ~2GB saat training ConvNeXt-Tiny @224 dengan checkpointing ON; itu murni membuang
+  kecepatan (checkpointing = recompute activation di backward untuk hemat VRAM yang
+  sebenarnya tidak dibutuhkan). Dikontrol via `cfg.grad_checkpointing` (default `False`).
+  Nyalakan lagi kalau naik ke resolusi/backbone yang mepet OOM (mis. img_size 288+).
 - **Backbone:** `convnext_tiny.in12k_ft_in1k` — wajib didokumentasikan di report (aturan panitia).
 
 ---
