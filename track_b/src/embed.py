@@ -3,6 +3,7 @@ anti-overwrite, manifest wajib, dan assert alignment terhadap folds.csv.
 
 Baris ke-i emb_*.npy HARUS = baris ke-i folds.csv. Tidak ada pengecualian.
 """
+import gc
 import json
 import os
 from pathlib import Path
@@ -11,6 +12,11 @@ import numpy as np
 import torch
 from PIL import Image
 from tqdm.auto import tqdm
+
+try:
+    import psutil
+except ImportError:                      # psutil ada default di Colab; jangan hard-fail lokal
+    psutil = None
 
 # HF Hub's "Xet" download backend (CAS) 401s on unauthenticated requests for
 # some files. Env var ini MEMBANTU tapi TIDAK CUKUP -- terbukti 14 Juli:
@@ -113,18 +119,39 @@ def _tensor_from(output):
     raise TypeError(f"Tidak tahu cara ekstrak tensor dari {type(output)}")
 
 
+def _open_rgb(path):
+    """Buka + decode jadi RGB, lalu TUTUP file handle-nya segera.
+
+    `Image.open(p).convert("RGB")` versi lama tidak pernah menutup `fp`. PIL
+    ImageFile menyimpan referensi siklik (tile/fp), jadi refcount CPython tidak
+    langsung membebaskannya -- ia menunggu GC siklik yang jarang jalan di dalam
+    loop C-berat + inference_mode ini. Akibatnya satu gambar terdekode (~1 MB)
+    menumpuk per gambar yang diproses -> RAM naik linear sampai OOM di ~45%
+    dataset. Context manager memutus siklus itu di titik decode."""
+    with Image.open(path) as im:
+        return im.convert("RGB")                         # gambar baru, lepas dari fp
+
+
 @torch.inference_mode()
 def extract_embeddings(ckpt: str, filepaths: list, device="cuda",
-                       batch: int = 64, flips: tuple = (), encoder=None) -> np.ndarray:
+                       batch: int = 64, flips: tuple = (), encoder=None,
+                       log_ram: bool = True, gc_every: int = 20) -> np.ndarray:
     """flips: subset dari ('h', 'v'). Embedding asli + tiap flip dirata-ratakan (TTA).
 
     encoder: hasil load_encoder() yang mau dipakai ulang. Kalau None, model
     di-load di sini (perilaku lama, tetap jalan untuk pemanggil yang sudah ada).
+
+    RAM-safe: hasil ditulis ke SATU array pre-alokasi `[N, D]` (bukan list yang
+    tumbuh lalu di-concat), gambar tiap batch ditutup eksplisit, dan `gc.collect()`
+    dipanggil tiap `gc_every` batch. `log_ram=True` mencetak RSS proses tiap
+    `gc_every` batch lewat psutil supaya lonjakan memori kelihatan di batch berapa.
     """
     own_encoder = encoder is None
     if own_encoder:
         encoder = load_encoder(ckpt, device)
     model, processor = encoder
+
+    ram = psutil.Process() if (log_ram and psutil is not None) else None
 
     def _pool(inputs):
         if hasattr(model, "get_image_features"):        # SigLIP / SigLIP2
@@ -133,11 +160,17 @@ def extract_embeddings(ckpt: str, filepaths: list, device="cuda",
             raw = model(**inputs)                        # DINOv3
         return _tensor_from(raw)
 
+    n = len(filepaths)
+    result = None            # dialokasi setelah batch pertama mengungkap D
     try:
-        out = []
-        batches = range(0, len(filepaths), batch)
-        for i in tqdm(batches, desc=f"extract [{ckpt}]", unit="batch"):
-            imgs = [Image.open(p).convert("RGB") for p in filepaths[i:i + batch]]
+        batch_starts = list(range(0, n, batch))
+        if ram is not None:
+            tqdm.write(f"  [ram] mulai extract [{ckpt}] n={n} "
+                       f"rss={ram.memory_info().rss / 1e9:.2f} GB")
+
+        for bi, i in enumerate(tqdm(batch_starts, desc=f"extract [{ckpt}]", unit="batch")):
+            chunk = filepaths[i:i + batch]
+            imgs = [_open_rgb(p) for p in chunk]
 
             views = [imgs]
             if "h" in flips:
@@ -145,14 +178,35 @@ def extract_embeddings(ckpt: str, filepaths: list, device="cuda",
             if "v" in flips:
                 views.append([im.transpose(Image.FLIP_TOP_BOTTOM) for im in imgs])
 
-            feats = []
+            # TTA dirata-rata secara berjalan (running mean) -- tidak menyimpan
+            # list feats agar tak ada array transien yang menganggur di RAM.
+            acc = None
             for view in views:
                 inputs = processor(images=view, return_tensors="pt").to(device, torch.float16)
-                feats.append(_pool(inputs).float().cpu().numpy())
+                feat = _pool(inputs).float().cpu().numpy()
+                acc = feat if acc is None else acc + feat
+                del inputs, feat
+            acc /= len(views)
 
-            out.append(np.mean(feats, axis=0))   # TTA: rata-rata di level EMBEDDING
+            if result is None:
+                result = np.empty((n, acc.shape[1]), dtype=np.float32)
+            result[i:i + len(chunk)] = acc               # tulis di posisi -> alignment terjaga
 
-        return np.concatenate(out)
+            # Lepaskan gambar batch ini SEKARANG; jangan tunggu GC siklik.
+            for view in views:
+                for im in view:
+                    im.close()
+            del imgs, views, acc
+
+            if (bi + 1) % gc_every == 0:
+                gc.collect()
+                if ram is not None:
+                    tqdm.write(f"  [ram] batch {bi + 1}/{len(batch_starts)} "
+                               f"rss={ram.memory_info().rss / 1e9:.2f} GB")
+
+        if result is None:                               # filepaths kosong
+            return np.empty((0, 0), dtype=np.float32)
+        return result
     finally:
         if own_encoder:
             free_encoder(encoder)
