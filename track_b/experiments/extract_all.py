@@ -103,7 +103,7 @@ for name, ckpt in BACKBONES.items():
                     print(f"skip {full_name} {split}: sudah ada")
                     continue
 
-                emb = extract_embeddings(ckpt, paths, batch=32, flips=flips,
+                emb = extract_embeddings(ckpt, paths, batch=16, flips=flips,
                                          encoder=encoder)
                 if split == "train":
                     assert_aligned(emb, folds)
