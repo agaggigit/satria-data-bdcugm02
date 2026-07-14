@@ -4,11 +4,20 @@ anti-overwrite, manifest wajib, dan assert alignment terhadap folds.csv.
 Baris ke-i emb_*.npy HARUS = baris ke-i folds.csv. Tidak ada pengecualian.
 """
 import json
+import os
 from pathlib import Path
 
 import numpy as np
 import torch
 from PIL import Image
+
+# HF Hub's newer "Xet" download backend (CAS) returns 401 Unauthorized on
+# large files (model.safetensors) for unauthenticated requests -- observed
+# with google/siglip2-base-patch16-256, reproduced locally without a GPU.
+# Falling back to the plain HTTP download path avoids it entirely, no
+# HF_TOKEN needed for public checkpoints. setdefault so an explicit env var
+# set by the user/notebook still wins.
+os.environ.setdefault("HF_HUB_DISABLE_XET", "1")
 
 from config import CFG
 
