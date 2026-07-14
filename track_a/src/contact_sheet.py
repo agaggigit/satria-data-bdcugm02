@@ -195,10 +195,17 @@ def generate_contact_sheets(
 
     # Normalisasi nama kolom
     df = candidates.copy()
-    if "label_asli" in df.columns and "label" not in df.columns:
-        df["label"] = df["label_asli"]
-    if "label_predicted" in df.columns and "pred_class" not in df.columns:
-        df["pred_class"] = df["label_predicted"]
+    if "label_asli" in df.columns:
+        if "label" not in df.columns:
+            df["label"] = df["label_asli"]
+        else:
+            df["label"] = df["label"].fillna(df["label_asli"])
+            
+    if "label_predicted" in df.columns:
+        if "pred_class" not in df.columns:
+            df["pred_class"] = df["label_predicted"]
+        else:
+            df["pred_class"] = df["pred_class"].fillna(df["label_predicted"])
 
     all_figs = []
     page_num = 0
@@ -301,8 +308,11 @@ def init_cleaning_log(candidates: pd.DataFrame, output_path: str) -> pd.DataFram
         filepath, label_asli, label_baru, keputusan, alasan, reviewer
     """
     df = candidates.copy()
-    if "label_asli" not in df.columns and "label" in df.columns:
-        df["label_asli"] = df["label"]
+    if "label" in df.columns:
+        if "label_asli" not in df.columns:
+            df["label_asli"] = df["label"]
+        else:
+            df["label_asli"] = df["label_asli"].fillna(df["label"])
 
     log = pd.DataFrame({
         "filepath":     df["filepath"].values,
