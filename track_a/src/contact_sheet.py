@@ -10,7 +10,7 @@ Fitur:
 - Grid 5×10 = 50 gambar per halaman (bisa dikonfigurasi)
 - Dikelompokkan per pasangan kelas (Recyclable→Organic, dsb.)
 - Diurutkan dari paling mencurigakan (quality score / margin terendah)
-- Caption per gambar: label asli, prediksi, margin, quality score
+- Caption per gambar: label asli, prediksi, margin, quality score, DAN nomor baris CSV
 - Warna border: merah=mislabel yakin, oranye=ambigu, hijau=benar tapi margin rendah
 - Output bisa ditampilkan langsung di Colab atau disimpan ke file
 
@@ -71,7 +71,7 @@ def _determine_border_color(row: pd.Series) -> str:
 
 
 def _make_caption(row: pd.Series, max_chars: int = 30) -> str:
-    """Buat caption singkat untuk gambar."""
+    """Buat caption singkat untuk gambar, lengkap dengan nomor baris CSV."""
     label = int(row.get("label", row.get("label_asli", -1)))
     pred  = int(row.get("pred_class", row.get("label_predicted", -1)))
     margin = row.get("margin", float("nan"))
@@ -79,16 +79,61 @@ def _make_caption(row: pd.Series, max_chars: int = 30) -> str:
 
     label_name = CLASS_NAMES[label] if 0 <= label <= 2 else "?"
     pred_name  = CLASS_NAMES[pred]  if 0 <= pred  <= 2 else "?"
+    
+    # +2 karena index Pandas mulai dari 0, dan baris 1 di Google Sheets adalah header.
+    csv_row = int(row.name) + 2 if row.name is not None else "?"
 
     if label == pred:
-        caption = f"✓ {label_name}\nM={margin:.2f}"
+        caption = f"[Baris {csv_row}] ✓ {label_name}\nM={margin:.2f}"
     else:
-        caption = f"✗ {label_name}→{pred_name}\nM={margin:.2f}"
+        caption = f"[Baris {csv_row}] ✗ {label_name}→{pred_name}\nM={margin:.2f}"
 
     if not math.isnan(score):
         caption += f" Q={score:.2f}"
 
     return caption
+
+
+def _prepare_candidates_df(candidates: pd.DataFrame, group_by_pair: bool) -> pd.DataFrame:
+    """
+    Menyeragamkan kolom dan mengurutkan kandidat.
+    Ini memastikan urutan di PNG sama persis dengan urutan di CSV (cleaning_log).
+    """
+    df = candidates.copy()
+    if "label_asli" in df.columns:
+        if "label" not in df.columns:
+            df["label"] = df["label_asli"]
+        else:
+            df["label"] = df["label"].fillna(df["label_asli"])
+            
+    if "label_predicted" in df.columns:
+        if "pred_class" not in df.columns:
+            df["pred_class"] = df["label_predicted"]
+        else:
+            df["pred_class"] = df["pred_class"].fillna(df["label_predicted"])
+            
+    if not group_by_pair:
+        return df.reset_index(drop=True)
+        
+    df["_pair_key"] = df.apply(
+        lambda r: f"{CLASS_NAMES[int(r['label'])]} → {CLASS_NAMES[int(r['pred_class'])]}",
+        axis=1,
+    )
+    
+    # Urutkan berdasarkan prioritas reviewer (Organic <-> Recyclable)
+    priority_keys = ["Recyclable → Organic", "Organic → Recyclable"]
+    all_pairs = []
+    for pk in priority_keys:
+        if pk in df["_pair_key"].unique():
+            all_pairs.append(pk)
+    for pk in sorted(df["_pair_key"].unique()):
+        if pk not in all_pairs:
+            all_pairs.append(pk)
+            
+    # Gabungkan kembali sesuai urutan pair, lalu reset_index.
+    # Hasil akhirnya akan memiliki index 0..N-1 yang menjadi sumber urutan CSV.
+    reordered = pd.concat([df[df["_pair_key"] == pk] for pk in all_pairs], ignore_index=True)
+    return reordered
 
 
 # ─── Core: Generate Satu Halaman ─────────────────────────────────────────────
@@ -173,65 +218,24 @@ def generate_contact_sheets(
 ) -> List[plt.Figure]:
     """
     Generate semua contact sheet dari DataFrame kandidat.
-
-    Args:
-        candidates         : DataFrame kandidat (output ambiguous_filter atau cleanlab_runner)
-                             Harus punya kolom: filepath, label (atau label_asli),
-                             pred_class (atau label_predicted), margin
-        output_dir         : folder untuk simpan PNG
-        group_by_pair      : kelompokkan per pasangan kelas (Recyclable→Organic, dsb.)
-        n_per_page         : jumlah gambar per halaman (default 50)
-        n_cols             : jumlah kolom (default 10, jadi 5 baris × 10 kolom)
-        img_size           : resolusi display gambar
-        save_png           : simpan ke file PNG
-        display_in_notebook: tampilkan di Colab
-        max_pages          : batasi jumlah halaman (None = semua)
-
-    Returns:
-        list matplotlib Figure
     """
     out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Normalisasi nama kolom
-    df = candidates.copy()
-    if "label_asli" in df.columns:
-        if "label" not in df.columns:
-            df["label"] = df["label_asli"]
-        else:
-            df["label"] = df["label"].fillna(df["label_asli"])
-            
-    if "label_predicted" in df.columns:
-        if "pred_class" not in df.columns:
-            df["pred_class"] = df["label_predicted"]
-        else:
-            df["pred_class"] = df["pred_class"].fillna(df["label_predicted"])
+    # Prepare and reorder dataframe so its index exactly matches CSV rows
+    df = _prepare_candidates_df(candidates, group_by_pair)
 
     all_figs = []
     page_num = 0
 
     if group_by_pair:
-        # Buat kolom pair key
-        df["_pair_key"] = df.apply(
-            lambda r: f"{CLASS_NAMES[int(r['label'])]} → {CLASS_NAMES[int(r['pred_class'])]}",
-            axis=1,
-        )
-
-        # Prioritaskan Organic↔Recyclable
-        priority_keys = [
-            "Recyclable → Organic",
-            "Organic → Recyclable",
-        ]
-        all_pairs = []
-        for pk in priority_keys:
-            if pk in df["_pair_key"].unique():
-                all_pairs.append(pk)
-        for pk in sorted(df["_pair_key"].unique()):
-            if pk not in all_pairs:
-                all_pairs.append(pk)
+        # Gunakan unique key sesuai urutan df yang sudah disiapkan
+        all_pairs = df["_pair_key"].unique()
 
         for pair_key in all_pairs:
-            pair_df = df[df["_pair_key"] == pair_key].reset_index(drop=True)
+            # PENTING: Jangan reset_index() di sini agar index global (dari df) 
+            # tetap terbawa ke _make_caption untuk nomor baris.
+            pair_df = df[df["_pair_key"] == pair_key]
             n_pages_pair = math.ceil(len(pair_df) / n_per_page)
 
             print(f"\n[generate_contact_sheets] Pair: {pair_key} — "
@@ -244,6 +248,8 @@ def generate_contact_sheets(
 
                 start = p * n_per_page
                 end   = min(start + n_per_page, len(pair_df))
+                
+                # Gunakan .iloc untuk slicing posisi, tapi index bawaan (nama) tetap utuh
                 page_rows = [pair_df.iloc[i] for i in range(start, end)]
 
                 title = (f"Pair: {pair_key} | "
@@ -267,7 +273,7 @@ def generate_contact_sheets(
                 page_num += 1
 
     else:
-        # Tanpa grouping — urut berdasarkan margin
+        # Tanpa grouping
         n_pages = math.ceil(len(df) / n_per_page)
         print(f"[generate_contact_sheets] {len(df)} gambar → {n_pages} halaman")
 
@@ -299,26 +305,20 @@ def generate_contact_sheets(
 
 # ─── Interactive: Rekam Keputusan ────────────────────────────────────────────
 
-def init_cleaning_log(candidates: pd.DataFrame, output_path: str) -> pd.DataFrame:
+def init_cleaning_log(candidates: pd.DataFrame, output_path: str, group_by_pair: bool = True) -> pd.DataFrame:
     """
     Inisialisasi cleaning_log.csv dari candidates DataFrame.
-    Semua keputusan di-set ke 'pending' dulu.
-
-    Kolom output:
-        filepath, label_asli, label_baru, keputusan, alasan, reviewer
+    PENTING: Menggunakan _prepare_candidates_df() agar urutannya sama persis
+    dengan contact_sheets PNG yang digenerate.
     """
-    df = candidates.copy()
-    if "label" in df.columns:
-        if "label_asli" not in df.columns:
-            df["label_asli"] = df["label"]
-        else:
-            df["label_asli"] = df["label_asli"].fillna(df["label"])
+    # Siapkan DF dengan urutan yang sama persis seperti contact sheet
+    df = _prepare_candidates_df(candidates, group_by_pair)
 
     log = pd.DataFrame({
         "filepath":     df["filepath"].values,
         "fold":         df.get("fold", pd.Series([None]*len(df))).values,
-        "label_asli":   df["label_asli"].values,
-        "label_baru":   df["label_asli"].values,  # default: tidak berubah
+        "label_asli":   df["label"].values,
+        "label_baru":   df["label"].values,  # default: tidak berubah
         "keputusan":    "pending",   # akan diisi: keep / relabel / drop
         "alasan":       "",
         "reviewer":     "",
