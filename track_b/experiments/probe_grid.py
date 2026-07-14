@@ -3,8 +3,10 @@
 Jalankan dengan `python experiments/probe_grid.py` dari mana saja -- sys.path
 di-set eksplisit di bawah (jangan andalkan cwd: `python path/to/script.py`
 menaruh folder SCRIPT itu sendiri di sys.path[0], bukan cwd tempat kamu `cd`).
-RESULTS_PATH tetap relatif ke CWD (bukan ke lokasi script) -- jalankan dari
-track_b/src/ seperti skrip lain supaya "../results/probe_grid.csv" tepat sasaran.
+
+Tabel keputusan ditulis ke Drive (sumber kebenaran; clone repo di /content/
+ephemeral, hilang begitu runtime putus) DAN best-effort ke ../results/ supaya
+bisa di-commit kalau dijalankan dari checkout lokal.
 
 Cara memilih pemenang -- JANGAN asal ambil `mean` tertinggi:
 1. Urutkan berdasarkan `mean`, tapi buang kandidat yang `std` antar-fold-nya
@@ -31,7 +33,8 @@ from features import concat_features, l2norm
 from heads import HEAD_NAMES
 from probe_cv import run_probe_cv
 
-RESULTS_PATH = "../results/probe_grid.csv"
+DRIVE_RESULTS = os.path.join(CFG.save_dir, "probe_grid.csv")
+REPO_RESULTS = os.path.join(os.path.dirname(__file__), "..", "results", "probe_grid.csv")
 
 folds = pd.read_csv(CFG.folds_csv)
 SINGLES = ["siglip2b256", "siglip2so400m", "siglip1b256", "dinov3vitl", "dinov3cnxb"]
@@ -63,6 +66,12 @@ for combo in CONCATS:
         print(f"{'+'.join(combo):40s} {head:7s} mean={c['mean']:.4f} min={c['min']:.4f}")
 
 df = pd.DataFrame(rows).sort_values("mean", ascending=False)
-os.makedirs(os.path.dirname(RESULTS_PATH), exist_ok=True)
-df.to_csv(RESULTS_PATH, index=False)
+
+os.makedirs(os.path.dirname(DRIVE_RESULTS), exist_ok=True)
+df.to_csv(DRIVE_RESULTS, index=False)
+print(f"\ntabel keputusan tersimpan: {DRIVE_RESULTS}")
+
+os.makedirs(os.path.dirname(REPO_RESULTS), exist_ok=True)
+df.to_csv(REPO_RESULTS, index=False)
+
 print(df.head(10).to_string(index=False))
