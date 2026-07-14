@@ -57,6 +57,11 @@ class Config:
     # (berjam-jam kerja GPU) tidak boleh ikut hilang.
     embeddings_dir: str = os.path.join(OUTPUT_TRACK_B, "embeddings")
 
+    # Nama field disamakan dengan track_c/src/config_c.py supaya konsisten lintas
+    # track meski config-nya terpisah per track (bukan shared).
+    test_dir: str = os.path.join(DRIVE_BASE_PATH, "test")
+    sample_sub_path: str = os.path.join(DRIVE_BASE_PATH, "submission.csv")
+
 
 CFG = Config()
 
