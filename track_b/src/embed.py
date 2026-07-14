@@ -90,8 +90,11 @@ def extract_embeddings(ckpt: str, filepaths: list, device="cuda",
             raw = model(**inputs)                        # DINOv3
         return _tensor_from(raw)
 
+    from tqdm.auto import tqdm
+
     out = []
-    for i in range(0, len(filepaths), batch):
+    batches = range(0, len(filepaths), batch)
+    for i in tqdm(batches, desc=f"extract [{ckpt}]", unit="batch"):
         imgs = [Image.open(p).convert("RGB") for p in filepaths[i:i + batch]]
 
         views = [imgs]
