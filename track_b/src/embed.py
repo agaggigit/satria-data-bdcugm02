@@ -61,10 +61,25 @@ def extract_embeddings(ckpt: str, filepaths: list, device="cuda",
     model = AutoModel.from_pretrained(ckpt, torch_dtype=torch.float16).to(device).eval()
     processor = AutoProcessor.from_pretrained(ckpt)   # preprocessing milik checkpoint ini
 
+    def _tensor_from(output):
+        """Unwrap ModelOutput -> tensor polos. Versi transformers berbeda
+        mengembalikan get_image_features()/pooler_output kadang sebagai tensor
+        langsung, kadang dibungkus BaseModelOutputWithPooling -- tangani dua-duanya
+        alih-alih asumsi salah satu (root cause AttributeError 'no attribute float')."""
+        if torch.is_tensor(output):
+            return output
+        if getattr(output, "pooler_output", None) is not None:
+            return output.pooler_output
+        if getattr(output, "image_embeds", None) is not None:
+            return output.image_embeds
+        raise TypeError(f"Tidak tahu cara ekstrak tensor dari {type(output)}")
+
     def _pool(inputs):
         if hasattr(model, "get_image_features"):        # SigLIP / SigLIP2
-            return model.get_image_features(**inputs)
-        return model(**inputs).pooler_output            # DINOv3
+            raw = model.get_image_features(**inputs)
+        else:
+            raw = model(**inputs)                        # DINOv3
+        return _tensor_from(raw)
 
     out = []
     for i in range(0, len(filepaths), batch):
