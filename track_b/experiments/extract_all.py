@@ -38,8 +38,43 @@ BACKBONES = {
 
 LOCAL_ROOT = "/content/img_cache"
 
+
+def preflight(backbones: dict) -> None:
+    """Buktikan SEMUA backbone bisa dibentuk & mengeluarkan embedding, SEBELUM
+    ekstraksi apa pun dimulai.
+
+    Tanpa ini, DINOv3 (gated di HF, dan ada di urutan TERAKHIR) baru ketahuan
+    gagal setelah dua backbone SigLIP selesai -- berjam-jam GPU terbakar untuk
+    kemudian mati di 401. Preflight memindahkan kegagalan itu ke menit pertama.
+
+    Sekalian membuktikan jalur pooling-nya benar: SigLIP lewat
+    get_image_features(), DINOv3 lewat pooler_output. Kalau salah satu tidak
+    cocok, kita tahu sekarang, bukan setelah 26.527 gambar diproses.
+    """
+    import tempfile
+
+    from PIL import Image
+
+    tmp = tempfile.mkdtemp()
+    dummy_path = os.path.join(tmp, "preflight.jpg")
+    Image.new("RGB", (384, 384), color=(120, 90, 60)).save(dummy_path)
+
+    print("=== PREFLIGHT: cek semua backbone bisa dipakai ===")
+    for name, ckpt in backbones.items():
+        encoder = load_encoder(ckpt)
+        try:
+            emb = extract_embeddings(ckpt, [dummy_path], batch=1, encoder=encoder)
+            assert emb.ndim == 2 and emb.shape[0] == 1, f"{name}: shape aneh {emb.shape}"
+            print(f"  OK {name:14s} dim={emb.shape[1]:5d}  ({ckpt})")
+        finally:
+            free_encoder(encoder)
+    print("=== PREFLIGHT HIJAU — ekstraksi boleh mulai ===\n")
+
+
 folds = pd.read_csv(CFG.folds_csv)
 template = pd.read_csv(CFG.sample_sub_path)
+
+preflight(BACKBONES)
 
 # --- Mirror gambar ke disk lokal (sekali; resume-safe kalau runtime putus) ---
 train_paths = localize_paths(folds["filepath"].tolist(),
