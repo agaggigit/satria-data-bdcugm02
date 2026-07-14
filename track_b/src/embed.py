@@ -70,14 +70,22 @@ def assert_aligned(emb: np.ndarray, folds_df) -> None:
 
 
 def load_encoder(ckpt: str, device="cuda") -> tuple:
-    """Load model + processor SEKALI, pakai ulang untuk beberapa panggilan
+    """Load model + image processor SEKALI, pakai ulang untuk beberapa panggilan
     extract_embeddings(). Tanpa ini, extract_all.py (5 backbone x 2 flip x 2
     split) akan me-load model 20 kali padahal cukup 5 -- mahal, apalagi untuk
-    so400m (~3,5 GB)."""
-    from transformers import AutoModel, AutoProcessor
+    so400m (~3,5 GB).
+
+    AutoImageProcessor, BUKAN AutoProcessor. AutoProcessor menarik image
+    processor DAN tokenizer; tokenizer.json (34 MB, lewat Xet CDN) sempat gagal
+    403 "SignatureError: invalid key pair id" -- masalah sisi HF, bukan token
+    kita. Kita memang tidak pernah memakai text tower (dilarang: image encoder
+    saja), jadi tokenizer itu murni beban: satu file besar yang bisa
+    menggagalkan seluruh run tanpa memberi manfaat apa pun. Terverifikasi
+    pixel_values-nya identik dengan AutoProcessor."""
+    from transformers import AutoImageProcessor, AutoModel
 
     model = AutoModel.from_pretrained(ckpt, torch_dtype=torch.float16).to(device).eval()
-    processor = AutoProcessor.from_pretrained(ckpt)   # preprocessing milik checkpoint ini
+    processor = AutoImageProcessor.from_pretrained(ckpt)   # preprocessing milik checkpoint ini
     return model, processor
 
 
