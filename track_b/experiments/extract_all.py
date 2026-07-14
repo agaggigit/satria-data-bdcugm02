@@ -1,11 +1,20 @@
 """extract_all.py — Ekstrak semua backbone kandidat (GPU).
 
-Jalankan dari track_b/src/ (sys.path harus di sini supaya import flat jalan).
+Jalankan dengan `python experiments/extract_all.py` dari mana saja -- sys.path
+di-set eksplisit di bawah (jangan andalkan cwd: `python path/to/script.py`
+menaruh folder SCRIPT itu sendiri di sys.path[0], bukan cwd tempat kamu `cd`).
 
 DINOv3 gated -- terima lisensinya di HF dan siapkan token SEBELUM menjalankan
 ini, bukan setelah 40 menit ekstraksi gagal di tengah.
 """
+import os
+import sys
+
 import pandas as pd
+
+SRC_DIR = os.path.join(os.path.dirname(__file__), "..", "src")
+if SRC_DIR not in sys.path:
+    sys.path.insert(0, os.path.abspath(SRC_DIR))
 
 from config import CFG
 from embed import assert_aligned, extract_embeddings, save_embeddings

@@ -1,6 +1,10 @@
 """probe_grid.py — Grid backbone x head x TTA -> tabel keputusan (CPU, menit).
 
-Jalankan dari track_b/src/ (sys.path harus di sini supaya import flat jalan).
+Jalankan dengan `python experiments/probe_grid.py` dari mana saja -- sys.path
+di-set eksplisit di bawah (jangan andalkan cwd: `python path/to/script.py`
+menaruh folder SCRIPT itu sendiri di sys.path[0], bukan cwd tempat kamu `cd`).
+RESULTS_PATH tetap relatif ke CWD (bukan ke lokasi script) -- jalankan dari
+track_b/src/ seperti skrip lain supaya "../results/probe_grid.csv" tepat sasaran.
 
 Cara memilih pemenang -- JANGAN asal ambil `mean` tertinggi:
 1. Urutkan berdasarkan `mean`, tapi buang kandidat yang `std` antar-fold-nya
@@ -11,9 +15,14 @@ Cara memilih pemenang -- JANGAN asal ambil `mean` tertinggi:
    yang beruntung, bukan gain yang sungguhan.
 """
 import os
+import sys
 
 import numpy as np
 import pandas as pd
+
+SRC_DIR = os.path.join(os.path.dirname(__file__), "..", "src")
+if SRC_DIR not in sys.path:
+    sys.path.insert(0, os.path.abspath(SRC_DIR))
 
 from config import CFG
 from consistency import fold_consistency
