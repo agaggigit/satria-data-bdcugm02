@@ -52,6 +52,11 @@ class Config:
     allow_overwrite: bool = False   # guard; True hanya kalau sengaja menimpa checkpoint sendiri
     vflip: bool = False             # dipakai src/transforms.py (Task 4), belum aktif di Task 1
 
+    # === BARU — embedding-first pipeline (Track_B embedding implementation plan) ===
+    # Drive, bukan storage lokal runtime -- kalau sesi Colab putus, cache embedding
+    # (berjam-jam kerja GPU) tidak boleh ikut hilang.
+    embeddings_dir: str = os.path.join(OUTPUT_TRACK_B, "embeddings")
+
 
 CFG = Config()
 
