@@ -17,7 +17,7 @@ if SRC_DIR not in sys.path:
     sys.path.insert(0, os.path.abspath(SRC_DIR))
 
 from config import CFG
-from embed import assert_aligned, extract_embeddings, save_embeddings
+from embed import assert_aligned, emb_path, extract_embeddings, save_embeddings
 
 BACKBONES = {
     "siglip2b256":  "google/siglip2-base-patch16-256",
@@ -34,9 +34,15 @@ test_paths = [f"{CFG.test_dir}/{i}.jpg" for i in template["id"]]
 for name, ckpt in BACKBONES.items():
     for flips, suffix in [((), ""), (("h", "v"), "_tta")]:
         for split, paths in [("train", folds["filepath"].tolist()), ("test", test_paths)]:
+            full_name = name + suffix
+            # Skip yang sudah di-cache (mis. siglip2b256 no-TTA dari safety_net.py) --
+            # jangan buang waktu GPU ekstraksi ulang cuma untuk ditolak overwrite guard.
+            if emb_path(full_name, split).exists():
+                print(f"skip {full_name} {split}: sudah ada di {CFG.embeddings_dir}")
+                continue
             emb = extract_embeddings(ckpt, paths, batch=32, flips=flips)
             if split == "train":
                 assert_aligned(emb, folds)
-            save_embeddings(emb, name + suffix, split,
+            save_embeddings(emb, full_name, split,
                             {"checkpoint": ckpt, "flips": list(flips), "seed": CFG.seed})
-            print(f"{name}{suffix} {split}: {emb.shape}")
+            print(f"{full_name} {split}: {emb.shape}")

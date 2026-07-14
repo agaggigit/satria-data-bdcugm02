@@ -45,7 +45,7 @@ for name in SINGLES:
         oof, _ = run_probe_cv(X, folds, head, class_weight="balanced", seed=CFG.seed)
         c = fold_consistency(oof, folds)
         rows.append({"combo": name, "head": head, **c})
-        np.save(f"oof_{name}_{head}.npy", oof)
+        np.save(os.path.join(CFG.save_dir, f"oof_{name}_{head}.npy"), oof)   # Drive, bukan cwd
         print(f"{name:16s} {head:7s} mean={c['mean']:.4f} min={c['min']:.4f} std={c['std']:.4f}")
 
 # --- concat: batasi kombinasinya (anti overfit-OOF) ---

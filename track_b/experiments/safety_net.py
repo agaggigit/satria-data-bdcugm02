@@ -51,7 +51,9 @@ for i, s in enumerate(scores):
 print(f"CV = {np.mean(scores):.4f} +/- {np.std(scores):.4f}")
 print(f"OOF overall = {macro_f1(y, oof.argmax(1)):.4f}")
 
-np.save("oof_probe.npy", oof)   # <-- KIRIM KE TRACK A SEKARANG JUGA
+oof_path = os.path.join(CFG.save_dir, "oof_probe.npy")   # Drive, bukan cwd runtime lokal
+np.save(oof_path, oof)
+print(f"oof_probe.npy tersimpan: {oof_path}")   # <-- KIRIM KE TRACK A SEKARANG JUGA
 
 # --- 3. Test -> submission (test HANYA untuk prediksi akhir) ---
 test_paths = [f"{CFG.test_dir}/{i}.jpg" for i in template["id"]]   # SESUAIKAN pola nama file
@@ -63,5 +65,6 @@ pred = head.predict_proba(l2norm(emb_te)).argmax(axis=1)
 
 sub = make_submission(pred, template)
 validate_submission(sub, template)
-sub.to_csv("submission_apace.csv", index=False)
-print("VALIDATOR LOLOS — siap diunggah.")
+sub_path = os.path.join(CFG.save_dir, "submission_apace.csv")   # Drive, bukan cwd runtime lokal
+sub.to_csv(sub_path, index=False)
+print(f"VALIDATOR LOLOS — siap diunggah: {sub_path}")
