@@ -43,7 +43,11 @@ class Config:
 
     # === BARU FASE 1 ===
     # Paths — sesuai struktur Drive tim asli (BDC2026apace/output_trackA|B)
-    folds_csv: str = os.path.join(OUTPUT_TRACK_A, "folds.csv")
+    # FOLDS_CSV_OVERRIDE: dibaca kalau ada (mis. folds.csv hasil copy gambar ke
+    # storage lokal Colab, filepath sudah diarahkan lokal -- baca gambar dari
+    # Drive per-file jauh lebih lambat daripada dari disk lokal). Opt-in, tidak
+    # mengubah perilaku default kalau env var tidak di-set.
+    folds_csv: str = os.environ.get("FOLDS_CSV_OVERRIDE", os.path.join(OUTPUT_TRACK_A, "folds.csv"))
     class_weights_path: str = os.path.join(OUTPUT_TRACK_A, "class_weights.npy")
     save_dir: str = OUTPUT_TRACK_B
 
