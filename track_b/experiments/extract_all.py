@@ -24,8 +24,9 @@ if SRC_DIR not in sys.path:
     sys.path.insert(0, os.path.abspath(SRC_DIR))
 
 from config import CFG
-from embed import (assert_aligned, extract_embeddings, free_encoder, is_cached,
-                   load_encoder, save_embeddings)
+from embed import (assert_aligned, extract_embeddings,
+                   extract_embeddings_resumable, free_encoder,
+                   is_cached, load_encoder)
 from local_cache import localize_paths
 
 BACKBONES = {
@@ -103,13 +104,16 @@ for name, ckpt in BACKBONES.items():
                     print(f"skip {full_name} {split}: sudah ada")
                     continue
 
-                emb = extract_embeddings(ckpt, paths, batch=16, flips=flips,
-                                         encoder=encoder)
+                # Resume berbasis shard: kalau sesi Colab putus di tengah (sering
+                # untuk DINOv3), run ulang lanjut dari shard terakhir, bukan dari nol.
+                # Fungsi ini menulis file final + manifest sendiri lalu hapus shard.
+                emb = extract_embeddings_resumable(
+                    ckpt, paths, full_name, split, batch=16, flips=flips,
+                    encoder=encoder,
+                    final_meta={"checkpoint": ckpt, "flips": list(flips),
+                                "seed": CFG.seed})
                 if split == "train":
-                    assert_aligned(emb, folds)
-                save_embeddings(emb, full_name, split,
-                                {"checkpoint": ckpt, "flips": list(flips),
-                                 "seed": CFG.seed})
+                    assert_aligned(emb, folds)     # cek ganda alignment terhadap folds
                 print(f"{full_name} {split}: {emb.shape}")
     finally:
         free_encoder(encoder)   # bebaskan VRAM sebelum backbone berikutnya masuk
