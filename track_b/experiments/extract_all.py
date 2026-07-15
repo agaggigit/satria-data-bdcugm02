@@ -108,7 +108,7 @@ for name, ckpt in BACKBONES.items():
                 # untuk DINOv3), run ulang lanjut dari shard terakhir, bukan dari nol.
                 # Fungsi ini menulis file final + manifest sendiri lalu hapus shard.
                 emb = extract_embeddings_resumable(
-                    ckpt, paths, full_name, split, batch=16, flips=flips,
+                    ckpt, paths, full_name, split, batch=32, flips=flips,
                     encoder=encoder,
                     final_meta={"checkpoint": ckpt, "flips": list(flips),
                                 "seed": CFG.seed})
