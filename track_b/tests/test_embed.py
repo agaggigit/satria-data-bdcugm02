@@ -7,7 +7,9 @@ import torch
 from PIL import Image
 
 from embed import (assert_aligned, emb_path, extract_embeddings,
-                   load_embeddings, save_embeddings)
+                   extract_embeddings_resumable, is_cached, load_embeddings,
+                   merge_shards, save_embeddings, save_shard, shard_manifest_path,
+                   shard_path)
 
 
 @pytest.fixture
@@ -82,6 +84,12 @@ class _FakeProcessor:
 
 
 class _FakeModel:
+    def parameters(self):
+        # extract_embeddings membaca next(model.parameters()).dtype untuk
+        # menyamakan dtype input dengan model (fix NaN DINOv3 fp32). Fake harus
+        # menyediakan minimal satu parameter supaya jalur itu tidak AttributeError.
+        yield torch.zeros(1, dtype=torch.float32)
+
     def get_image_features(self, pixel_values=None):
         return pixel_values.repeat(1, 4)      # D = 4
 
@@ -126,3 +134,88 @@ def test_extract_empty_input_returns_empty_array():
     encoder = (_FakeModel(), _FakeProcessor())
     emb = extract_embeddings("fake", [], device="cpu", encoder=encoder, log_ram=False)
     assert emb.shape[0] == 0
+
+
+# --- Resume berbasis shard: skip yang lengkap, merge urut & benar, tolak bolong ---
+
+def _run_resumable(tmp_path, values, shard_rows, monkeypatch, allow_overwrite=False):
+    monkeypatch.setattr("embed.EMB_DIR", tmp_path)
+    paths = _write_solid_pngs(tmp_path, values)
+    encoder = (_FakeModel(), _FakeProcessor())
+    return extract_embeddings_resumable(
+        "fake", paths, "bb", "train", device="cpu", batch=2, shard_rows=shard_rows,
+        encoder=encoder, log_ram=False, allow_overwrite=allow_overwrite,
+        final_meta={"checkpoint": "fake", "flips": []})
+
+
+def test_resumable_writes_final_in_folds_order_and_cleans_up_shards(tmp_path, monkeypatch):
+    values = [10, 20, 30, 40, 50, 60, 70]         # 7 baris, shard 3 -> [0:3][3:6][6:7]
+    emb = _run_resumable(tmp_path, values, shard_rows=3, monkeypatch=monkeypatch)
+
+    assert emb.shape == (7, 4)
+    assert np.allclose(emb[:, 0], values)          # urutan = folds.csv
+    assert is_cached("bb", "train")                # file final + manifest ada
+    # shard sudah dibersihkan setelah merge
+    assert list(tmp_path.glob("bb_train.part*.npy")) == []
+    assert list(tmp_path.glob("bb_train.part*.json")) == []
+    loaded, _ = load_embeddings("bb", "train")
+    assert np.allclose(loaded[:, 0], values)
+
+
+def test_resume_skips_shard_that_is_already_complete(tmp_path, monkeypatch):
+    monkeypatch.setattr("embed.EMB_DIR", tmp_path)
+    values = [10, 20, 30, 40, 50, 60, 70]
+    paths = _write_solid_pngs(tmp_path, values)
+
+    # Seed shard [0:3] dengan nilai PENANDA yang tak mungkin dihasilkan encoder (-1).
+    # Kalau resume benar-benar skip, baris 0..2 hasil merge harus tetap -1.
+    marker = np.full((3, 4), -1.0, dtype=np.float32)
+    save_shard(marker, "bb", "train", 0, {"checkpoint": "fake", "flips": []})
+
+    encoder = (_FakeModel(), _FakeProcessor())
+    emb = extract_embeddings_resumable(
+        "fake", paths, "bb", "train", device="cpu", batch=2, shard_rows=3,
+        encoder=encoder, log_ram=False, final_meta={"checkpoint": "fake", "flips": []})
+
+    assert np.allclose(emb[:3, 0], -1.0)           # shard lama dipertahankan (di-skip)
+    assert np.allclose(emb[3:, 0], values[3:])     # sisanya dihitung ulang
+
+
+def test_merge_orders_by_stored_index_not_disk_write_order(tmp_path, monkeypatch):
+    monkeypatch.setattr("embed.EMB_DIR", tmp_path)
+    # Tulis shard TIDAK berurutan di disk: start=3 dulu, baru start=0.
+    save_shard(np.full((2, 4), 3.0, np.float32), "bb", "train", 3,
+               {"checkpoint": "fake", "flips": []})
+    save_shard(np.full((3, 4), 0.0, np.float32), "bb", "train", 0,
+               {"checkpoint": "fake", "flips": []})
+
+    emb = merge_shards("bb", "train", 5, {"checkpoint": "fake", "flips": []})
+
+    # merge harus urut berdasarkan index range (start), bukan urutan penulisan
+    assert np.allclose(emb[:3, 0], 0.0)
+    assert np.allclose(emb[3:, 0], 3.0)
+
+
+def test_merge_refuses_when_shards_incomplete_and_writes_no_final(tmp_path, monkeypatch):
+    monkeypatch.setattr("embed.EMB_DIR", tmp_path)
+    # Hanya shard [0:3] yang ada; total baris 3, tapi folds punya 7.
+    save_shard(np.zeros((3, 4), np.float32), "bb", "train", 0,
+               {"checkpoint": "fake", "flips": []})
+
+    with pytest.raises(AssertionError, match="baris"):
+        merge_shards("bb", "train", 7, {"checkpoint": "fake", "flips": []})
+
+    assert not is_cached("bb", "train")            # file final TIDAK ditulis
+
+
+def test_merge_refuses_on_gap_between_shards(tmp_path, monkeypatch):
+    monkeypatch.setattr("embed.EMB_DIR", tmp_path)
+    # [0:3] dan [4:7] -> total 6 baris, tapi ada lubang di indeks 3.
+    save_shard(np.zeros((3, 4), np.float32), "bb", "train", 0,
+               {"checkpoint": "fake", "flips": []})
+    save_shard(np.zeros((3, 4), np.float32), "bb", "train", 4,
+               {"checkpoint": "fake", "flips": []})
+
+    with pytest.raises(AssertionError):
+        merge_shards("bb", "train", 6, {"checkpoint": "fake", "flips": []})
+    assert not is_cached("bb", "train")
