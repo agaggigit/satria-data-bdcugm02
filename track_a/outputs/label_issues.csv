@@ -1,0 +1,5 @@
+filepath,fold,label_asli,label_asli_name,label_predicted,label_predicted_name,label_quality_score,confidence,margin,entropy,is_high_priority
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4583.jpg,1,0,Recyclable,2,Organic,0.0043417993,0.9952201337002472,0.990878334167734,0.0317731283710659,True
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4602.jpg,1,0,Recyclable,2,Organic,0.005648473,0.9932469990538103,0.987598526466316,0.0434887337349932,False
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_507.jpg,0,2,Organic,0,Recyclable,0.006400617,0.9907697742214168,0.984369157388984,0.0581223821316391,False
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1625.jpg,1,2,Organic,0,Recyclable,0.009220575,0.9898067743933666,0.9805861989471165,0.0600974460387216,False
