@@ -11,11 +11,19 @@ Keuntungan v2:
 - Tidak bergantung pada timm atau checkpoint .pt apapun
 
 Pipeline untuk tiap komposisi:
-    1. Load emb_train = embedding train dari cache (align folds_v2.csv)
-    2. Load emb_test  = embedding test dari cache (1458 gambar, align submission.csv)
-    3. Fit head (KNN/linear/etc) di SELURUH train bersih
-    4. predict_proba(emb_test) → prob_test [1458, 3]
-    5. Gabungkan antar komposisi dengan bobot → prob_ensemble [1458, 3]
+    1. Load emb_train = embedding train dari cache (align folds.csv ASLI, 26527 baris)
+    2. Filter emb_train ke baris yang ada di folds_v2.csv (25985 baris bersih)
+    3. Load emb_test  = embedding test dari cache (1458 gambar, align submission.csv)
+    4. Fit head (KNN/linear/etc) di data bersih saja
+    5. predict_proba(emb_test) → prob_test [1458, 3]
+    6. Gabungkan antar komposisi dengan bobot → prob_ensemble [1458, 3]
+
+CATATAN PENTING — Kenapa ada langkah filter:
+    Track B mengekstrak embedding dari SEMUA 26527 gambar train (align folds.csv asli).
+    Setelah Track A cleaning, folds_v2.csv hanya punya 25985 baris (542 dihapus).
+    OOF v2 sudah align 25985, tapi embedding cache masih 26527.
+    Solusinya: filter embedding via filepath matching antara folds.csv (26527)
+    dan folds_v2.csv (25985) — tanpa perlu Track B regenerate embedding.
 """
 import os
 import sys
@@ -38,38 +46,169 @@ def _load_emb(path: str, split_name: str) -> np.ndarray:
     return emb.astype(np.float32)
 
 
-def _get_train_embeddings(comp_cfg, folds_df: pd.DataFrame) -> np.ndarray:
-    """Load embedding train dari cache Drive.
+def _find_train_emb_path(comp_cfg) -> str:
+    """Cari path file embedding train dari beberapa lokasi kandidat."""
+    from track_c.src.config_c import EMB_DIR, OUTPUT_TRACK_B
 
-    Track B menyimpan embedding train di EMB_DIR dengan format:
-        {backbone_shortname}_train.npy
-    Contoh: siglip2so400m_train.npy
-
-    Fallback: kalau file train tidak ada, coba reconstruct dari OOF index.
-    Tapi sebaiknya Track B menyediakan file ini secara eksplisit.
-    """
-    from track_c.src.config_c import EMB_DIR
-
-    # Derive nama backbone dari oof path
-    oof_basename = os.path.basename(comp_cfg.oof)
+    # Derive nama backbone dari nama file OOF
     # Contoh: oof_siglip2so400m_knn_v2.npy → siglip2so400m
-    # Ekstrak bagian antara oof_ dan _{head}
-    name_part = oof_basename.replace("oof_", "").split("_knn")[0].split("_linear")[0].split("_mlp")[0].split("_lgbm")[0]
+    oof_basename = os.path.basename(comp_cfg.oof)
+    name_part = (oof_basename
+                 .replace("oof_", "")
+                 .split("_knn")[0]
+                 .split("_linear")[0]
+                 .split("_mlp")[0]
+                 .split("_lgbm")[0])
 
-    # Path kandidat embedding train
-    train_emb_path = os.path.join(EMB_DIR, f"{name_part}_train.npy")
-    if not os.path.exists(train_emb_path):
-        # Coba alternatif langsung di OUTPUT_TRACK_B
-        from track_c.src.config_c import OUTPUT_TRACK_B
-        train_emb_path = os.path.join(OUTPUT_TRACK_B, f"{name_part}_train.npy")
+    # Coba beberapa lokasi kandidat
+    candidates = [
+        os.path.join(EMB_DIR, f"{name_part}_train.npy"),
+        os.path.join(OUTPUT_TRACK_B, f"{name_part}_train.npy"),
+        os.path.join(EMB_DIR, f"{name_part}_folds.npy"),   # nama alternatif
+        os.path.join(EMB_DIR, f"{name_part}_all.npy"),
+    ]
+    for path in candidates:
+        if os.path.exists(path):
+            return path
 
-    emb_train = _load_emb(train_emb_path, "train")
-    assert emb_train.shape[0] == len(folds_df), (
-        f"Jumlah baris embedding train ({emb_train.shape[0]}) "
-        f"!= jumlah baris folds_v2.csv ({len(folds_df)}). "
-        f"Pastikan embedding align dengan folds_v2.csv!"
+    raise FileNotFoundError(
+        f"Embedding train tidak ditemukan. Dicoba di:\n"
+        + "\n".join(f"  - {p}" for p in candidates)
+        + "\n\nSolusi:\n"
+        + "  1. Tanyakan ke Track B nama persis file embedding train."
+        + "  2. Override path di Colab: comp_cfg.emb_train = '/path/ke/file.npy'"
+        + "  3. Atau set CFG_C.compositions['siglip2_knn'].emb_train = '...'"
     )
-    return emb_train
+
+
+def _filter_embeddings_by_filepath(
+    emb_full: np.ndarray,
+    folds_original_df: pd.DataFrame,
+    folds_clean_df: pd.DataFrame,
+) -> np.ndarray:
+    """Filter embedding 26527 → 25985 berdasarkan filepath matching.
+
+    Strategi:
+    - folds.csv asli (26527): baris ke-i = embedding ke-i
+    - folds_v2.csv bersih (25985): subset dari folds.csv asli, beberapa baris dihapus
+    - Cocokkan filepath antara keduanya untuk dapat index baris di emb_full
+
+    Kolom yang dicocokkan: 'filepath' (atau 'path' / 'filename' — coba keduanya).
+    """
+    # Cari nama kolom filepath yang tersedia
+    fp_col = None
+    for col in ["filepath", "path", "filename", "file", "img_path"]:
+        if col in folds_original_df.columns and col in folds_clean_df.columns:
+            fp_col = col
+            break
+
+    if fp_col is None:
+        raise KeyError(
+            f"Tidak bisa menemukan kolom filepath yang sama di folds.csv dan folds_v2.csv.\n"
+            f"Kolom folds.csv asli  : {list(folds_original_df.columns)}\n"
+            f"Kolom folds_v2.csv    : {list(folds_clean_df.columns)}\n"
+            f"Solusi: pastikan kedua CSV punya kolom yang sama untuk identifikasi gambar."
+        )
+
+    # Buat mapping filepath → index baris di folds_original_df
+    # Normalisasi path: pakai basename saja untuk menghindari perbedaan prefix
+    orig_paths = folds_original_df[fp_col].apply(
+        lambda p: os.path.normpath(str(p))
+    ).tolist()
+    path_to_idx = {p: i for i, p in enumerate(orig_paths)}
+
+    # Cari index di folds_original untuk setiap baris di folds_v2
+    clean_paths = folds_clean_df[fp_col].apply(
+        lambda p: os.path.normpath(str(p))
+    ).tolist()
+
+    indices = []
+    not_found = []
+    for p in clean_paths:
+        if p in path_to_idx:
+            indices.append(path_to_idx[p])
+        else:
+            not_found.append(p)
+
+    if not_found:
+        raise ValueError(
+            f"{len(not_found)} filepath di folds_v2.csv tidak ditemukan di folds.csv asli.\n"
+            f"Contoh: {not_found[:3]}\n"
+            f"Ini tidak seharusnya terjadi — periksa apakah folds_v2.csv benar-benar "
+            f"berasal dari folds.csv yang sama."
+        )
+
+    assert len(indices) == len(folds_clean_df), (
+        f"Jumlah index cocok ({len(indices)}) != baris folds_v2.csv ({len(folds_clean_df)})"
+    )
+
+    return emb_full[np.array(indices)]
+
+
+def _get_train_embeddings(comp_cfg, folds_df: pd.DataFrame,
+                          folds_original_csv: str = None) -> np.ndarray:
+    """Load dan (bila perlu) filter embedding train ke data bersih.
+
+    Menangani dua kasus:
+    A) emb_train sudah align folds_v2.csv (25985 baris) → langsung pakai
+    B) emb_train align folds.csv asli (26527 baris) → filter via filepath matching
+
+    Args:
+        comp_cfg          : SimpleNamespace dari COMPOSITIONS[key]
+        folds_df          : DataFrame folds_v2.csv yang sudah di-load (25985 baris)
+        folds_original_csv: path ke folds.csv ASLI (26527 baris).
+                            Diperlukan hanya kalau emb_train punya 26527 baris.
+                            Kalau None, dicoba dari CFG_C.folds_csv_original.
+    """
+    from track_c.src.config_c import CFG_C, OUTPUT_TRACK_A
+
+    # Cek apakah komposisi punya field emb_train eksplisit (override dari user)
+    train_emb_path = getattr(comp_cfg, "emb_train", None)
+    if train_emb_path is None:
+        train_emb_path = _find_train_emb_path(comp_cfg)
+
+    emb_full = _load_emb(train_emb_path, "train")
+    n_clean = len(folds_df)
+    n_full  = emb_full.shape[0]
+
+    print(f"  emb_train shape  : {emb_full.shape}")
+    print(f"  folds_v2 baris   : {n_clean}")
+
+    # --- Kasus A: ukuran sudah sama ---
+    if n_full == n_clean:
+        print(f"  ✅ Embedding train sudah align folds_v2.csv ({n_clean} baris)")
+        return emb_full
+
+    # --- Kasus B: embedding 26527, folds_v2 25985 → filter ---
+    print(f"  ⚠️  Ukuran tidak sama ({n_full} vs {n_clean}).")
+    print(f"     Embedding di-ekstrak dari dataset sebelum cleaning.")
+    print(f"     Memfilter {n_full} → {n_clean} baris via filepath matching...")
+
+    # Cari folds.csv asli (26527)
+    if folds_original_csv is None:
+        folds_original_csv = getattr(CFG_C, "folds_csv_original",
+                                     os.path.join(OUTPUT_TRACK_A, "folds.csv"))
+
+    if not os.path.exists(folds_original_csv):
+        raise FileNotFoundError(
+            f"folds.csv ASLI (26527 baris) tidak ditemukan: {folds_original_csv}\n"
+            f"File ini diperlukan untuk filter embedding train.\n"
+            f"Solusi di Colab:\n"
+            f"  CFG_C.folds_csv_original = '/content/drive/MyDrive/BDC2026apace/output_trackA/folds.csv'"
+        )
+
+    folds_original_df = pd.read_csv(folds_original_csv)
+    assert len(folds_original_df) == n_full, (
+        f"folds.csv asli ({len(folds_original_df)} baris) != embedding ({n_full} baris). "
+        f"Pastikan folds.csv yang dipakai adalah versi yang sama dengan saat embedding di-ekstrak."
+    )
+
+    emb_filtered = _filter_embeddings_by_filepath(emb_full, folds_original_df, folds_df)
+    assert emb_filtered.shape[0] == n_clean, (
+        f"Setelah filter: {emb_filtered.shape[0]} baris (harusnya {n_clean})"
+    )
+    print(f"  ✅ Filter berhasil: {n_full} → {emb_filtered.shape[0]} baris")
+    return emb_filtered
 
 
 def apply_composition(comp_cfg, folds_df: pd.DataFrame,

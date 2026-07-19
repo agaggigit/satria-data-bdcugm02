@@ -60,7 +60,8 @@ CFG_C = SimpleNamespace(
     label_map={0: "Recyclable", 1: "Electronic", 2: "Organic"},
 
     # Paths artefak Track A
-    folds_csv=os.path.join(OUTPUT_TRACK_A, "folds_v2.csv"),   # data bersih, 25985 baris
+    folds_csv=os.path.join(OUTPUT_TRACK_A, "folds_v2.csv"),        # data bersih, 25985 baris
+    folds_csv_original=os.path.join(OUTPUT_TRACK_A, "folds.csv"),  # asli 26527 baris (align embedding)
 
     # Template submission panitia
     sample_sub_path=os.path.join(DRIVE_BASE_PATH, "submission.csv"),
