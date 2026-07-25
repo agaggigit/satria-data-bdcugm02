@@ -30,6 +30,16 @@ track_a/outputs/*.png
 track_b/outputs/*.pt
 track_b/outputs/*.npy
 track_b/outputs/*.png
+# embeddings/ butuh baris terpisah -- *.npy di atas TIDAK menjangkau subfolder
+# (gitignore: '*' tak match '/'). Cache embedding ratusan MB, mirror lokal dari
+# Drive; jangan pernah ikut ke-commit.
+track_b/outputs/embeddings/
+
+# Track C outputs (cache lokal data test & submission, share via Drive)
+track_c/outputs/test/
+track_c/outputs/output_trackC/
+track_c/outputs/submission.csv
+track_c/outputs/*.md
 
 # Python
 __pycache__/
