@@ -1,0 +1,18 @@
+{
+  "backbone": "google/siglip2-base-patch16-256",
+  "short_name": "siglip2b256",
+  "head": "linear",
+  "class_weight": "balanced",
+  "seed": 42,
+  "folds": {
+    "fold0": 0.9824,
+    "fold1": 0.9801,
+    "fold2": 0.9813,
+    "fold3": 0.9846,
+    "fold4": 0.9816
+  },
+  "cv_mean_macro_f1": 0.9820,
+  "cv_std_macro_f1": 0.0015,
+  "oof_overall_macro_f1_argmax": 0.9820,
+  "note": "Task 5 safety net run (embedding-first pivot, v3). Dibandingkan ConvNeXt fine-tuned v2 (0.9678) dan klaim tim satu kampus (0.9926). Pivot terkonfirmasi."
+}

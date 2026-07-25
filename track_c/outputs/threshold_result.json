@@ -1,0 +1,19 @@
+{
+  "source": "tune_thresholds_oof() di track_c/src/threshold_tuning.py, re-run lokal 2026-07-10",
+  "inputs": {
+    "oof_npy": "track_b/outputs/oof.npy",
+    "folds_csv": "track_a/outputs/folds.csv",
+    "n_samples": 26527
+  },
+  "baseline_oof_macro_f1_argmax": 0.94208,
+  "best_oof_macro_f1_tuned": 0.94441,
+  "gain": 0.00233,
+  "best_multiplier": {
+    "class_0_recyclable": 1.0,
+    "class_1_electronic": 0.5,
+    "class_2_organic": 1.7414
+  },
+  "search_space": "np.linspace(0.5, 2.0, num=30) untuk kelas 1 dan 2, kelas 0 fixed 1.0",
+  "caveat": "Best multiplier kelas 1 (0.50) persis di batas bawah search_space — optimal sebenarnya mungkin di luar rentang yang dicoba. Kalau mau presisi lebih baik, perlebar search space kelas 1 (mis. 0.1-2.0) dan re-run.",
+  "note": "Multiplier kelas 1 turun (bukan naik) dari dugaan awal — kemungkinan karena weighted CrossEntropy saat training (bobot 2.23x untuk Electronic) membuat model over-confident/over-predict kelas ini, sehingga tuning post-hoc mengoreksi balik."
+}
