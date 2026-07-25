@@ -7,8 +7,32 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
+from sklearn.utils.class_weight import compute_sample_weight
 
 HEAD_NAMES = ["linear", "mlp", "lgbm", "knn"]
+
+
+class _MLPWrapper:
+    """MLPClassifier tidak punya param `class_weight` di constructor -- kalau
+    dikirim langsung, TypeError. TAPI `.fit()`-nya menerima `sample_weight`
+    (diverifikasi lewat inspect.signature, lihat TRACK_B_ARAHAN_V3.md Task 1).
+    Wrapper ini menerjemahkan class_weight -> sample_weight per-sampel saat
+    fit, supaya MLP -- head UTAMA (A1) -- tidak diam-diam kehilangan
+    penyeimbang kelas Electronic seperti yang terjadi di versi sebelumnya."""
+
+    def __init__(self, seed: int, class_weight):
+        self.class_weight = class_weight
+        self.model = MLPClassifier(hidden_layer_sizes=(512,), max_iter=400,
+                                   early_stopping=True, random_state=seed)
+
+    def fit(self, X, y):
+        sample_weight = (compute_sample_weight(self.class_weight, y)
+                         if self.class_weight is not None else None)
+        self.model.fit(X, y, sample_weight=sample_weight)
+        return self
+
+    def predict_proba(self, X) -> np.ndarray:
+        return self.model.predict_proba(X)
 
 
 class _LGBMWrapper:
@@ -35,8 +59,7 @@ def make_head(name: str, seed: int = 42, class_weight=None):
         return LogisticRegression(max_iter=3000, C=1.0,
                                   class_weight=class_weight, random_state=seed)
     if name == "mlp":
-        return MLPClassifier(hidden_layer_sizes=(512,), max_iter=400,
-                             early_stopping=True, random_state=seed)
+        return _MLPWrapper(seed, class_weight)
     if name == "lgbm":
         return _LGBMWrapper(seed, class_weight)
     if name == "knn":
