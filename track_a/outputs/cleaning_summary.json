@@ -1,0 +1,22 @@
+{
+  "total_before": 26527,
+  "total_after": 25985,
+  "n_dropped": 542,
+  "n_relabeled": 18,
+  "n_kept": 294,
+  "drop_pct": 2.04,
+  "class_weights_v2": [
+    0.8831226209896683,
+    2.202305280108484,
+    0.7074213220080584
+  ],
+  "class_distribution": {
+    "Recyclable": 9808,
+    "Electronic": 3933,
+    "Organic": 12244
+  },
+  "metadata": {
+    "folds_csv_source": "/content/drive/MyDrive/BDC2026apace/output_trackA/folds.csv",
+    "cleaning_log_source": "/content/drive/MyDrive/BDC2026apace/output_trackA/cleaning_log_terisi.csv"
+  }
+}

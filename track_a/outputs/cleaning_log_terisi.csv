@@ -1,0 +1,855 @@
+filepath,fold,label_asli,label_baru,keputusan,alasan,reviewer,margin,label_quality_score,is_double_flagged
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_429.jpg,4,0.0,0.0,drop,rancu,raka,67.324.927.754.504,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_136.jpg,1,0.0,0.0,drop,gajelas,raka,116.121.392.576.364,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8580.jpg,3,0.0,0.0,drop,campuran,raka,16.765.545.973.728,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9080.jpg,2,0.0,0.0,drop,rancu,raka,219.956.876.792.722,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_274.jpg,2,0.0,0.0,drop,rancu,raka,262.041.102.079.865,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1757.jpg,4,0.0,0.0,keep,masih aman,raka,266.355.001.432.992,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3616.jpg,3,0.0,0.0,drop,gambar,raka,373.800.899.928.856,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6063.jpg,0,0.0,0.0,keep,masih aman,raka,382.681.668.063.519,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2732.jpg,0,0.0,0.0,keep,masih aman,raka,398.995.256.663.595,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4836.jpg,0,0.0,0.0,drop,gajelas,raka,443.831.154.371.784,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_779.jpg,0,0.0,0.0,drop,orang,raka,463.460.482.376.456,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9277.jpg,1,0.0,0.0,keep,masih aman,raka,520.812.158.396.475,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4090.jpg,0,0.0,0.0,keep,campuran,raka,530.459.683.073.933,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_546.jpg,2,0.0,0.0,drop,gambar,raka,561.027.720.298.639,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8760.jpg,0,0.0,0.0,drop,campuran,raka,59.248.138.015.171,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5548.jpg,3,0.0,0.0,drop,campuran,raka,60.249.985.808.659,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7961.jpg,1,0.0,0.0,drop,gambar,raka,658.062.543.350.145,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_484.jpg,0,0.0,0.0,keep,masih aman,raka,682.260.620.206.638,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4595.jpg,2,0.0,0.0,drop,gajelas,raka,714.600.468.990.745,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_792.jpg,4,0.0,0.0,keep,masih aman,raka,729.123.441.162.203,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2674.jpg,1,0.0,0.0,drop,campuran,raka,756.417.967.341.755,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9347.jpg,4,0.0,0.0,drop,campuran,raka,76.517.476.148.649,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_776.jpg,1,0.0,0.0,drop,gajelas,raka,795.547.014.628.629,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_811.jpg,1,0.0,0.0,keep,masih aman,raka,821.165.719.402.239,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_631.jpg,4,0.0,0.0,drop,campuran,raka,840.918.289.994.451,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5038.jpg,2,0.0,0.0,keep,masih aman,raka,860.854.281.607.091,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8275.jpg,1,0.0,0.0,keep,masih aman,raka,868.567.278.224.777,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4626.jpg,3,0.0,0.0,drop,gajelas,raka,886.215.270.072.971,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_400.jpg,0,0.0,0.0,keep,masih aman,raka,886.499.777.990.739,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9501.jpg,0,0.0,0.0,keep,kayu masuk ,raka,893.603.621.635.448,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2227.jpg,1,0.0,0.0,drop,gajelas,raka,905.446.003.776.658,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5323.jpg,4,0.0,0.0,drop,gajelas,raka,92.771.077.948.108,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9325.jpg,0,0.0,0.0,keep,kayu masuk ,raka,98.297.127.273.853,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6995.jpg,3,0.0,0.0,keep,masih aman,raka,1.109.130.940.277.080,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4659.jpg,3,0.0,0.0,drop,gambar,raka,113.422.817.085.696,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6627.jpg,4,0.0,0.0,keep,masih aman,raka,1.191.409.055.342.500,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5252.jpg,2,0.0,0.0,drop,campuran,raka,1.302.480.812.380.350,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_726.jpg,4,0.0,0.0,drop,gajelas,raka,1.302.601.248.783.390,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5414.jpg,2,0.0,0.0,drop,campuran,raka,1.360.830.630.779.640,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5777.jpg,1,0.0,0.0,drop,rancu,raka,1.361.130.823.899.040,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_545.jpg,0,0.0,0.0,drop,gajelas,raka,1.371.448.904.053.410,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5432.jpg,3,0.0,0.0,drop,campuran,raka,1.374.698.675.987.570,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4655.jpg,3,0.0,0.0,drop,gajelas,raka,15.153.528.245.769,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4605.jpg,2,0.0,0.0,drop,gajelas,raka,152.956.354.203.585,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4860.jpg,4,0.0,0.0,drop,gajelas,raka,1.561.699.855.666.780,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4543.jpg,3,0.0,0.0,drop,gajelas,raka,166.237.640.483.393,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_637.jpg,4,0.0,0.0,drop,gajelas,raka,1.685.144.743.260.790,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8134.jpg,0,0.0,0.0,keep,buku,raka,1.734.238.221.545.490,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_739.jpg,4,0.0,0.0,drop,gajelas,raka,1.743.361.099.071.120,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4660.jpg,4,0.0,0.0,drop,gajelas,raka,183.321.862.509.248,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7136.jpg,3,0.0,0.0,keep,masih aman,raka,1.852.551.649.116.770,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7004.jpg,1,0.0,0.0,keep,masih aman,raka,1.882.527.015.010.750,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_743.jpg,1,0.0,0.0,drop,campuran,raka,188.545.666.190.956,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_741.jpg,2,0.0,0.0,drop,campuran ,raka,1.947.191.843.029.460,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8327.jpg,1,0.0,0.0,drop,campuran,raka,1.960.496.429.131.580,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7183.jpg,1,0.0,0.0,keep,masih aman,raka,2.013.891.168.081.150,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3556.jpg,4,0.0,0.0,keep,masih aman,raka,2.029.641.979.178.400,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4619.jpg,2,0.0,0.0,drop,gajelas,raka,203.587.882.903.745,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_697.jpg,1,0.0,0.0,drop,gajelas,raka,2.066.605.709.227.900,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9353.jpg,4,0.0,0.0,drop,rancu,raka,2.096.661.733.244.950,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8198.jpg,4,0.0,0.0,drop,orang main hoki,raka,2.105.672.910.495.380,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9491.jpg,1,0.0,0.0,drop,rancu,raka,2.111.562.193.309.490,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8303.jpg,1,0.0,0.0,keep,masih aman,raka,2.128.806.052.406.900,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9142.jpg,2,0.0,0.0,keep,masih aman,raka,2.133.206.163.717.850,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5980.jpg,0,0.0,0.0,drop,rancu,raka,2.138.164.812.462.700,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7198.jpg,1,0.0,0.0,keep,masih aman,raka,2.145.770.894.257.530,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_760.jpg,0,0.0,0.0,drop,sampah,raka,2.170.853.557.789.280,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1786.jpg,0,0.0,0.0,keep,masih aman,raka,2.298.264.305.640.600,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2676.jpg,0,0.0,0.0,keep,masih aman,raka,2.341.014.344.563.620,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_879.jpg,1,0.0,0.0,drop,gajelas,raka,2.383.848.898.614.200,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5558.jpg,4,0.0,0.0,drop,rancu,raka,2.471.304.360.315.680,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_431.jpg,2,0.0,0.0,drop,rancu,raka,2.577.588.869.547.990,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4635.jpg,2,0.0,0.0,drop,rancu,raka,2.580.194.176.918.280,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4439.jpg,2,0.0,0.0,drop,rancu,raka,2.591.063.630.045.090,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3558.jpg,0,0.0,0.0,keep,masih aman,raka,2.615.834.818.971.980,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5948.jpg,1,0.0,0.0,drop,rancu,raka,2.664.492.126.264.490,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5496.jpg,2,0.0,0.0,drop,campuran,raka,2.671.080.847.781.260,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5341.jpg,1,0.0,0.0,keep,masih aman,raka,2.673.195.578.858.060,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_810.jpg,1,0.0,0.0,drop,rancu,raka,2.708.580.497.673.210,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_642.jpg,3,0.0,0.0,drop,gajelas,raka,2.923.133.770.612.960,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_49.jpg,3,0.0,0.0,keep,masih aman,raka,3.044.033.699.990.690,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_509.jpg,3,0.0,0.0,drop,gajelas,raka,3.144.350.348.315.530,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_673.jpg,3,0.0,0.0,drop,campuran,raka,3.217.469.221.858.130,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4024.jpg,1,0.0,0.0,drop,botol,raka,3.286.003.247.263.300,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4882.jpg,1,0.0,0.0,drop,rancu,raka,3.441.592.472.829.310,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4807.jpg,2,0.0,0.0,drop,rancu,raka,3.707.558.447.233.990,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1257.jpg,0,0.0,0.0,drop,campuran,raka,3.708.424.473.657.860,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_615.jpg,4,0.0,0.0,drop,gajelas,raka,3.801.812.173.262.020,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7052.jpg,4,0.0,0.0,drop,orang dari kardus,raka,382.199.361.909.779,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_621.jpg,4,0.0,0.0,drop,campuran,raka,4.155.713.285.278.870,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9716.jpg,1,0.0,0.0,drop,campuran,raka,4.469.966.384.064.470,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4602.jpg,1,0.0,2,relabel,sayuran,raka,987.598.526.466.316,5.648.473,
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4583.jpg,1,0.0,0.0,drop,rancu,raka,990.878.334.167.734,43.417.993,
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8772.jpg,3,2.0,2.0,drop,ambigu definisi kelasnya,aga,666.318.447.802,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_218.jpg,4,2.0,2.0,drop,multiclass,aga,1.487.778.862.278,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1870.jpg,1,2.0,0,relabel,ini recyclable,aga,38.469.279.129.581,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9158.jpg,0,2.0,2.0,keep,serutan pensil,aga,59.797.028.967.255,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7463.jpg,1,2.0,2.0,keep,roti kartun,aga,141.354.183.439.695,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1686.jpg,1,2.0,2.0,drop,unidentified,aga,153.841.813.127.751,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6643.jpg,0,2.0,2.0,drop,multiclass,aga,16.320.794.807.556,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9692.jpg,2,2.0,2.0,drop,unidentified,aga,196.475.669.278.615,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9188.jpg,1,2.0,2.0,keep,serutan pensil,aga,207.278.392.543.878,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6678.jpg,2,2.0,2.0,drop,multiclass,aga,213.500.434.934.202,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1816.jpg,3,2.0,2.0,drop,"bungkus jajan, multiclass",aga,280.527.211.984.618,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6702.jpg,0,2.0,2.0,drop,tps,aga,291.739.631.146.483,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_443.jpg,1,2.0,2.0,drop,multiclass,aga,296.551.630.050.449,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9198.jpg,4,2.0,2.0,drop,multiclass,aga,34.297.340.770.525,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5700.jpg,1,2.0,2.0,keep,bunga,aga,351.000.095.976.957,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6857.jpg,1,2.0,2.0,keep,kayaknya makanan busuk,aga,500.347.247.443.592,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5999.jpg,2,2.0,2.0,drop,multiclass,aga,506.126.895.328.575,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5688.jpg,1,2.0,2.0,keep,bunga,aga,515.298.461.355.832,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1276.jpg,3,2.0,2.0,drop,"buku, multiclass",aga,523.009.163.733.994,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6240.jpg,2,2.0,2.0,drop,tps,aga,524.916.299.911.162,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1530.jpg,0,2.0,2.0,drop,"panit puki, ini dompet bahannya apa kan kita gatau anjeng",aga,527.431.534.103.563,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6834.jpg,2,2.0,2.0,drop,multiclass,aga,639.124.406.080.645,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8922.jpg,1,2.0,2.0,drop,multiclass,aga,640.984.994.599.533,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8895.jpg,4,2.0,2.0,drop,"panit tolol, inimah udah jadi bangku bego",aga,652.877.063.144.856,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7616.jpg,0,2.0,2.0,drop,gjls,aga,660.686.530.239.867,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_525.jpg,4,2.0,2.0,drop,idk,aga,66.862.600.497.871,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_481.jpg,0,2.0,2.0,drop,multiclass,aga,6.864.667.906.308,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5084.jpg,3,2.0,2.0,drop,bukan organik tlol,aga,686.662.743.229.575,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4055.jpg,3,2.0,2.0,keep,sayur,aga,736.458.189.688.498,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_126.jpg,1,2.0,0,relabel,"ini mah koin logam, panitia konumsi narkoba jenis apa sih",aga,740.454.104.421.616,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8904.jpg,2,2.0,2.0,drop,ambigu,aga,769.231.368.298.323,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6892.jpg,0,2.0,2.0,drop,bukan organik,aga,832.432.573.348.864,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8908.jpg,1,2.0,2.0,drop,bukan  organic,aga,836.515.003.317.192,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9085.jpg,3,2.0,2.0,keep,serutan pensil,aga,860.559.344.395.394,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6805.jpg,2,2.0,2.0,drop,tps,aga,876.579.592.130.715,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9178.jpg,0,2.0,2.0,drop,multiclass,aga,944.847.850.441.316,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8869.jpg,2,2.0,2.0,drop,multiclass,aga,958.318.727.256.573,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1595.jpg,0,2.0,2.0,drop,wtf is that,aga,960.713.782.012.654,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3660.jpg,3,2.0,2.0,drop,theres not even asingle trash in this goddamn picture,aga,980.851.158.750.898,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8661.jpg,2,2.0,2.0,drop,ambigu,aga,1.055.084.634.800.220,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9005.jpg,2,2.0,2.0,keep,serutan pensil,aga,1.101.091.665.946.740,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4294.jpg,0,2.0,2.0,drop,ga nyambung cuki,aga,1.102.410.389.195.140,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6709.jpg,0,2.0,2.0,drop,chaotic,aga,1.105.846.239.953.500,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3504.jpg,2,2.0,2.0,keep,kue,aga,1.122.596.115.056.970,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3216.jpg,2,2.0,2.0,drop,multiclass,aga,1.123.954.305.928.230,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6753.jpg,1,2.0,0,relabel,sepatu rusak,aga,1.146.900.114.438.620,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6157.jpg,1,2.0,2.0,drop,multiclass,aga,1.160.997.228.650.100,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6162.jpg,0,2.0,2.0,drop,multiclass,aga,1.191.052.773.002.750,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1934.jpg,1,2.0,2.0,drop,pisau,aga,1.198.229.050.207.250,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3980.jpg,4,2.0,2.0,drop,"bungkus jajan, multiclass",aga,1.206.317.371.039.260,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3794.jpg,0,2.0,2.0,drop,multiclass,aga,124.978.469.467.971,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1927.jpg,0,2.0,2.0,drop,anorganik,aga,126.502.690.885.041,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6862.jpg,1,2.0,2.0,keep,pagerbambu,aga,1.299.653.190.169.460,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3974.jpg,1,2.0,2.0,drop,muticlass,aga,1.337.899.382.266.050,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9236.jpg,3,2.0,2.0,keep,serutan pensil,aga,133.888.273.755.727,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9106.jpg,3,2.0,2.0,keep,serutan pensil,aga,1.356.420.836.481.590,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1242.jpg,2,2.0,2.0,drop,multiclass,aga,1.392.611.530.690.020,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4096.jpg,1,2.0,2.0,drop,multiclass,aga,141.016.692.549.852,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8753.jpg,2,2.0,2.0,drop,unidentified,aga,1.429.698.187.846.170,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6660.jpg,4,2.0,2.0,drop,tps,aga,1.510.129.853.499.290,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8916.jpg,0,2.0,2.0,drop,ambigu,aga,1.535.012.400.597.970,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9530.jpg,2,2.0,2.0,drop,unidentified,aga,1.552.774.796.858.810,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5449.jpg,3,2.0,2.0,drop,multiclass,aga,1.674.150.602.409.770,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6664.jpg,0,2.0,2.0,drop,multiclass,aga,1.687.956.828.191.470,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7992.jpg,3,2.0,2.0,drop,multiclass,aga,1.728.635.823.017.270,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6793.jpg,1,2.0,2.0,drop,multiclass,aga,1.758.828.597.258.550,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6150.jpg,0,2.0,2.0,drop,multiclass,aga,1.765.983.989.533.640,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4072.jpg,2,2.0,2.0,drop,unidentified,aga,1.786.747.892.807.070,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_262.jpg,1,2.0,2.0,drop,multiclass,aga,1.884.596.271.987.420,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7803.jpg,3,2.0,2.0,drop,unidentified,aga,1.895.401.658.677.090,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6639.jpg,2,2.0,2.0,drop,multiclass,aga,1.921.741.867.602.940,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1139.jpg,1,2.0,2.0,drop,brosur,aga,1.958.162.039.177.290,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9670.jpg,3,2.0,2.0,drop,ntah apa ini,aga,1.997.526.313.486.290,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1805.jpg,3,2.0,0,relabel,alat,aga,2.018.862.676.369.810,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8846.jpg,1,2.0,2.0,drop,ambigu,aga,2.019.171.020.911.280,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5425.jpg,2,2.0,2.0,drop,telor warna warni,aga,2.090.427.934.715.460,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8825.jpg,2,2.0,2.0,drop,mesin industri,aga,2.110.160.844.764.460,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8868.jpg,4,2.0,2.0,drop,ambigu,aga,2.112.256.814.439.820,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8627.jpg,4,2.0,2.0,drop,mesin industri,aga,219.402.648.180.584,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8834.jpg,4,2.0,2.0,drop,ambigu,aga,2.194.980.866.744.170,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6733.jpg,3,2.0,2.0,drop,its literally a fuckin toilet,aga,2.209.482.422.943.630,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10079.jpg,1,2.0,2.0,drop,bungkus makanan,aga,2.238.662.950.127.280,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10501.jpg,2,2.0,2.0,drop,tf is ts,aga,2.260.149.881.946.660,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3955.jpg,2,2.0,2.0,drop,hooters jir,aga,2.271.251.871.958.150,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_565.jpg,2,2.0,2.0,drop,tabel statistik,aga,2.304.601.658.923.660,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8991.jpg,3,2.0,2.0,keep,serutan pensil,aga,2.307.351.125.123.610,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_547.jpg,3,2.0,2.0,drop,bungkus minuman,aga,2.308.899.243.229.370,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8828.jpg,2,2.0,2.0,drop,chaotic,aga,2.330.965.724.046.720,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_652.jpg,1,2.0,2.0,drop,graphic design,aga,2.361.075.999.528.100,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9279.jpg,2,2.0,2.0,drop,multiclass,aga,2.443.910.255.444.980,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5211.jpg,4,2.0,2.0,drop,egg timer,aga,2.446.171.658.896.990,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5376.jpg,4,2.0,2.0,drop,gambar,aga,2.522.014.766.619.330,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9683.jpg,2,2.0,2.0,drop,petri dish ga sih ini,aga,2.526.687.473.350.080,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1636.jpg,3,2.0,2.0,drop,tas,aga,2.534.917.195.457.530,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1869.jpg,1,2.0,2.0,drop,bungkus,aga,2.538.969.316.892.840,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1801.jpg,3,2.0,2.0,drop,anorganik,aga,2.546.989.871.669.370,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7293.jpg,3,2.0,2.0,drop,box,aga,2.619.137.565.171.180,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_2298.jpg,1,2.0,2.0,drop,buku depannya ada lampu,aga,264.176.734.719.642,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5283.jpg,1,2.0,2.0,drop,egg timer,aga,2.655.293.376.400.080,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8743.jpg,2,2.0,2.0,drop,ambigu,aga,2.659.550.264.642.760,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9164.jpg,3,2.0,2.0,keep,serutan pensil,aga,2.665.523.087.573.170,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_260.jpg,4,2.0,2.0,drop,anorganik,aga,2.700.936.725.844.160,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8877.jpg,0,2.0,2.0,drop,anorganik,aga,2.717.901.708.112.180,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_335.jpg,1,2.0,2.0,drop,anorganik,aga,2.746.619.791.855.080,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_558.jpg,3,2.0,2.0,drop,anorganik,aga,2.805.775.840.011.740,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10358.jpg,4,2.0,2.0,drop,anorganik,aga,2.878.441.396.456.610,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9202.jpg,0,2.0,2.0,drop,anorganik,aga,2.884.955.880.901.050,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9579.jpg,1,2.0,2.0,drop,petri dish,aga,2.906.491.519.685.260,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6763.jpg,0,2.0,2.0,drop,unidentified,aga,2.937.047.427.733.560,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10514.jpg,4,2.0,2.0,drop,multiclass,aga,2.949.572.111.992.880,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9101.jpg,0,2.0,2.0,keep,serutan pensil,aga,2.960.483.509.530.590,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3729.jpg,1,2.0,2.0,drop,ga nyambung cuki,aga,2.976.231.065.086.950,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3718.jpg,2,2.0,2.0,drop,ga nyambung cuki,aga,2.980.849.887.970.950,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8914.jpg,2,2.0,2.0,drop,ambigu,aga,2.984.150.797.167.760,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8681.jpg,4,2.0,2.0,drop,ambigu,aga,3.038.949.535.408.080,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8774.jpg,0,2.0,2.0,drop,ambigu,aga,3.085.858.545.647.330,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8759.jpg,2,2.0,2.0,drop,anorganik,aga,3.102.123.488.300.290,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8984.jpg,2,2.0,2.0,keep,serutan pensil,aga,311.296.555.461.966,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9243.jpg,3,2.0,2.0,drop,multiclass,aga,3.217.403.374.056.510,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_640.jpg,4,2.0,2.0,drop,bungkus,aga,3.226.526.149.878.800,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_476.jpg,2,2.0,2.0,drop,anorganik,aga,3.247.187.413.072.480,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5227.jpg,2,2.0,2.0,drop,multiclass,aga,3.251.226.293.140.240,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6016.jpg,4,2.0,2.0,drop,multiclass,aga,3.270.851.957.272.250,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5010.jpg,0,2.0,2.0,drop,anorganik,aga,3.290.389.156.092.840,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8785.jpg,4,2.0,2.0,drop,anorganik,aga,3.300.273.217.757.890,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3749.jpg,4,2.0,2.0,drop,ga nyambung cuki,aga,3.309.993.131.248.780,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9452.jpg,0,2.0,2.0,drop,multiclass,aga,3.362.689.112.474.300,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6852.jpg,0,2.0,2.0,drop,multiclass,aga,3.389.806.469.209.470,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3741.jpg,4,2.0,2.0,drop,ga nyambung cuki,aga,340.270.955.833.672,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6229.jpg,4,2.0,2.0,drop,brosur,aga,3.453.117.608.494.310,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8927.jpg,0,2.0,2.0,drop,ambigu,aga,3.499.775.901.115.430,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5993.jpg,2,2.0,2.0,drop,multiclass,aga,3.563.571.526.327.520,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9340.jpg,2,2.0,2.0,drop,unidentified,aga,3.576.863.766.450.880,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6679.jpg,3,2.0,2.0,drop,ga nyambung cuki,aga,3.687.373.233.017.960,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_221.jpg,4,2.0,2.0,drop,anorganik,aga,369.476.097.358.638,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6789.jpg,1,2.0,2.0,drop,multiclass,aga,3.716.962.212.133.590,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6740.jpg,1,2.0,2.0,drop,unidentified,aga,3.778.545.901.333.560,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6807.jpg,4,2.0,2.0,drop,multiclass,aga,3.800.635.815.381.560,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1984.jpg,4,2.0,2.0,drop,rak,aga,3.842.486.349.609.250,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8777.jpg,4,2.0,2.0,drop,wtf is that,aga,3.943.706.839.042.750,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1564.jpg,2,2.0,2.0,drop,pisau?,aga,4.058.046.692.245.900,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1494.jpg,2,2.0,2.0,drop,anorganik,aga,4.072.617.826.575.570,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9286.jpg,4,2.0,2.0,drop,multiclass,aga,4.084.631.770.764.740,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6641.jpg,2,2.0,2.0,drop,multiclass,aga,4.205.285.074.502.190,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9753.jpg,0,2.0,2.0,drop,unidentified,aga,4.267.893.677.631.280,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4998.jpg,2,2.0,2.0,drop,anorganik,aga,430.966.524.202.885,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1140.jpg,4,2.0,2.0,drop,brosur,aga,4.660.351.601.645.850,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_615.jpg,3,2.0,2.0,drop,wtf is that,aga,4.737.694.030.439.440,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1730.jpg,0,2.0,2.0,drop,anorganik,aga,4.764.705.673.061.520,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1858.jpg,0,2.0,2.0,drop,wastafel,aga,511.064.429.661.958,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1827.jpg,4,2.0,2.0,drop,sarung tangan oven,aga,5.160.750.408.561.730,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5073.jpg,4,2.0,2.0,drop,mangkok?,aga,5.169.470.551.431.460,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5023.jpg,2,2.0,2.0,drop,histogram?,aga,5.175.166.083.607.890,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6811.jpg,0,2.0,2.0,drop,multiclass,aga,5.242.677.581.624.560,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6757.jpg,1,2.0,2.0,drop,multiclass,aga,5.591.300.111.416.550,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9332.jpg,4,2.0,2.0,drop,multiclass,aga,5.883.953.204.345.740,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_603.jpg,3,2.0,2.0,drop,anorganik,aga,5.992.784.258.917.610,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8924.jpg,0,2.0,2.0,drop,unidentified,aga,6.108.934.590.299.300,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1625.jpg,1,2.0,2.0,drop,anorganik,aga,9.805.861.989.471.160,9.220.575,
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_507.jpg,0,2.0,2.0,keep,tisu,aga,984.369.157.388.984,6.400.617,
+/content/drive/MyDrive/BDC2026/train/1_Electronic/16.TPA.png,1,1.0,1.0,drop,ada orang,raka,351.808.877.830.107,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/pcb_141.jpg,0,1.0,1.0,drop,mirip daun,raka,412.192.395.044.725,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/66.E-Waste-An-Issue-of-Serious-Concern-@aura-emagazine.jpg,1,1.0,1.0,keep,masih aman,raka,672.634.278.963.572,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/7.utama11.jpg,0,1.0,1.0,drop,campuran,raka,675.042.376.171.413,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/25.iron-1508237_1280.jpg,3,1.0,1.0,drop,sampah hitam,raka,719.053.797.953.269,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/IMG_20201101_130043.jpg,0,1.0,1.0,drop,campuran,raka,813.629.486.197.061,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/pcb_77.jpg,2,1.0,0,relabel,terlalu gajelas,raka,869.085.357.656.698,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/battery_142.jpg,2,1.0,1.0,drop,pulpen,raka,1.074.224.902.198.720,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/70.m0-02-1110x600-2307171500.jpg,0,1.0,1.0,drop,gajelas,raka,1.255.118.952.665.590,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Microwave_88.jpg,4,1.0,1.0,keep,gajelas,raka,1.505.922.197.513.790,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Keyboard_113.jpg,1,1.0,1.0,keep,gajelas,raka,1.666.416.403.192.960,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/59.AdobeStock_500968458-800x250.jpeg,3,1.0,0,relabel,masih aman,raka,20.083.081.898.837,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/pcb_78.jpg,2,1.0,1.0,keep,masih aman,raka,2.273.276.765.721.750,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Player_280.jpg,1,1.0,1.0,drop,ada kaset,raka,2.460.197.056.253.900,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/battery_148.jpg,0,1.0,1.0,drop,baterai masuk elektronik,raka,2.556.379.762.651.370,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/17.men-ghana-sort-through-electronic-waste-agbogbloshi-440nw-9818412b.jpg,1,1.0,1.0,drop,orang moto asal,raka,2.564.436.397.207.490,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/70.tpa-adalah-tempat-pemrosesan-akhir-bukan-tempat-pembuangan-akhir-39.jpg,3,1.0,1.0,drop,bantar gebang,raka,2.619.107.810.199.940,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Mouse_279.jpg,2,1.0,1.0,keep,gajelas,raka,2.738.870.320.610.600,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/pcb_115.jpg,4,1.0,1.0,drop,rancu,raka,2.746.386.991.500.160,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/battery_195.jpg,4,1.0,1.0,drop,baterai masuk elektronik,raka,3.147.068.748.565.110,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Television_205.jpg,2,1.0,1.0,drop,lukisan,raka,3.167.709.063.024.730,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/imagesdfgdff.jpg,2,1.0,1.0,drop,campuran,raka,3.888.176.029.357.180,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Mouse_261.jpg,1,1.0,1.0,keep,mouse tapi bawahnya nyatu ama background,raka,4.069.899.798.271.900,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/26.depositphotos_326846882-stock-photo-closeup-shot-of-a-broken.jpg,3,1.0,1.0,keep,jam dinding,raka,4.305.567.452.792.910,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Player_282.jpg,2,1.0,1.0,drop,gajelas,raka,4.377.595.089.013.220,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Keyboard_289.jpg,3,1.0,1.0,drop,gajelas,raka,4.379.938.862.238.700,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Player_206.jpg,4,1.0,1.0,drop,gatau benda apaan,raka,4.387.199.885.830.740,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/17.Fines-Zorba-product-after-STEINERT-EddyC.jpg,2,1.0,1.0,drop,sampah,raka,4.471.938.265.766.850,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/16.943306_720.jpg,0,1.0,1.0,drop,sampah,raka,4.710.738.990.606.890,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Washing_Machine_224.jpg,4,1.0,1.0,keep,magic com,raka,4.952.853.638.413.430,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Keyboard_46.jpg,3,1.0,1.0,drop,gajelas,raka,4.977.110.954.458.130,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/battery_95.jpg,3,1.0,1.0,keep,baterai usang,raka,4.985.351.287.815.500,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Keyboard_121.jpg,3,1.0,1.0,drop,penampakan,raka,5.110.958.143.064.600,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Mouse_160.jpg,4,1.0,1.0,drop,terlalu gajelas,raka,5.166.096.381.690.820,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Microwave_163.jpg,4,1.0,1.0,drop,campuran,raka,5.878.737.913.574.130,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Printer_29.jpg,0,1.0,1.0,keep,masih aman,raka,5.991.917.603.575.820,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Mouse_243.jpg,0,1.0,1.0,drop,jorok,raka,635.224.069.274.225,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/pcb_171.jpg,1,1.0,1.0,drop,gajelas,raka,723.448.743.044.224,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/hq720.jpg,1,1.0,1.0,keep,kamera,raka,1.719.591.256.975.380,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/69.electronics---small-heap-of-mixed-electronic_zedbxcgf_8_ws.jpg,1,1.0,1.0,keep,masih aman,raka,654.670.023.335.571,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/6.20170119155741-intip-pusat-pemusnahan-limbah-elektronik-di-jepang-001-dru.jpg,3,1.0,1.0,drop,batu,raka,928.372.352.419.475,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/64.hq720.jpg,4,1.0,1.0,drop,sampah,raka,1.042.864.133.172.160,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/18.pasar-loak-astana-anyar.jpg,1,1.0,1.0,drop,kendi,raka,1.166.903.182.218.540,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/pcb_137.jpg,2,1.0,1.0,drop,burem,raka,1.610.648.492.404.050,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/Washing_Machine_287.jpg,4,1.0,1.0,keep,mesin cuci,raka,1.923.339.545.189.890,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/35.e-waste-pickup1-300x200.png,3,1.0,1.0,drop,sampah,raka,278.499.424.750.466,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/67.waste-400x250-1.jpg,0,1.0,1.0,drop,sampah,raka,3.452.565.788.776.200,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/pcb_146.jpg,0,1.0,1.0,drop,terlalu burem,raka,3.482.647.274.267.430,,FALSE
+/content/drive/MyDrive/BDC2026/train/1_Electronic/10.shutterstock_2462286095.jpg,1,1.0,1.0,drop,kendi,raka,4.549.471.331.656.340,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1676.jpg,0,2.0,2.0,drop,bantal,raka,12.718.018.791.672,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6238.jpg,3,2.0,2.0,drop,campuran,raka,127.523.365.661.735,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1924.jpg,4,2.0,0,relabel,keran,raka,185.537.806.721.897,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9440.jpg,1,2.0,2.0,drop,gajelas,raka,464.967.926.212.899,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6751.jpg,3,2.0,2.0,drop,gajelas,raka,775.578.954.033.885,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_359.jpg,2,2.0,1,relabel,flowchart,raka,2.622.307.695.542.280,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10092.jpg,3,2.0,2.0,drop,rancu,raka,2.849.465.337.887.040,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9224.jpg,1,2.0,2.0,drop,gajelas,raka,3.045.938.630.082.990,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6800.jpg,1,2.0,2.0,drop,sampah,raka,3.273.503.249.891.490,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6818.jpg,0,2.0,2.0,drop,burem,raka,3.822.115.802.218.370,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1639.jpg,2,2.0,1,relabel,freezer,raka,5.432.620.915.998.250,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9213.jpg,3,2.0,2.0,keep,pensil,dharu,7.162.972.936.687,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1313.jpg,1,2.0,2.0,drop,kardus kemasan?,dharu,30.217.555.315.569,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8728.jpg,2,2.0,2.0,keep,kardus,dharu,72.084.707.056.859,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9052.jpg,3,2.0,2.0,keep,sisa rautan pensil,dharu,88.543.921.066.519,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8912.jpg,4,2.0,2.0,keep,totebag kardus,dharu,118.292.962.908.078,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9277.jpg,4,2.0,2.0,keep,totebag kardus,dharu,124.300.903.467.563,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5017.jpg,1,2.0,2.0,drop,gelas jeruk?,dharu,131.867.283.686.759,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6109.jpg,3,2.0,2.0,drop,sampah,dharu,133.492.054.890.496,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6210.jpg,2,2.0,2.0,drop,sampah organik tp ada plastiknya,dharu,140.187.175.330.401,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1272.jpg,0,2.0,2.0,drop,kemasan,dharu,150.615.502.689.434,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9315.jpg,0,2.0,2.0,keep,teh,dharu,205.609.056.457.423,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4209.jpg,3,2.0,2.0,drop,ada sampah plastik,dharu,235.467.698.833.082,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8767.jpg,3,2.0,2.0,keep,kayu,dharu,256.466.778.501.762,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1713.jpg,3,2.0,2.0,keep,kardus,dharu,341.914.982.977.774,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6755.jpg,2,2.0,2.0,keep,kertas,dharu,344.291.727.922.171,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8578.jpg,2,2.0,2.0,keep,benang,dharu,405.104.899.395.989,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6212.jpg,2,2.0,2.0,drop,ada plastik,dharu,41.944.148.598.879,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9629.jpg,4,2.0,2.0,drop,makanan?,dharu,437.388.911.675.946,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8717.jpg,1,2.0,2.0,keep,kardus,dharu,450.961.106.825.612,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8896.jpg,2,2.0,2.0,keep,kardus,dharu,478.058.590.472.615,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6279.jpg,4,2.0,2.0,keep,gambar di kertas?,dharu,49.192.361.245.863,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8820.jpg,4,2.0,2.0,keep,rotan?,dharu,508.857.210.102.307,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_11255.jpg,2,2.0,2.0,drop,iki manusia cok,dharu,529.229.969.721.421,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_261.jpg,3,2.0,2.0,drop,kardus kemasan?,dharu,549.999.363.376.746,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6836.jpg,0,2.0,2.0,drop,rongsok,dharu,555.978.876.710.575,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6820.jpg,0,2.0,2.0,drop,rongsok,dharu,557.940.371.819.421,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9043.jpg,3,2.0,2.0,keep,sampah rautan,dharu,581.087.574.943.881,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_434.jpg,3,2.0,2.0,drop,lip tint,dharu,601.833.953.583.424,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6652.jpg,2,2.0,2.0,drop,sampah plastik,dharu,604.933.006.131.511,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6649.jpg,4,2.0,2.0,keep,cabe,dharu,612.764.838.335.337,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6685.jpg,3,2.0,2.0,drop,cabe tp ada plastik,dharu,623.386.695.623.638,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1957.jpg,1,2.0,2.0,drop,kaca,dharu,623.741.144.820.111,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9201.jpg,4,2.0,2.0,keep,sisa rautan pensil,dharu,625.465.829.717.316,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5981.jpg,3,2.0,2.0,keep,makanan?,dharu,627.481.238.553.117,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1650.jpg,4,2.0,2.0,drop,sandal,dharu,636.916.321.580.562,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10435.jpg,4,2.0,2.0,drop,INI ORANG SU,dharu,643.174.584.527.942,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10400.jpg,4,2.0,2.0,drop,gajelas,dharu,694.748.801.034.783,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1877.jpg,0,2.0,2.0,drop,kemasannya plastik,dharu,709.566.121.226.687,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1886.jpg,1,2.0,2.0,drop,sendal,dharu,711.295.674.291.364,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3381.jpg,4,2.0,2.0,drop,gambar sapi?,dharu,779.957.015.346.317,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9559.jpg,2,2.0,2.0,drop,plastik,dharu,797.108.617.329.088,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8911.jpg,3,2.0,2.0,keep,kain sajadah,dharu,799.072.492.439.127,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8910.jpg,4,2.0,2.0,keep,kain sajadah,dharu,826.385.962.770.909,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3957.jpg,4,2.0,2.0,drop,makanan tp ada plastik,dharu,837.246.935.962.647,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4167.jpg,3,2.0,2.0,drop,makanan tp ada plastik,dharu,842.716.322.675.458,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_506.jpg,3,2.0,2.0,drop,grafik,dharu,889.343.666.373.727,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10010.jpg,3,2.0,2.0,keep,sisa makanan,dharu,902.707.369.755.118,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9032.jpg,2,2.0,2.0,keep,rautan pensil,dharu,904.074.542.428.652,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6853.jpg,4,2.0,2.0,drop,sampah anorganik,dharu,907.635.734.955.811,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6640.jpg,3,2.0,2.0,drop,sampah anorganik,dharu,909.665.415.382.586,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4764.jpg,3,2.0,0,relabel,mesin jahit,dharu,922.283.353.382.224,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_430.jpg,1,2.0,2.0,drop,wadah kemasan plastik,dharu,949.006.258.264.123,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5347.jpg,2,2.0,2.0,drop,opo iki,dharu,951.368.251.289.081,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6665.jpg,0,2.0,2.0,drop,nuklir cok,dharu,968.693.322.353.755,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8167.jpg,1,2.0,2.0,drop,kopi iki plastik,dharu,974.101.732.475.055,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_436.jpg,2,2.0,2.0,drop,kemasan,dharu,1.034.680.614.338.850,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7995.jpg,3,2.0,2.0,keep,kopi,dharu,1.039.033.179.825.620,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6014.jpg,4,2.0,2.0,keep,sampah organik,dharu,1.040.122.104.809.230,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8609.jpg,3,2.0,2.0,keep,rotan?,dharu,1.043.513.052.378.300,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6645.jpg,2,2.0,2.0,drop,plastik iki,dharu,1.045.329.804.947.920,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8810.jpg,4,2.0,2.0,drop,ra jelas,dharu,1.050.902.266.588.440,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1672.jpg,0,2.0,2.0,keep,sayur,dharu,1.067.798.952.069.070,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9331.jpg,4,2.0,2.0,keep,teh,dharu,1.074.914.178.063.010,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4012.jpg,3,2.0,2.0,drop,lem?,dharu,1.075.438.251.904.590,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8768.jpg,4,2.0,2.0,keep,rotan?,dharu,1.081.617.074.682.650,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_415.jpg,1,2.0,2.0,keep,kardus,dharu,1.125.400.464.434.530,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8692.jpg,2,2.0,2.0,keep,sprei,dharu,1.136.122.730.499.190,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7636.jpg,4,2.0,2.0,drop,opo iki,dharu,1.140.548.475.628.810,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6546.jpg,3,2.0,2.0,keep,lebih ke gambar si,dharu,1.159.529.660.513.190,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5806.jpg,4,2.0,2.0,keep,bunga,dharu,1.173.391.873.303.820,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8840.jpg,1,2.0,2.0,keep,bahannya benang,dharu,1.180.451.787.320.560,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10056.jpg,4,2.0,2.0,drop,makanan tp ada kaca,dharu,1.198.130.097.124.360,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1831.jpg,2,2.0,2.0,keep,masih ok,dharu,1.213.720.260.528.110,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_2233.jpg,2,2.0,2.0,keep,gambar tumbuhan,dharu,1.242.672.130.259.820,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7211.jpg,3,2.0,2.0,keep,tumbuhan,dharu,1.251.559.382.550.550,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_616.jpg,0,2.0,2.0,keep,anggur,dharu,1.256.345.951.536.230,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5591.jpg,3,2.0,2.0,keep,bunga,dharu,1.296.491.850.963.780,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6697.jpg,0,2.0,2.0,drop,setan iki,dharu,1.298.631.938.846.980,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1901.jpg,1,2.0,2.0,keep,kemasan,dharu,1.301.490.562.398.590,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9936.jpg,3,2.0,2.0,keep,mcd,dharu,1.309.690.978.354.190,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9193.jpg,0,2.0,2.0,drop,gambar,dharu,1.343.237.022.658.730,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10274.jpg,1,2.0,2.0,drop,ra jelas,dharu,1.345.827.892.417.630,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3185.jpg,2,2.0,2.0,keep,makanan,dharu,1.370.344.603.716.200,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5679.jpg,3,2.0,2.0,keep,bunga,dharu,137.524.268.554.337,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_2501.jpg,3,2.0,2.0,keep,bunga,dharu,137.524.268.554.337,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7594.jpg,0,2.0,2.0,drop,kertas?,dharu,1.525.118.767.016.020,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9204.jpg,3,2.0,2.0,keep,sisa rautan pensil,dharu,1.540.635.900.456.870,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9798.jpg,3,2.0,2.0,keep,kain,dharu,1.583.023.812.408.320,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_528.jpg,1,2.0,2.0,keep,kardus kemansan,dharu,1.631.000.277.011.630,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_2359.jpg,0,2.0,2.0,keep,bugna tp potnya ga organik,dharu,1.679.624.894.217.330,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8948.jpg,1,2.0,2.0,keep,rautan pensil,dharu,1.693.777.900.141.770,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3417.jpg,2,2.0,2.0,drop,ga genah,dharu,1.695.661.562.063.470,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1644.jpg,0,2.0,2.0,drop,sandal,dharu,1.728.042.841.284.980,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9028.jpg,4,2.0,2.0,drop,ra jelas,dharu,1.743.416.678.394.960,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9321.jpg,1,2.0,2.0,keep,teh,dharu,177.134.023.864.436,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1982.jpg,0,2.0,2.0,keep,bumbu,dharu,1.776.377.797.745.570,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9326.jpg,4,2.0,2.0,keep,teh,dharu,1.784.304.247.065.360,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9477.jpg,2,2.0,2.0,keep,gula,dharu,1.793.368.632.106.030,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9311.jpg,2,2.0,2.0,keep,teh,dharu,1.821.400.704.566.190,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9068.jpg,0,2.0,2.0,keep,sisa rautan pensil,dharu,1.822.669.428.387.240,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9319.jpg,0,2.0,2.0,keep,teh,dharu,1.848.230.261.575.810,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9132.jpg,2,2.0,2.0,keep,sisa rautan pensil,dharu,1.871.792.866.474.900,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9227.jpg,0,2.0,2.0,drop,gajelas,dharu,1.889.685.812.034.610,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7701.jpg,1,2.0,2.0,keep,roti,dharu,189.027.366.301.388,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_938.jpg,1,2.0,2.0,drop,"bumbu""an tp ada kemasan plastik",dharu,1.893.186.407.111.150,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9746.jpg,0,2.0,2.0,drop,botol plastik kocak,dharu,1.904.161.824.500.970,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8807.jpg,3,2.0,2.0,drop,sepatu,dharu,1.917.581.763.549.300,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7284.jpg,4,2.0,2.0,drop,hama,dharu,1.931.623.913.536.400,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5259.jpg,1,2.0,2.0,keep,telur,dharu,196.867.253.121.415,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5165.jpg,0,2.0,2.0,drop,bola,dharu,1.988.648.777.046.970,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1926.jpg,3,2.0,2.0,drop,mesin,dharu,2.004.587.590.750.370,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10037.jpg,3,2.0,2.0,drop,mikroba?,dharu,200.865.418.553.048,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8172.jpg,0,2.0,2.0,drop,gajelas,dharu,2.018.442.115.509.620,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6876.jpg,1,2.0,2.0,drop,anomali cok,dharu,2.040.071.837.703.730,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9177.jpg,1,2.0,2.0,keep,sisa rautan pensil,dharu,2.040.371.644.045.180,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4952.jpg,2,2.0,2.0,drop,besi,dharu,2.051.013.100.235.540,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1806.jpg,2,2.0,2.0,drop,timah,dharu,205.588.393.120.302,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8836.jpg,4,2.0,2.0,keep,tali sepatu,dharu,2.102.778.413.564.160,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8832.jpg,3,2.0,2.0,keep,tikar,dharu,2.122.004.628.628.790,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7769.jpg,0,2.0,2.0,keep,klapa,dharu,2.140.923.009.691.150,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6127.jpg,1,2.0,2.0,keep,sayur,dharu,2.147.766.002.890.790,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5491.jpg,0,2.0,2.0,keep,minuman,dharu,2.163.870.647.645.050,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7998.jpg,1,2.0,2.0,keep,kopi,dharu,2.167.961.162.958.340,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8702.jpg,1,2.0,2.0,drop,ambigu,dharu,2.171.534.714.128.260,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6806.jpg,4,2.0,2.0,drop,plastik,dharu,2.177.759.105.741.390,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4611.jpg,4,2.0,2.0,keep,teh,dharu,2.182.935.628.932.660,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9381.jpg,3,2.0,2.0,drop,ambigu,dharu,2.208.001.343.311.410,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7243.jpg,1,2.0,2.0,keep,padi,dharu,2.237.051.276.253.700,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_582.jpg,0,2.0,2.0,drop,botol plastik kocak,dharu,225.040.935.620.724,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_431.jpg,4,2.0,2.0,drop,stella,dharu,2.254.285.539.874.340,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9307.jpg,4,2.0,2.0,keep,teh,dharu,2.259.415.502.765.780,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5051.jpg,1,2.0,2.0,drop,ada karenya ,dharu,226.719.148.358.939,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9781.jpg,0,2.0,2.0,keep,es batu,dharu,2.269.590.789.548.300,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8746.jpg,4,2.0,2.0,keep,rotan?,dharu,2.294.192.630.315.110,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9137.jpg,0,2.0,2.0,keep,pensil,dharu,2.313.173.022.638.240,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9298.jpg,4,2.0,2.0,keep,teh,dharu,2.316.514.879.519.630,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4263.jpg,1,2.0,2.0,keep,pizza,dharu,2.332.712.900.485.840,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6869.jpg,2,2.0,2.0,drop,kumuh,dharu,2.365.087.857.600.190,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8633.jpg,2,2.0,2.0,keep,kayu,dharu,2.394.818.170.965.280,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8620.jpg,2,2.0,2.0,keep,kain,dharu,2.429.329.126.640.440,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7638.jpg,0,2.0,2.0,keep,kertas,dharu,2.429.796.391.597.240,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8852.jpg,3,2.0,2.0,keep,kertas kemasan,dharu,2.436.333.119.538.390,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3055.jpg,2,2.0,2.0,keep,buku,dharu,2.480.018.047.005.220,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8882.jpg,1,2.0,2.0,keep,keset,dharu,2.542.336.541.939.050,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5374.jpg,1,2.0,2.0,keep,telur,dharu,2.574.575.608.282.590,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9251.jpg,2,2.0,2.0,keep,teh,dharu,2.583.635.157.878.980,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9237.jpg,4,2.0,2.0,keep,rautan pensil,dharu,2.589.589.343.335.300,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9020.jpg,4,2.0,2.0,drop,case hp,dharu,2.589.668.303.736.880,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1743.jpg,4,2.0,2.0,keep,bunga,dharu,2.602.938.026.994.230,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1576.jpg,4,2.0,2.0,drop,sandal,dharu,2.605.934.797.376.820,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6114.jpg,0,2.0,2.0,keep,makanan,dharu,2.609.445.664.200.140,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8975.jpg,1,2.0,2.0,drop,ambigu,dharu,2.620.624.807.598.660,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6099.jpg,2,2.0,2.0,keep,sampah orgnaik,dharu,2.621.817.726.996.690,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8677.jpg,0,2.0,2.0,drop,ambigu,dharu,2.662.650.754.762.250,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4844.jpg,2,2.0,2.0,keep,sirup,dharu,2.670.332.319.627.430,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_172.jpg,4,2.0,2.0,drop,buah tp ada plastik,dharu,2.783.152.686.258.790,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5938.jpg,0,2.0,2.0,keep,makanan,dharu,2.786.306.949.734.990,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6698.jpg,0,2.0,2.0,drop,sampah,dharu,2.793.757.930.698.320,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8433.jpg,2,2.0,2.0,drop,opo iki,dharu,2.804.889.541.735.150,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_162.jpg,3,2.0,2.0,drop,ada plastiknya,dharu,2.817.372.892.304.070,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3662.jpg,3,2.0,2.0,drop,hama,dharu,2.818.234.054.879.450,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6817.jpg,1,2.0,2.0,drop,ga jelas,dharu,2.830.826.388.602.890,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9023.jpg,0,2.0,2.0,keep,rautan pensil,dharu,2.834.166.364.232.300,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_12101.jpg,2,2.0,2.0,drop,magic com,dharu,2.843.533.459.850.880,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9086.jpg,0,2.0,2.0,keep, rautan pensil,dharu,2.855.820.432.910.690,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5714.jpg,2,2.0,2.0,keep,bunga,dharu,2.876.701.518.011.370,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6700.jpg,2,2.0,2.0,drop,gajelas,dharu,2.879.056.992.426.600,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6209.jpg,4,2.0,2.0,drop,makanan tp ada besi,dharu,2.890.646.433.756.090,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5112.jpg,0,2.0,2.0,drop,ada plastik madu,dharu,2.896.137.186.084.610,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8612.jpg,4,2.0,2.0,keep,benang,dharu,2.901.648.432.605.270,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6762.jpg,0,2.0,2.0,drop,air,dharu,2.916.636.117.437.380,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3540.jpg,3,2.0,2.0,drop,panci,dharu,2.924.640.270.771.530,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9337.jpg,4,2.0,2.0,keep,teh,dharu,2.926.914.918.629.870,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8909.jpg,3,2.0,2.0,keep,kayu,dharu,2.929.578.517.501.910,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4297.jpg,1,2.0,2.0,keep,makanan,dharu,295.507.138.596.577,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4168.jpg,0,2.0,2.0,drop,plastik,dharu,2.983.449.755.896.290,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9820.jpg,4,2.0,2.0,drop,kemasan,dharu,2.997.863.040.106.210,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_12035.jpg,1,2.0,2.0,drop,pop mie,dharu,3.001.830.027.852.750,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_355.jpg,0,2.0,2.0,drop,lip tint,dharu,3.011.368.337.128.880,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3139.jpg,2,2.0,2.0,drop,pengabdi setan,dharu,3.021.535.353.816.160,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5904.jpg,2,2.0,2.0,drop,ada besi,dharu,3.023.626.783.899.290,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8918.jpg,3,2.0,2.0,keep,benang,dharu,3.033.121.672.165.420,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_361.jpg,2,2.0,2.0,keep,minion,dharu,3.042.680.677.994.970,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9596.jpg,2,2.0,2.0,drop,gelas kaca,dharu,30.528.151.789.382,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5335.jpg,2,2.0,2.0,drop,hiasan telur,dharu,3.079.107.576.467.650,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_2900.jpg,0,2.0,2.0,drop,pot bunga besi,dharu,3.103.242.443.987.450,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4388.jpg,2,2.0,2.0,keep,pizza,dharu,3.112.886.898.969.440,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3226.jpg,3,2.0,2.0,drop,kemasan,dharu,3.151.615.055.549.540,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8790.jpg,3,2.0,2.0,drop,purba,dharu,3.151.761.719.705.280,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8808.jpg,3,2.0,2.0,keep,kain,dharu,315.540.306.251.903,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9615.jpg,4,2.0,2.0,drop,besi gelas,dharu,3.178.430.148.697.290,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9192.jpg,1,2.0,0,relabel,gantungan besi mirip sisa rautan,dharu,3.184.222.715.338.910,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9391.jpg,1,2.0,2.0,drop,plastik,dharu,3.204.720.613.393.160,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8972.jpg,3,2.0,2.0,drop,gamabr,dharu,3.209.144.068.042.950,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5367.jpg,4,2.0,2.0,drop,gambar telur,dharu,3.224.289.252.428.960,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_406.jpg,1,2.0,2.0,drop,botol plastik kocak,dharu,3.227.045.332.239.510,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_289.jpg,4,2.0,2.0,drop,piring,dharu,3.234.805.296.835.500,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5427.jpg,4,2.0,2.0,drop,gambar telur,dharu,3.249.823.112.965.670,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3635.jpg,2,2.0,2.0,drop,aneh,dharu,3.276.482.874.914.470,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5567.jpg,0,2.0,2.0,drop,aneh,dharu,3.301.436.193.681.460,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3468.jpg,0,2.0,2.0,drop,mesin,dharu,3.320.780.452.586.660,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8866.jpg,0,2.0,2.0,keep,kain,dharu,3.344.804.606.656.600,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8658.jpg,4,2.0,2.0,drop,mesin,dharu,3.357.084.326.452.320,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_659.jpg,1,2.0,2.0,drop,ada besi,dharu,337.459.602.241.388,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9147.jpg,3,2.0,2.0,drop,aneh,dharu,3.388.148.528.742.840,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10322.jpg,1,2.0,2.0,keep,apel tp dibiruin,dharu,3.392.914.399.939.190,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1136.jpg,3,2.0,2.0,drop,sertif orang cok,dharu,3.397.597.569.085.980,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6784.jpg,1,2.0,2.0,drop,sampah,dharu,3.426.064.908.211.100,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8801.jpg,4,2.0,2.0,drop,gajelas,dharu,3.430.545.414.224.470,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_2186.jpg,3,2.0,2.0,drop,kaktus,dharu,3.434.628.314.306.890,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_286.jpg,0,2.0,2.0,drop,plastik,dharu,3.446.932.994.033.560,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6214.jpg,3,2.0,2.0,drop,gajelas,dharu,344.895.114.354.543,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6132.jpg,2,2.0,2.0,drop,gajelas,dharu,3.463.898.405.415.250,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9745.jpg,3,2.0,2.0,drop,ga genah,dharu,3.465.781.313.505.310,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7709.jpg,0,2.0,2.0,drop,aneh,dharu,3.480.941.913.661.950,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5067.jpg,3,2.0,2.0,drop,ga genah,dharu,3.502.895.422.990.680,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8095.jpg,3,2.0,2.0,drop,ada plastik,dharu,3.504.322.490.980.620,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_517.jpg,1,2.0,2.0,drop,plastik,dharu,3.505.965.664.726.560,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6828.jpg,0,2.0,2.0,drop,gajelas,dharu,3.530.919.037.503.680,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10497.jpg,3,2.0,2.0,drop,aneh,dharu,3.569.732.319.221.840,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1511.jpg,2,2.0,2.0,drop,plastik,dharu,3.662.091.002.094.170,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8188.jpg,2,2.0,2.0,drop,aneh jir,dharu,3.702.460.083.253.280,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7761.jpg,2,2.0,2.0,drop,anomali cok,dharu,375.301.065.577.991,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6690.jpg,4,2.0,2.0,drop,sampah sungai,dharu,3.760.225.650.597.160,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5321.jpg,3,2.0,2.0,drop,temperature,dharu,381.401.885.623.707,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3713.jpg,2,2.0,2.0,drop,wahyu?,dharu,3.823.945.089.464.260,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9730.jpg,3,2.0,2.0,drop,aneh,dharu,3.830.011.731.874.370,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8551.jpg,2,2.0,2.0,drop,korek,dharu,3.834.996.361.839.090,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_12089.jpg,3,2.0,2.0,drop,aneh,dharu,3.866.619.765.675.180,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1820.jpg,2,2.0,2.0,drop,alumunium,dharu,3.867.625.229.708.700,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8704.jpg,0,2.0,2.0,drop,awan cumolonimbus,dharu,3.894.053.287.271.480,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8865.jpg,1,2.0,2.0,drop,aneh,dharu,3.929.907.132.868.110,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6668.jpg,1,2.0,2.0,drop,sampah,dharu,394.311.011.412.978,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8855.jpg,0,2.0,2.0,drop,ambigu,dharu,399.718.270.354.671,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6777.jpg,4,2.0,2.0,drop,sampah,dharu,3.998.471.636.883.730,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3208.jpg,0,2.0,2.0,drop,aneh,dharu,4.008.958.754.334.770,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7935.jpg,2,2.0,2.0,drop,INI CHAT SIAPA AJG,dharu,402.226.892.844.822,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6816.jpg,1,2.0,2.0,drop,pemandangan,dharu,4.100.895.883.111.840,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7778.jpg,4,2.0,2.0,drop,opo iki,dharu,4.145.336.657.031.680,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10541.jpg,0,2.0,2.0,drop,lebih aneh,dharu,4.169.038.548.874.700,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_471.jpg,3,2.0,2.0,drop,gajelas,dharu,422.784.956.310.254,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5569.jpg,4,2.0,2.0,drop,bunga tp ga jelas,dharu,4.256.858.527.737.380,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1991.jpg,4,2.0,2.0,drop,mbg dikorup,dharu,4.271.972.096.218.140,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6691.jpg,4,2.0,2.0,drop,nuklir cok,dharu,4.363.600.025.742.690,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3989.jpg,0,2.0,2.0,drop,zai?,dharu,4.371.211.012.899.280,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4654.jpg,4,2.0,2.0,drop,ular,dharu,4.482.786.201.481.040,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_11971.jpg,0,2.0,2.0,drop,nasi tp ambigu,dharu,4.569.051.234.046.670,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8734.jpg,1,2.0,2.0,drop,sepatu,dharu,4.607.383.747.604.590,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_3642.jpg,2,2.0,2.0,drop,aneh,dharu,4.612.796.202.653.280,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8749.jpg,0,2.0,2.0,drop,aneh,dharu,4.629.212.040.633.420,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_245.jpg,1,2.0,2.0,drop,tumbuhan di hutan tp gajelas,dharu,4.631.314.038.493.100,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8447.jpg,3,2.0,2.0,drop,blender rumput,dharu,4.637.384.169.661.790,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6662.jpg,4,2.0,2.0,drop,sampah,dharu,4.642.687.821.377.950,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1794.jpg,0,2.0,2.0,drop,alat,dharu,4.661.426.150.016.570,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9874.jpg,4,2.0,2.0,drop,foto kita blur,dharu,4.785.679.552.728.310,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9589.jpg,0,2.0,2.0,drop,aneh,dharu,4.854.035.512.786.590,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8138.jpg,4,2.0,2.0,drop,ada plastik,dharu,4.889.935.779.122.550,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8798.jpg,1,2.0,2.0,drop,aneh,dharu,4.894.729.886.355.910,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6863.jpg,3,2.0,2.0,drop,planet jir,dharu,4.959.856.707.701.170,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_10570.jpg,4,2.0,2.0,drop,gajelas,dharu,4.980.135.074.349.210,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6739.jpg,0,2.0,2.0,keep,"sayur""an",dharu,4.994.176.061.089.660,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6839.jpg,1,2.0,2.0,drop,lagi operasi ji,dharu,5.278.806.421.146.100,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1887.jpg,0,2.0,2.0,drop,alat,dharu,530.263.675.317.161,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4772.jpg,0,2.0,2.0,drop,minyak,dharu,546.952.798.142.648,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_2413.jpg,1,2.0,2.0,drop,bola,dharu,5.476.247.348.819.310,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_6104.jpg,1,2.0,2.0,drop,sampah,dharu,5.695.002.275.725.990,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7378.jpg,4,2.0,2.0,drop,piring,dharu,5.717.299.524.928.850,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_8861.jpg,1,2.0,2.0,drop,bola,dharu,5.871.531.001.587.880,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_369.jpg,1,2.0,2.0,drop,kalung,dharu,5.908.406.626.885.560,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_5198.jpg,3,2.0,2.0,drop,ada wajannya,dharu,5.927.738.406.079.310,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1683.jpg,1,2.0,2.0,drop,ambigu,dharu,5.930.577.541.981.500,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_7344.jpg,3,2.0,2.0,keep,masih oke,dharu,5.942.356.034.024.110,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_1844.jpg,2,2.0,2.0,drop,alat berat jir,dharu,6.112.940.040.377.570,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_4190.jpg,4,2.0,2.0,keep,pizza,dharu,6.169.619.276.087.700,,FALSE
+/content/drive/MyDrive/BDC2026/train/2_Organic/O_9143.jpg,2,2.0,2.0,keep,pensil ngawi,aga,6.194.084.480.847.450,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8346.jpg,2,0.0,0.0,drop,poster elektronik,raka,4.790.440.172.549,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_155.jpg,4,0.0,0.0,drop,mekanik x elektroonik,raka,142.450.176.365.149,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4838.jpg,1,0.0,0.0,drop,sampah,raka,14.442.406.810.262,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2331.jpg,2,0.0,0.0,drop,campuran,raka,46.535.025.820.589,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_231.jpg,4,0.0,0.0,drop,campuran,raka,657.571.285.889.911,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1843.jpg,4,0.0,0.0,keep,kaleng,raka,83.429.877.335.531,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9193.jpg,0,0.0,1,relabel,pemanas air listrik,raka,1.128.819.772.676.770,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9364.jpg,0,0.0,0.0,drop,rancu,raka,1.198.062.842.497.940,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7029.jpg,0,0.0,0.0,drop,rancu,raka,1.257.829.880.895.710,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7107.jpg,4,0.0,0.0,drop,rancu,raka,1.305.168.304.450.430,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9830.jpg,4,0.0,0.0,drop,rancu,raka,1.325.348.754.555.410,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8724.jpg,1,0.0,0.0,drop,rcanu,raka,1.719.192.121.593.500,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7943.jpg,1,0.0,0.0,drop,poster elektronik,raka,1.726.217.966.929.760,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7186.jpg,4,0.0,0.0,keep,buku,raka,1.784.673.631.707.910,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6360.jpg,4,0.0,1,relabel,pengatur ,raka,1.813.169.271.896.690,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8800.jpg,3,0.0,0.0,drop,rancu,raka,1.921.015.363.612.760,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2355.jpg,3,0.0,0.0,drop,rancu,raka,204.155.438.933.034,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7044.jpg,1,0.0,0.0,drop,campuran,raka,2.048.856.809.729.630,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8273.jpg,3,0.0,0.0,drop,poster elektronik,raka,2.368.940.418.248.180,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1854.jpg,2,0.0,0.0,keep,kaleng,raka,2.382.088.144.131.110,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2203.jpg,1,0.0,0.0,keep,kardus,raka,2.500.427.058.492.470,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8175.jpg,2,0.0,0.0,drop,poster elektronik,raka,2.561.586.044.003.610,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1783.jpg,1,0.0,0.0,drop,mbuh,raka,2.590.895.614.481.150,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8772.jpg,0,0.0,0.0,drop,rancu,raka,3.083.013.826.936.670,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9977.jpg,4,0.0,0.0,drop,rancu,raka,3.166.401.772.419.090,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8996.jpg,0,0.0,0.0,keep,kaleng,raka,3.544.699.111.835.190,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9777.jpg,4,0.0,1,relabel,elektronik,raka,4.134.549.476.019.370,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4453.jpg,2,0.0,0.0,drop,rancu,raka,4.365.648.489.438.990,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3825.jpg,3,0.0,1,relabel,laptop,raka,5.341.380.847.287.660,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3733.jpg,4,0.0,1,relabel,laptop,raka,5.694.915.585.127.700,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_891.jpg,0,0.0,0.0,keep,keranjang,aga,57.050.177.808.666,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3387.jpg,4,0.0,0.0,drop,antara gelas sama soda dan donat bingung,aga,70.120.994.925.418,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8417.jpg,1,0.0,0.0,drop,ambigu/blur,aga,73.662.971.643.211,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4917.jpg,3,0.0,0.0,drop,not even gambar sampah,aga,74.117.895.810.577,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_851.jpg,4,0.0,0.0,drop,multiclass,aga,121.614.532.089.543,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7859.jpg,0,0.0,0.0,drop,brosur yang isinya elektronik,aga,124.234.177.892.085,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_884.jpg,4,0.0,0.0,drop,ga jelas cok objeknya,aga,154.692.995.460.714,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_342.jpg,0,0.0,0.0,drop,blok masa ada sapi sapi nya tlol,aga,186.062.074.566.076,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2445.jpg,3,0.0,0.0,drop,multiclass,aga,218.500.688.163.081,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6092.jpg,1,0.0,0.0,drop,blur,aga,220.227.848.905.977,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2909.jpg,0,0.0,0.0,drop,gambar koran di internet ada captionnya,aga,225.856.197.245.205,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9951.jpg,2,0.0,0.0,keep,kurang jelas tapi kayaknya sampah recyclable,aga,266.903.680.225.409,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2731.jpg,0,0.0,0.0,keep,lampu,aga,312.562.318.610.617,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7019.jpg,2,0.0,0.0,keep,skincare,aga,314.762.977.083.098,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1376.jpg,1,0.0,0.0,keep,botol,aga,320.966.304.278.428,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9897.jpg,2,0.0,0.0,keep,talenan kayu,aga,329.334.604.700.265,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5591.jpg,3,0.0,0.0,keep,toples kaca,aga,331.527.238.914.847,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_841.jpg,1,0.0,0.0,drop,tas rajut,aga,335.218.482.234.592,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5692.jpg,2,0.0,0.0,drop,multiclass,aga,335.392.493.933.396,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4657.jpg,3,0.0,0.0,drop,random bgt jir,aga,381.145.483.499.447,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2585.jpg,0,0.0,0.0,keep,"kaleng, meskipun masih ada isinya",aga,388.385.197.505.772,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4387.jpg,3,0.0,0.0,drop,gajelas njir,aga,392.305.281.207.305,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_308.jpg,4,0.0,0.0,drop,penyu makan plastik,aga,400.332.990.744.718,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6802.jpg,1,0.0,0.0,keep,alat,aga,473.561.142.664.973,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8798.jpg,3,0.0,0.0,keep,kunci inggris kartun,aga,48.068.290.206.696,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6057.jpg,1,0.0,0.0,drop,multiclass,aga,494.642.107.102.212,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_555.jpg,4,0.0,0.0,drop,multiclass,aga,500.475.189.593.366,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9852.jpg,0,0.0,0.0,keep,rak besi,aga,511.312.980.388.147,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2351.jpg,1,0.0,0.0,keep,kaya meja,aga,561.346.843.731.743,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_406.jpg,3,0.0,0.0,drop,blur,aga,565.916.901.005.432,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3834.jpg,2,0.0,0.0,drop,multiclass,aga,601.228.414.721.087,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9987.jpg,1,0.0,0.0,keep,kain gorden,aga,636.496.910.079.827,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9996.jpg,4,0.0,0.0,keep,kain gorden,aga,711.616.339.672.934,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_932.jpg,4,0.0,0.0,keep,kain rajut,aga,72.393.286.067.233,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_582.jpg,2,0.0,0.0,keep,kain tie dye,aga,725.868.411.667.669,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9988.jpg,0,0.0,0.0,keep,kain gorden,aga,752.464.162.135.079,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_911.jpg,0,0.0,0.0,drop,ga jelas,aga,793.157.991.162.653,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_744.jpg,0,0.0,0.0,drop,multiclass,aga,835.866.858.543.692,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4787.jpg,1,0.0,0.0,drop,ga jelas bahan bakunya,aga,865.252.231.126.188,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_856.jpg,4,0.0,0.0,drop,multiclass,aga,874.705.483.075.606,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4709.jpg,2,0.0,0.0,drop,ga jelas,aga,892.797.943.983.109,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_635.jpg,2,0.0,0.0,keep,plastik,aga,916.652.724.846.274,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5912.jpg,0,0.0,0.0,drop,multiclass,aga,942.085.219.914.525,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7192.jpg,4,0.0,0.0,keep,"gambar jelas bungkus kardus, tulisannya doang organik",aga,966.400.461.045.912,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9935.jpg,4,0.0,0.0,drop,chaotic,aga,992.060.739.067.142,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2822.jpg,0,0.0,0.0,drop,ga jelas,aga,1.018.898.608.376.880,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7046.jpg,3,0.0,0.0,keep,box bungkus,aga,1.020.712.903.708.150,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7157.jpg,4,0.0,0.0,keep,mesin industri,aga,1.048.368.900.389.420,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9936.jpg,4,0.0,1,relabel,ini sim card tray,aga,106.994.302.387.745,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_657.jpg,1,0.0,0.0,drop,multiclass,aga,1.100.568.902.157.380,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8371.jpg,1,0.0,0.0,drop,ui,aga,1.105.285.257.252.020,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4629.jpg,4,0.0,0.0,drop,ga jelas,aga,1.108.761.183.532.970,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5010.jpg,0,0.0,0.0,keep,tumblr,aga,1.118.059.254.900.210,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4385.jpg,0,0.0,0.0,drop,ga jelas,aga,1.120.368.664.244.750,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4426.jpg,0,0.0,0.0,drop,ga jelas,aga,1.134.512.086.343.240,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4744.jpg,4,0.0,0.0,drop,ga jelas,aga,1.136.592.910.711.800,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_488.jpg,1,0.0,0.0,drop,"meskipun boneka, tapi bahannya bukan yang jelas, ini recycle jadi sudah keluar dari tekstur aslinya dan kemungkinan sudah di cat juga, jadinya sudah berubah karakteristiknya dan sulit untuk jika dilatih ke model",aga,1.218.308.732.141.780,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5929.jpg,3,0.0,0.0,keep,sampah yg masih ada sisanya,aga,125.266.190.431.479,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_254.jpg,0,0.0,0.0,keep,mesin industri,aga,1.255.643.862.829.940,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_345.jpg,1,0.0,0.0,drop,multiclass,aga,126.446.149.301.297,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_517.jpg,0,0.0,0.0,keep,barang anor,aga,1.312.799.494.949.780,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4499.jpg,0,0.0,0.0,keep,barang anor,aga,1.323.261.187.091.070,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_659.jpg,2,0.0,0.0,drop,ga jelas,aga,1.334.373.172.750.200,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4856.jpg,4,0.0,0.0,drop,boneka recycle lagi,aga,1.345.604.378.867.750,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1562.jpg,1,0.0,0.0,drop,menipu,aga,1.353.539.724.776.870,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3592.jpg,3,0.0,0.0,keep,buku,aga,1.360.595.133.978.580,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1907.jpg,0,0.0,0.0,drop,multiclass,aga,1.367.663.725.025.550,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8745.jpg,3,0.0,0.0,keep,pipa,aga,1.416.897.207.256.510,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_805.jpg,3,0.0,0.0,drop,penyu makan plastik,aga,153.171.636.174.667,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2739.jpg,4,0.0,0.0,drop,multiclass,aga,1.540.486.754.525.190,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_742.jpg,3,0.0,0.0,keep,gambar dokter,aga,1.555.350.573.516.890,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9993.jpg,3,0.0,0.0,keep,gorden,aga,1.570.726.337.753.420,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3824.jpg,3,0.0,0.0,drop,multiclass,aga,1.582.010.560.098.570,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2786.jpg,1,0.0,0.0,drop,ga jelas,aga,1.654.187.472.632.860,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_600.jpg,2,0.0,0.0,keep,plastik,aga,1.689.583.172.780.570,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6178.jpg,1,0.0,0.0,keep,barang anor,aga,1.712.403.482.388.470,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6676.jpg,3,0.0,0.0,drop,ga jelas,aga,1.713.716.989.923.460,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7094.jpg,1,0.0,0.0,keep,"box susu, meski blur tapi tetep keliatan",aga,1.755.666.367.837.130,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7199.jpg,4,0.0,0.0,keep,box,aga,1.873.882.584.997.530,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3720.jpg,0,0.0,0.0,keep,"buku, meski overexposed",aga,193.441.891.125.049,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5809.jpg,3,0.0,0.0,keep,piring,aga,1.946.822.287.290.240,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2808.jpg,1,0.0,0.0,keep,keranjang,aga,2.012.645.850.237.610,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_723.jpg,1,0.0,0.0,drop,ga jelas,aga,2.018.845.488.168.090,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4500.jpg,0,0.0,0.0,drop,gajelas,aga,2.042.749.559.665.480,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2648.jpg,1,0.0,0.0,keep,"kaleng, meskipun masih ada isinya",aga,2.043.571.985.387.920,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1947.jpg,2,0.0,0.0,drop,multiclass,aga,2.058.073.331.838.730,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6032.jpg,2,0.0,0.0,drop,multiclass,aga,2.067.431.390.383.790,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3627.jpg,2,0.0,0.0,keep,buku,aga,2.067.653.682.998.540,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5095.jpg,0,0.0,0.0,drop,multiclass,aga,2.069.326.263.124.580,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3751.jpg,1,0.0,0.0,keep,lembaran buku,aga,2.148.668.363.338.880,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9126.jpg,0,0.0,0.0,drop,ada tomatnya,aga,2.155.635.989.720.800,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7141.jpg,3,0.0,0.0,keep,box,aga,2.216.828.863.740.140,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3631.jpg,4,0.0,0.0,drop,multiclass,aga,224.117.494.677.158,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5982.jpg,0,0.0,0.0,keep,stiker,aga,2.266.155.699.510.040,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3480.jpg,3,0.0,0.0,keep,barang anor,aga,2.289.694.984.412.110,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_855.jpg,2,0.0,0.0,drop,gajelas,aga,2.322.925.007.814.960,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9579.jpg,1,0.0,0.0,keep,sendok,aga,2.334.276.898.917.160,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9985.jpg,1,0.0,0.0,keep,gorden,aga,2.336.829.520.788.230,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_371.jpg,2,0.0,0.0,drop,gajelas,aga,2.364.376.602.883.690,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3383.jpg,3,0.0,0.0,keep,gelas,aga,2.371.678.356.608.360,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9466.jpg,2,0.0,0.0,drop,gajelas,aga,2.430.540.789.917.870,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4847.jpg,2,0.0,0.0,drop,multiclass,aga,2.445.410.093.462.240,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4755.jpg,2,0.0,0.0,drop,gajelas,aga,2.475.056.166.422.850,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_914.jpg,4,0.0,0.0,drop,multiclass,aga,2.499.348.593.768.340,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5017.jpg,0,0.0,0.0,keep,mesin industri,aga,2.515.977.424.538.260,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5911.jpg,3,0.0,0.0,drop,multiclass,aga,2.519.134.302.405.050,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6874.jpg,4,0.0,0.0,keep,kardus,aga,2.643.643.030.494.110,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4819.jpg,3,0.0,0.0,keep,kertas,aga,2.645.920.883.949.810,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6691.jpg,3,0.0,0.0,drop,ui,aga,2.689.935.801.914.150,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4827.jpg,4,0.0,0.0,keep,lampu?,aga,2.691.260.351.975.230,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9396.jpg,4,0.0,0.0,keep,club kayu,aga,2.731.188.241.844.500,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8161.jpg,3,0.0,0.0,drop,brosur digital,aga,2.737.968.569.170.740,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1538.jpg,2,0.0,0.0,keep,botol,aga,2.738.228.008.126.860,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6088.jpg,0,0.0,0.0,keep,mainan,aga,2.749.404.271.111.390,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9386.jpg,3,0.0,0.0,keep,sendok kayu,aga,2.778.288.973.770.740,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4774.jpg,3,0.0,0.0,drop,unidentified,aga,2.835.583.407.137.940,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4707.jpg,3,0.0,0.0,drop,unidentified,aga,2.865.353.570.421.200,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6875.jpg,0,0.0,0.0,drop,"ui windows, sampah sih emang wkwk",aga,2.868.948.384.624.710,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_793.jpg,0,0.0,0.0,keep,barbie,aga,2.870.798.791.511.940,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_408.jpg,1,0.0,0.0,keep,plastik,aga,2.880.994.104.296.520,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5284.jpg,1,0.0,0.0,drop,multiclass,aga,2.892.625.317.606.630,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_385.jpg,4,0.0,0.0,keep,plastuk,aga,2.902.186.052.070.530,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2301.jpg,2,0.0,0.0,keep,mainan,aga,2.905.242.621.146.280,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1520.jpg,2,0.0,0.0,drop,multiclass,aga,2.937.176.785.329.150,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9992.jpg,3,0.0,0.0,keep,gorden,aga,2.950.732.320.819.830,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4871.jpg,4,0.0,0.0,drop,unidentified,aga,2.952.581.497.775.530,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9954.jpg,4,0.0,0.0,keep,barang anor,aga,2.960.446.942.779.090,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_359.jpg,2,0.0,0.0,drop,penyu makan plastik,aga,2.960.603.600.799.310,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2120.jpg,2,0.0,0.0,keep,kaleng cocacola,aga,3.021.045.643.096.760,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2469.jpg,4,0.0,0.0,drop,multiclass,aga,3.034.594.755.758.230,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2142.jpg,4,0.0,0.0,keep,kaleng,aga,3.035.433.001.012.770,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_392.jpg,3,0.0,0.0,drop,penyu,aga,3.044.695.332.479.270,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3262.jpg,3,0.0,0.0,keep,gelas kertas,aga,3.046.175.006.260.990,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2300.jpg,3,0.0,0.0,keep,tekstur kertas,aga,3.081.668.944.217.250,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_762.jpg,3,0.0,0.0,drop,multiclass,aga,3.092.746.308.788.250,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6578.jpg,0,0.0,0.0,drop,ui apps,aga,3.108.479.684.449.940,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3644.jpg,2,0.0,0.0,keep,buku,aga,3.109.325.999.424.020,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5262.jpg,4,0.0,0.0,keep,botol kaca,aga,3.143.786.895.696.600,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2385.jpg,2,0.0,0.0,drop,multiclass,aga,3.145.054.248.201.530,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_399.jpg,1,0.0,0.0,keep,plastik,aga,3.155.738.284.842.550,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2370.jpg,0,0.0,0.0,drop,multiclass,aga,3.173.845.931.446,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4616.jpg,0,0.0,0.0,drop,unidentified,aga,3.193.878.472.309.500,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4679.jpg,2,0.0,0.0,drop,unidentified,aga,3.197.951.160.490.080,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8120.jpg,4,0.0,0.0,drop,brosur editan,aga,3.199.269.175.875.220,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4776.jpg,4,0.0,0.0,keep,mesin industri,aga,32.160.139.153.935,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_885.jpg,3,0.0,0.0,drop,multiclass,aga,3.262.525.051.948.890,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_335.jpg,3,0.0,0.0,drop,multiclass,aga,3.277.750.360.988.950,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8152.jpg,1,0.0,0.0,drop,brosur online,aga,3.288.763.183.505.490,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5046.jpg,0,0.0,0.0,keep,kapal,aga,3.337.585.326.123.860,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1171.jpg,0,0.0,0.0,keep,botol,aga,3.347.107.912.784.200,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5511.jpg,4,0.0,0.0,drop,blur dan multiclass keknya,aga,3.353.736.322.132.110,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4561.jpg,4,0.0,0.0,drop,unidentified,aga,3.354.781.496.153.380,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_801.jpg,3,0.0,0.0,keep,melatih mengabaikan tangan,aga,3.360.878.776.893.010,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4896.jpg,3,0.0,0.0,keep,bungkus,aga,3.368.860.957.401.980,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9994.jpg,1,0.0,0.0,keep,gorden,aga,3.373.614.735.407.830,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_690.jpg,0,0.0,0.0,drop,unidentified,aga,3.388.074.385.204.260,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8324.jpg,3,0.0,0.0,drop,random,aga,3.388.966.033.906.420,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8726.jpg,0,0.0,0.0,keep,utensil,aga,3.397.948.593.261.400,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7466.jpg,4,0.0,0.0,drop,graphic design,aga,3.398.431.667.825.200,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4979.jpg,1,0.0,0.0,keep,utensil cuma agak distorted,aga,3.407.321.327.729.210,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3636.jpg,4,0.0,0.0,keep,buku,aga,3.427.783.579.309.370,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1780.jpg,4,0.0,0.0,keep,botol soda,aga,3.477.289.262.422.860,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7170.jpg,0,0.0,0.0,keep,tea bags,aga,3.480.567.680.749.650,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1581.jpg,0,0.0,0.0,keep,sampah plastik,aga,3.481.241.839.874.220,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9875.jpg,4,0.0,0.0,keep,barang anor,aga,3.563.342.836.172.620,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9914.jpg,1,0.0,0.0,keep,barang anor,aga,3.584.632.605.197.910,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9863.jpg,0,0.0,0.0,drop,multiclass,aga,359.685.228.273.377,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_710.jpg,2,0.0,0.0,drop,unidentified,aga,3.618.442.591.419.120,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7110.jpg,3,0.0,0.0,keep,box,aga,3.630.120.225.872.440,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4341.jpg,2,0.0,0.0,keep,asbes,aga,36.339.923.437.922,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4913.jpg,4,0.0,0.0,drop,unidentified,aga,3.669.083.963.200.250,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9473.jpg,3,0.0,0.0,keep,utensil,aga,3.688.740.113.971.320,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2232.jpg,3,0.0,0.0,keep,tekstur kertas,aga,3.708.740.958.996.950,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9984.jpg,2,0.0,0.0,keep,gorden,aga,3.721.330.589.211.900,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_687.jpg,1,0.0,0.0,keep,plastik,aga,3.727.622.454.068.740,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8764.jpg,0,0.0,0.0,keep,barang anor,aga,3.755.537.206.519.110,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4769.jpg,1,0.0,0.0,keep,beton keknya,aga,3.756.126.110.278.500,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4690.jpg,3,0.0,0.0,drop,chaotic,aga,3.897.255.770.598.420,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6535.jpg,3,0.0,0.0,drop,ui,aga,3.912.069.427.579.280,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9753.jpg,3,0.0,0.0,drop,cuma lingkaran hitam,aga,3.920.046.836.545.000,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6658.jpg,4,0.0,0.0,drop,graphic design,aga,39.596.717.101.846,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4594.jpg,4,0.0,0.0,drop,graphic design,aga,3.978.588.600.378.850,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4961.jpg,1,0.0,0.0,keep,panci,aga,4.020.347.364.807.920,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3726.jpg,2,0.0,0.0,keep,buku dipegang orang,aga,4.038.157.655.090.710,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_491.jpg,1,0.0,0.0,keep,plastik,aga,4.065.288.352.283.110,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1969.jpg,1,0.0,0.0,keep,bungkus cocacola,aga,4.150.461.912.401.900,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7071.jpg,1,0.0,0.0,drop,graphic design,aga,4.168.126.816.950.700,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_321.jpg,0,0.0,0.0,drop,graphic design,aga,4.197.933.856.742.290,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7413.jpg,3,0.0,0.0,keep,graphic design,aga,4.203.377.852.602.160,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8784.jpg,0,0.0,0.0,keep,sepeda,aga,4.221.486.972.864.900,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1310.jpg,2,0.0,0.0,drop,chaotic,aga,4.252.885.762.990.270,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1127.jpg,0,0.0,0.0,drop,unidentified,aga,4.259.005.399.991.800,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_363.jpg,0,0.0,0.0,keep,barang anor,aga,4.270.324.358.916.910,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7111.jpg,1,0.0,0.0,keep,mesin industri,aga,430.542.683.876.812,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2317.jpg,1,0.0,0.0,keep,kardus,aga,4.329.972.310.050.150,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2482.jpg,4,0.0,0.0,keep,box pizza,aga,4.383.836.803.515.010,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3633.jpg,0,0.0,0.0,keep,buku,aga,4.397.482.202.251.290,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4383.jpg,1,0.0,0.0,keep,kertas cacah,aga,4.458.252.484.363.800,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4765.jpg,0,0.0,0.0,keep,plastik,aga,4.520.384.675.449.990,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8954.jpg,3,0.0,0.0,keep,mangkok cantik,aga,4.533.594.574.508.110,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6873.jpg,3,0.0,0.0,drop,unidentified,aga,4.565.824.414.346.060,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1948.jpg,3,0.0,0.0,keep,gelas,aga,467.256.110.692.723,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5788.jpg,0,0.0,0.0,keep,piring,aga,4.735.254.537.828.090,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9164.jpg,3,0.0,0.0,keep,piring,aga,4.830.675.178.138.140,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_1025.jpg,1,0.0,0.0,keep,kantong plastik raksasa,aga,4.864.581.946.599.780,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9878.jpg,1,0.0,0.0,keep,barang anor,aga,4.921.052.945.504.580,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6609.jpg,2,0.0,0.0,drop,unidentified,aga,4.949.281.392.454.560,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_6734.jpg,2,0.0,0.0,keep,amplop,aga,501.139.637.676.359,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5004.jpg,3,0.0,0.0,keep,barang anor,aga,5.046.433.461.268.100,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_854.jpg,4,0.0,0.0,drop,chaotic,aga,5.127.479.566.594.210,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3650.jpg,2,0.0,0.0,keep,buku,aga,5.147.460.310.580.740,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9887.jpg,0,0.0,0.0,keep,barang anor,aga,5.158.091.711.226.170,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4993.jpg,4,0.0,0.0,keep,panci,aga,5.171.414.579.939.650,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_140.jpg,3,0.0,0.0,keep,tps plastik,aga,5.250.210.758.669.220,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_5002.jpg,4,0.0,0.0,keep,mesin industri,aga,5.288.833.574.517.970,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_695.jpg,0,0.0,0.0,drop,tps campuran,aga,5.368.931.279.441.310,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_3801.jpg,3,0.0,0.0,drop,multiclass,aga,5.505.060.940.185.160,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_674.jpg,4,0.0,0.0,drop,chaotic,aga,5.560.419.372.156.590,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9999.jpg,3,0.0,0.0,keep,gorden,aga,5.561.099.672.871.330,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_828.jpg,0,0.0,0.0,drop,chaotic,aga,5.572.555.216.611.500,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_244.jpg,0,0.0,0.0,keep,botol plastik,aga,5.591.388.568.546.580,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_2814.jpg,1,0.0,0.0,keep,panci,aga,5.606.379.992.039.460,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_874.jpg,0,0.0,0.0,keep,tps campuran,aga,5.674.033.279.903.480,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7193.jpg,1,0.0,0.0,keep,mobil kartun,aga,5.755.990.220.153.860,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_931.jpg,3,0.0,0.0,keep,keranjang,aga,5.770.237.627.115.940,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_712.jpg,2,0.0,0.0,drop,tps,aga,5.790.007.318.951.330,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_8768.jpg,0,0.0,0.0,keep,barang anor,aga,5.797.301.084.243.310,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_139.jpg,2,0.0,0.0,keep,barang anor,aga,5.908.473.864.573.720,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_849.jpg,2,0.0,0.0,drop,tps campuran,aga,5.909.424.320.751.960,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_419.jpg,4,0.0,0.0,drop,tps campuran,aga,5.923.358.936.706.400,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4570.jpg,2,0.0,0.0,keep,barang anor,aga,5.980.600.809.224.220,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_4618.jpg,2,0.0,0.0,drop,unidentified,aga,598.762.317.479.266,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_579.jpg,2,0.0,0.0,drop,chaotic,aga,6.056.915.722.032.230,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7194.jpg,3,0.0,0.0,keep,furnitur,aga,6.061.812.862.760.590,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_9928.jpg,3,0.0,0.0,drop,graphic design,aga,6.082.914.642.930.310,,FALSE
+/content/drive/MyDrive/BDC2026/train/0_Recyclable/R_7081.jpg,2,0.0,0.0,keep,box,aga,6.236.468.615.329.110,,FALSE

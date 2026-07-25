@@ -30,7 +30,7 @@ import torch.nn as nn
 import numpy as np
 from track_a.src.dataset import get_loaders
 
-FOLDS_CSV = "/content/drive/MyDrive/BDC2026/folds.csv"  # sesuaikan path Drive kalian
+FOLDS_CSV = "/content/drive/MyDrive/BDC2026/folds_v2.csv"  # sesuaikan path Drive kalian
 
 # 2. Buat DataLoader (misal untuk Fold 0)
 # Fold 0 jadi Validation, Fold 1–4 jadi Training — otomatis.
@@ -43,7 +43,7 @@ train_loader, val_loader = get_loaders(
 
 # 3. Tangani Class Imbalance (Krusial!)
 # Kelas 'Electronic' sangat minoritas (14.9%), wajib gunakan class weights ini di Loss Function.
-weights = torch.tensor(np.load("/content/drive/MyDrive/BDC2026/class_weights.npy"), dtype=torch.float)
+weights = torch.tensor(np.load("/content/drive/MyDrive/BDC2026/class_weights_v2.npy"), dtype=torch.float)
 criterion = nn.CrossEntropyLoss(weight=weights.to(device))
 
 # 4. Loop Training seperti biasa...
