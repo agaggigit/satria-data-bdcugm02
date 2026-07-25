@@ -174,6 +174,27 @@ def test_mlp_resample_fallback_is_reproducible():
     assert np.allclose(_run(), _run())
 
 
+def test_mlp_recovers_when_signature_lies_about_sample_weight_support():
+    """Jaring pengaman kedua: introspeksi bilang DIDUKUNG tapi fit() menolak
+    (TypeError). Harus turun ke jalur resample, bukan meledak."""
+    X, y = _imbalanced()
+    head = make_head("mlp", seed=42, class_weight="balanced")
+    head.supports_sample_weight = True           # sengaja "berbohong"
+
+    real_fit = head.model.fit
+
+    def _fit_rejecting_sample_weight(X_, y_, **kwargs):
+        if "sample_weight" in kwargs:
+            raise TypeError("fit() got an unexpected keyword argument 'sample_weight'")
+        return real_fit(X_, y_)
+
+    head.model.fit = _fit_rejecting_sample_weight
+    head.fit(X, y)                                # tidak boleh raise
+
+    assert head.weighting_ == "resample"
+    assert head.predict_proba(X).shape == (len(y), 3)
+
+
 def test_mlp_without_class_weight_records_none_path():
     X, y = _imbalanced()
     head = make_head("mlp", seed=42, class_weight=None)

@@ -49,13 +49,21 @@ class _MLPWrapper:
 
         sw = compute_sample_weight(self.class_weight, y)
         if self.supports_sample_weight:
-            self.weighting_ = "sample_weight"
-            self.model.fit(X, y, sample_weight=sw)
-        else:
-            self.weighting_ = "resample"
-            rng = np.random.default_rng(self.seed)
-            idx = rng.choice(len(y), size=len(y), replace=True, p=sw / sw.sum())
-            self.model.fit(np.asarray(X)[idx], np.asarray(y)[idx])
+            try:
+                self.model.fit(X, y, sample_weight=sw)
+                self.weighting_ = "sample_weight"
+                return self
+            except TypeError:
+                # Jaring pengaman kedua: introspeksi signature bilang didukung
+                # tapi implementasinya menolak (dekorator sklearn menyembunyikan
+                # signature asli, versi tak lazim, dsb). Jangan gagal total --
+                # turun ke jalur resample yang sama-sama menyeimbangkan.
+                self.supports_sample_weight = False
+
+        self.weighting_ = "resample"
+        rng = np.random.default_rng(self.seed)
+        idx = rng.choice(len(y), size=len(y), replace=True, p=sw / sw.sum())
+        self.model.fit(np.asarray(X)[idx], np.asarray(y)[idx])
         return self
 
     def predict_proba(self, X) -> np.ndarray:
