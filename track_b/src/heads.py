@@ -3,6 +3,8 @@
 Satu interface (.fit / .predict_proba) untuk semua head -> grid backbone x head
 jadi loop sederhana, dan menambah head baru tidak menyentuh kode lain.
 """
+import inspect
+
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
@@ -14,21 +16,46 @@ HEAD_NAMES = ["linear", "mlp", "lgbm", "knn"]
 
 class _MLPWrapper:
     """MLPClassifier tidak punya param `class_weight` di constructor -- kalau
-    dikirim langsung, TypeError. TAPI `.fit()`-nya menerima `sample_weight`
-    (diverifikasi lewat inspect.signature, lihat TRACK_B_ARAHAN_V3.md Task 1).
-    Wrapper ini menerjemahkan class_weight -> sample_weight per-sampel saat
-    fit, supaya MLP -- head UTAMA (A1) -- tidak diam-diam kehilangan
-    penyeimbang kelas Electronic seperti yang terjadi di versi sebelumnya."""
+    dikirim langsung, TypeError. Wrapper ini yang menerjemahkannya, supaya MLP
+    -- head UTAMA (A1) -- tidak diam-diam kehilangan penyeimbang kelas
+    Electronic (bug B2).
+
+    DUA JALUR, dipilih saat runtime (bukan asumsi):
+      sample_weight : sklearn baru (>=1.7-an) menerima fit(X, y, sample_weight)
+      resample      : sklearn lama TIDAK menerimanya (Colab per 25 Juli 2026
+                      masih begitu -> TypeError 'unexpected keyword argument
+                      sample_weight'). Jalur ini menyeimbangkan lewat resampling
+                      berbobot: ambil ulang n sampel dgn probabilitas
+                      sebanding class_weight, seeded jadi reproducible.
+
+    Sengaja TIDAK jatuh ke "latih tanpa bobot" kalau sample_weight tak ada --
+    itu persis menghidupkan lagi bug yang baru diperbaiki, dan diam-diam pula.
+    Jalur yang dipakai tercatat di `self.weighting_` untuk audit/report."""
 
     def __init__(self, seed: int, class_weight):
         self.class_weight = class_weight
+        self.seed = seed
         self.model = MLPClassifier(hidden_layer_sizes=(512,), max_iter=400,
                                    early_stopping=True, random_state=seed)
+        self.supports_sample_weight = "sample_weight" in inspect.signature(
+            self.model.fit).parameters
+        self.weighting_ = None
 
     def fit(self, X, y):
-        sample_weight = (compute_sample_weight(self.class_weight, y)
-                         if self.class_weight is not None else None)
-        self.model.fit(X, y, sample_weight=sample_weight)
+        if self.class_weight is None:
+            self.weighting_ = "none"
+            self.model.fit(X, y)
+            return self
+
+        sw = compute_sample_weight(self.class_weight, y)
+        if self.supports_sample_weight:
+            self.weighting_ = "sample_weight"
+            self.model.fit(X, y, sample_weight=sw)
+        else:
+            self.weighting_ = "resample"
+            rng = np.random.default_rng(self.seed)
+            idx = rng.choice(len(y), size=len(y), replace=True, p=sw / sw.sum())
+            self.model.fit(np.asarray(X)[idx], np.asarray(y)[idx])
         return self
 
     def predict_proba(self, X) -> np.ndarray:

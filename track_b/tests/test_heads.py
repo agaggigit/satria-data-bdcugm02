@@ -105,6 +105,82 @@ def test_class_weight_balanced_does_not_hurt_minority_recall(name):
     )
 
 
+# --- Kompatibilitas lintas versi sklearn: MLPClassifier.fit(sample_weight)
+# ADA di sklearn baru (lokal 1.9.0) tapi TIDAK di sklearn lama (Colab, 25 Juli
+# 2026 -> TypeError). Memverifikasi signature cuma di satu mesin TIDAK CUKUP;
+# test di bawah memaksa KEDUA jalur supaya bug ini tak bisa lolos lagi. ---
+
+def test_mlp_detects_sample_weight_support_at_runtime():
+    head = make_head("mlp", class_weight="balanced")
+    assert isinstance(head.supports_sample_weight, bool)
+
+
+def test_mlp_uses_sample_weight_path_when_supported():
+    head = make_head("mlp", class_weight="balanced")
+    if not head.supports_sample_weight:
+        pytest.skip("sklearn di mesin ini tidak mendukung sample_weight")
+    X, y = _imbalanced()
+    head.fit(X, y)
+    assert head.weighting_ == "sample_weight"
+
+
+def test_mlp_falls_back_to_resampling_on_old_sklearn():
+    """Simulasi sklearn lama: paksa supports_sample_weight=False. HARUS tetap
+    jalan (tidak TypeError) DAN tetap menyeimbangkan kelas -- bukan diam-diam
+    melatih tanpa bobot."""
+    X, y = _imbalanced()
+    head = make_head("mlp", seed=42, class_weight="balanced")
+    head.supports_sample_weight = False          # <- seolah-olah sklearn Colab
+    head.fit(X, y)
+
+    assert head.weighting_ == "resample"
+    p = head.predict_proba(X)
+    assert p.shape == (len(y), 3)
+    assert np.allclose(p.sum(axis=1), 1.0, atol=1e-5)
+
+
+def test_mlp_resample_fallback_still_balances_minority_class():
+    """Fallback harus BENAR-BENAR menyeimbangkan: recall kelas minoritas tidak
+    boleh lebih buruk daripada tanpa bobot sama sekali."""
+    X, y = _imbalanced()
+
+    plain = make_head("mlp", seed=42, class_weight=None)
+    plain.fit(X, y)
+    recall_plain = _minority_recall(plain, X, y)
+
+    fallback = make_head("mlp", seed=42, class_weight="balanced")
+    fallback.supports_sample_weight = False
+    fallback.fit(X, y)
+    recall_fallback = _minority_recall(fallback, X, y)
+
+    assert fallback.weighting_ == "resample"
+    assert recall_fallback >= recall_plain, (
+        f"fallback resample MENURUNKAN recall minoritas "
+        f"({recall_plain:.3f} -> {recall_fallback:.3f}) -- penyeimbang tidak bekerja"
+    )
+
+
+def test_mlp_resample_fallback_is_reproducible():
+    """Seed sama -> hasil sama persis (resampling tidak boleh bikin run
+    tak-reproducible; panitia bisa minta verifikasi)."""
+    X, y = _imbalanced()
+
+    def _run():
+        h = make_head("mlp", seed=42, class_weight="balanced")
+        h.supports_sample_weight = False
+        h.fit(X, y)
+        return h.predict_proba(X)
+
+    assert np.allclose(_run(), _run())
+
+
+def test_mlp_without_class_weight_records_none_path():
+    X, y = _imbalanced()
+    head = make_head("mlp", seed=42, class_weight=None)
+    head.fit(X, y)
+    assert head.weighting_ == "none"
+
+
 def test_knn_does_not_accept_class_weight_and_make_head_does_not_pass_it():
     """KNeighborsClassifier TIDAK punya param class_weight -- kalau make_head
     mengirimkannya, ini akan TypeError. Sengaja mengirim class_weight ke knn
