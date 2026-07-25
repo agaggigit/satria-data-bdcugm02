@@ -6,10 +6,11 @@ import pytest
 import torch
 from PIL import Image
 
-from embed import (assert_aligned, emb_path, extract_embeddings,
+from embed import (align_to_subset, assert_aligned, assert_fold_unchanged,
+                   available_embeddings, emb_path, extract_embeddings,
                    extract_embeddings_resumable, is_cached, load_embeddings,
                    merge_shards, save_embeddings, save_shard, shard_manifest_path,
-                   shard_path)
+                   shard_path, verify_concat_dim)
 
 
 @pytest.fixture
@@ -63,6 +64,127 @@ def test_assert_aligned_rejects_nan(folds_df):
 
 def test_assert_aligned_accepts_valid(folds_df):
     assert_aligned(np.random.rand(20, 8), folds_df)   # tidak raise
+
+
+# --- Task 0 (TRACK_B_ARAHAN_V3.md): verifikasi dim embedding yang sudah ada ---
+
+def _save(tmp_path, name, split, dim, n_rows=5, checkpoint="ckpt/fake"):
+    emb = np.random.rand(n_rows, dim).astype(np.float32)
+    save_embeddings(emb, name, split, {"checkpoint": checkpoint, "flips": [], "seed": 42})
+
+
+def test_available_embeddings_reports_only_what_is_cached(tmp_path, monkeypatch):
+    monkeypatch.setattr("embed.EMB_DIR", tmp_path)
+    _save(tmp_path, "siglip2b256", "train", dim=768, checkpoint="google/siglip2-base-patch16-256")
+
+    found = available_embeddings("train", names=["siglip2b256", "siglip1b256"])
+
+    assert set(found.keys()) == {"siglip2b256"}          # siglip1b256 belum ada -> dilewati
+    assert found["siglip2b256"]["dim"] == 768
+    assert found["siglip2b256"]["shape"] == (5, 768)
+    assert found["siglip2b256"]["checkpoint"] == "google/siglip2-base-patch16-256"
+
+
+def test_available_embeddings_empty_when_nothing_cached(tmp_path, monkeypatch):
+    monkeypatch.setattr("embed.EMB_DIR", tmp_path)
+    assert available_embeddings("train", names=["siglip2b256"]) == {}
+
+
+def test_verify_concat_dim_passes_when_768_plus_768_is_1536(tmp_path, monkeypatch):
+    monkeypatch.setattr("embed.EMB_DIR", tmp_path)
+    _save(tmp_path, "siglip2b256", "train", dim=768)
+    _save(tmp_path, "siglip1b256", "train", dim=768)
+    found = available_embeddings("train", names=["siglip2b256", "siglip1b256"])
+
+    verify_concat_dim(found, "siglip2b256", "siglip1b256", expected=1536)  # tidak raise
+
+
+def test_verify_concat_dim_rejects_wrong_total(tmp_path, monkeypatch):
+    monkeypatch.setattr("embed.EMB_DIR", tmp_path)
+    _save(tmp_path, "siglip2b256", "train", dim=768)
+    _save(tmp_path, "siglip1b256", "train", dim=512)   # sengaja salah
+    found = available_embeddings("train", names=["siglip2b256", "siglip1b256"])
+
+    with pytest.raises(AssertionError, match="BUKAN"):
+        verify_concat_dim(found, "siglip2b256", "siglip1b256", expected=1536)
+
+
+def test_verify_concat_dim_refuses_to_pass_silently_when_one_side_missing(tmp_path, monkeypatch):
+    """Kalau siglip1b256 belum di-cache, verify_concat_dim TIDAK BOLEH diam-diam
+    'lolos' -- itu akan membuat orang mengira 1536 sudah terverifikasi padahal
+    belum pernah benar-benar dihitung."""
+    monkeypatch.setattr("embed.EMB_DIR", tmp_path)
+    _save(tmp_path, "siglip2b256", "train", dim=768)
+    found = available_embeddings("train", names=["siglip2b256", "siglip1b256"])
+
+    with pytest.raises(AssertionError, match="belum di-cache"):
+        verify_concat_dim(found, "siglip2b256", "siglip1b256", expected=1536)
+
+
+# --- Task 2 (TRACK_B_ARAHAN_V3.md): align embedding v1 -> subset folds_v2 ---
+
+def _folds_v1(n=10):
+    return pd.DataFrame({
+        "filepath": [f"img{i}.jpg" for i in range(n)],
+        "label": [i % 3 for i in range(n)],
+        "fold": [i % 5 for i in range(n)],
+    })
+
+
+def test_align_to_subset_picks_correct_rows_by_filepath_not_position():
+    folds_v1 = _folds_v1(6)
+    emb_v1 = np.arange(6).reshape(6, 1).astype(np.float32)  # baris i berisi nilai i -> identitas
+
+    # folds_v2: drop img1 & img3, DAN urutan sengaja dibolak (bukan subsequence posisional)
+    folds_v2 = pd.DataFrame({
+        "filepath": ["img4.jpg", "img0.jpg", "img5.jpg", "img2.jpg"],
+        "label": [1, 0, 2, 2],
+        "fold": [4, 0, 0, 2],
+    })
+
+    emb_v2 = align_to_subset(emb_v1, folds_v1, folds_v2)
+
+    assert emb_v2.shape == (4, 1)
+    assert np.allclose(emb_v2.ravel(), [4, 0, 5, 2])  # ikut urutan folds_v2, bukan folds_v1
+
+
+def test_align_to_subset_rejects_filepath_not_in_v1():
+    folds_v1 = _folds_v1(3)
+    emb_v1 = np.zeros((3, 2), dtype=np.float32)
+    folds_bad = pd.DataFrame({"filepath": ["img99.jpg"], "label": [0], "fold": [0]})
+
+    with pytest.raises(AssertionError, match="tidak ada di folds_v1"):
+        align_to_subset(emb_v1, folds_v1, folds_bad)
+
+
+def test_align_to_subset_rejects_emb_v1_length_mismatch():
+    folds_v1 = _folds_v1(5)
+    emb_v1 = np.zeros((4, 2), dtype=np.float32)   # sengaja kurang 1 baris
+    with pytest.raises(AssertionError, match="alignment v1 sendiri rusak"):
+        align_to_subset(emb_v1, folds_v1, folds_v1.iloc[:2])
+
+
+def test_align_to_subset_rejects_duplicate_filepath():
+    folds_v1 = _folds_v1(3)
+    emb_v1 = np.zeros((3, 2), dtype=np.float32)
+    dup = pd.concat([folds_v1.iloc[[0]], folds_v1.iloc[[0]]], ignore_index=True)
+    with pytest.raises(AssertionError, match="tidak unik"):
+        align_to_subset(emb_v1, folds_v1, dup)
+
+
+def test_assert_fold_unchanged_accepts_when_surviving_rows_keep_their_fold():
+    folds_v1 = _folds_v1(6)
+    folds_v2 = folds_v1[folds_v1["filepath"] != "img3.jpg"].reset_index(drop=True)
+    assert_fold_unchanged(folds_v1, folds_v2)   # tidak raise
+
+
+def test_assert_fold_unchanged_rejects_when_a_surviving_row_moved_fold():
+    folds_v1 = _folds_v1(6)
+    folds_v2 = folds_v1.copy()
+    folds_v2.loc[folds_v2["filepath"] == "img2.jpg", "fold"] = 99   # sengaja dipindah
+
+    with pytest.raises(AssertionError, match="fold_moved"):
+        assert_fold_unchanged(folds_v1, folds_v2)
 
 
 # --- extract_embeddings: loop RAM-safe, diuji CPU-only tanpa unduh bobot ---

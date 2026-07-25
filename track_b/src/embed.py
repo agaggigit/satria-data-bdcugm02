@@ -68,11 +68,83 @@ def is_cached(name: str, split: str) -> bool:
     return emb_path(name, split).exists() and manifest_path(name, split).exists()
 
 
+# Lima backbone yang di-scaffold tim (lihat TRACK_B_ARAHAN_V3.md Bagian 0) --
+# dipakai default oleh available_embeddings() supaya "lihat semua yang ada"
+# tidak perlu daftar ulang nama di tiap pemanggil.
+EXPECTED_BACKBONES = ["siglip2b256", "siglip2so400m", "siglip1b256", "dinov3vitl", "dinov3cnxb"]
+
+
+def available_embeddings(split: str = "train", names: list = None) -> dict:
+    """name -> {"shape", "dim", "checkpoint"} untuk tiap embedding yang SUDAH
+    di-cache di EMB_DIR. Backbone yang belum di-ekstrak dilewati (bukan error) --
+    ini untuk "lihat yang sudah ada", bukan menuntut set lengkap."""
+    names = EXPECTED_BACKBONES if names is None else names
+    found = {}
+    for name in names:
+        if is_cached(name, split):
+            emb, meta = load_embeddings(name, split)
+            found[name] = {
+                "shape": emb.shape,
+                "dim": int(emb.shape[1]),
+                "checkpoint": meta.get("checkpoint"),
+            }
+    return found
+
+
+def verify_concat_dim(found: dict, name_a: str, name_b: str, expected: int) -> None:
+    """Assert dim(name_a) + dim(name_b) == expected -- HANYA kalau dua-duanya
+    sudah ada di `found`. Kalau salah satu belum di-cache, sengaja raise (bukan
+    lolos diam-diam) -- pemanggil harus tahu verifikasi ini belum benar-benar
+    terjadi, bukan menganggap "tidak ada error" berarti "sudah terkonfirmasi"."""
+    missing = [n for n in (name_a, name_b) if n not in found]
+    assert not missing, \
+        f"belum di-cache, tidak bisa verifikasi dim concat: {missing}"
+    total = found[name_a]["dim"] + found[name_b]["dim"]
+    assert total == expected, (
+        f"dim concat {name_a}({found[name_a]['dim']}) + "
+        f"{name_b}({found[name_b]['dim']}) = {total}, BUKAN {expected}"
+    )
+
+
 def assert_aligned(emb: np.ndarray, folds_df) -> None:
     assert emb.shape[0] == len(folds_df), \
         f"jumlah baris embedding {emb.shape[0]} != folds.csv {len(folds_df)}"
     assert not np.isnan(emb).any(), "embedding mengandung NaN"
     assert np.isfinite(emb).all(), "embedding mengandung inf"
+
+
+def align_to_subset(emb_v1: np.ndarray, folds_v1, folds_subset) -> np.ndarray:
+    """Subset embedding yang align ke folds_v1 (baris ke-i = baris ke-i folds_v1)
+    supaya baris ke-i hasil = baris ke-i folds_subset (mis. folds_v2.csv, yang
+    baris & urutannya BEDA -- ada yang di-drop Track A). Join lewat `filepath`,
+    TIDAK BOLEH asumsi index -- folds_v2 bukan potongan folds_v1 yang index-nya
+    kebetulan sama (lihat TRACK_B_ARAHAN_V3.md Bagian D: Alignment)."""
+    assert emb_v1.shape[0] == len(folds_v1), \
+        f"emb_v1 {emb_v1.shape[0]} baris != folds_v1 {len(folds_v1)} baris -- alignment v1 sendiri rusak"
+    assert folds_v1["filepath"].is_unique, "filepath tidak unik di folds_v1"
+    assert folds_subset["filepath"].is_unique, "filepath tidak unik di folds_subset"
+
+    missing = set(folds_subset["filepath"]) - set(folds_v1["filepath"])
+    assert not missing, \
+        f"{len(missing)} filepath di folds_subset tidak ada di folds_v1: {sorted(missing)[:5]}..."
+
+    fp_to_row = {fp: i for i, fp in enumerate(folds_v1["filepath"])}
+    idx = folds_subset["filepath"].map(fp_to_row).to_numpy()
+    return emb_v1[idx]
+
+
+def assert_fold_unchanged(folds_v1, folds_v2) -> None:
+    """Guard D: 'Fold sampel yang bertahan TIDAK boleh berubah'. Track A sudah
+    menegakkan ini saat generate_v2.py (_verify_fold_assignment) -- ini
+    verifikasi ULANG di sisi Track B, murah, dan menangkap kalau folds_v2.csv
+    yang ke-load ternyata sudah basi/beda dari yang Track A umumkan."""
+    v1_fold = folds_v1.set_index("filepath")["fold"]
+    v2_fold = folds_v2.set_index("filepath")["fold"]
+    common = v2_fold.index.intersection(v1_fold.index)
+    moved = common[v1_fold.loc[common].to_numpy() != v2_fold.loc[common].to_numpy()]
+    assert len(moved) == 0, \
+        f"fold_moved != 0: {len(moved)} sampel pindah fold antara v1 dan v2 -- " \
+        f"OOF v1 vs v2 tidak sebanding. Contoh: {list(moved[:5])}"
 
 
 def resolve_dtype(ckpt: str) -> torch.dtype:
