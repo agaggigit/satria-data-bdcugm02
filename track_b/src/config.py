@@ -48,6 +48,10 @@ class Config:
     # Drive per-file jauh lebih lambat daripada dari disk lokal). Opt-in, tidak
     # mengubah perilaku default kalau env var tidak di-set.
     folds_csv: str = os.environ.get("FOLDS_CSV_OVERRIDE", os.path.join(OUTPUT_TRACK_A, "folds.csv"))
+    # folds_v2.csv -- hasil cleaning Track A (TRACK_B_ARAHAN_V3.md A4/B3). Skema
+    # kolom sama dgn folds.csv, baris lebih sedikit; JANGAN dipakai sebagai
+    # pengganti folds_csv, keduanya dibandingkan berdampingan (head_grid_v3.py).
+    folds_v2_csv: str = os.environ.get("FOLDS_V2_CSV_OVERRIDE", os.path.join(OUTPUT_TRACK_A, "folds_v2.csv"))
     class_weights_path: str = os.path.join(OUTPUT_TRACK_A, "class_weights.npy")
     save_dir: str = OUTPUT_TRACK_B
 
