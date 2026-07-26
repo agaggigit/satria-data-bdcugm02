@@ -202,7 +202,8 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
         cfg = replace(cfg, img_size=model_img_size)
         print(f"Aligning cfg.img_size to checkpoint native size: {model_img_size}")
 
-    train_loader, val_loader, _ = get_loaders_b(fold=0, cfg=cfg, data_config=data_config)
+    val_batch_size = getattr(cfg, "val_batch", 32)
+    train_loader, val_loader, _ = get_loaders_b(fold=0, cfg=cfg, data_config=data_config, val_batch_size=val_batch_size)
     model, optimizer = build_variant(variant, encoder, hidden_size, num_classes=cfg.num_classes, n_last_blocks=n_last_blocks)
     
     # Verifikasi trainable parameters (Guard #1)

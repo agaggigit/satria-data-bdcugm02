@@ -5,7 +5,7 @@ from dataset import WasteDataset          # Track A -- read-only, lihat track_a/
 from transforms import build_transforms
 
 
-def get_loaders_b(fold: int, cfg, data_config: dict):
+def get_loaders_b(fold: int, cfg, data_config: dict, val_batch_size: int | None = None):
     """Loader Track B: reuse Dataset Track A, transform disuntik per-backbone.
 
     Return (train_loader, val_loader, val_row_idx).
@@ -22,13 +22,19 @@ def get_loaders_b(fold: int, cfg, data_config: dict):
     train_ds = WasteDataset(tr_df, transform=train_tfm)
     val_ds = WasteDataset(va_df, transform=eval_tfm)
 
+    val_bs = val_batch_size or getattr(cfg, "val_batch", max(cfg.batch, 32))
+    num_workers = getattr(cfg, "num_workers", 0)
+    persistent_workers = num_workers > 0
+
     train_loader = DataLoader(
         train_ds, batch_size=cfg.batch, shuffle=True,
-        num_workers=cfg.num_workers, pin_memory=True, drop_last=False,
+        num_workers=num_workers, pin_memory=True, drop_last=False,
+        persistent_workers=persistent_workers,
     )
     val_loader = DataLoader(
-        val_ds, batch_size=cfg.batch, shuffle=False,   # WAJIB False -> alignment OOF
-        num_workers=cfg.num_workers, pin_memory=True, drop_last=False,
+        val_ds, batch_size=val_bs, shuffle=False,   # WAJIB False -> alignment OOF
+        num_workers=num_workers, pin_memory=True, drop_last=False,
+        persistent_workers=persistent_workers,
     )
 
     val_row_idx = va_df.index.to_numpy()
