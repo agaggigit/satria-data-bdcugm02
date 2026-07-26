@@ -37,11 +37,12 @@ from vision_classifier import (VisionClassifier, apply_lora, build_llrd_optimize
                                configure_last_layer_finetuning,
                                hf_processor_to_data_config)  # noqa: E402
 
-# --- Parameter awal B8 (boleh di-tune, bukan mati) ---
-LORA_RANK = 8                        # B8: rank 8-16
-LORA_ALPHA = 16
-LORA_LR = 1e-4                       # B8
-LORA_EPOCHS = 3                      # B8: epoch 3-5
+# --- Parameter hasil riset paper SigLIP2-SO400M ref (B8) ---
+LORA_RANK = 4                        # Paper ref: rank 4
+LORA_ALPHA = 8                       # Paper ref: alpha 8
+LORA_DROPOUT = 0.05                  # Paper ref: dropout 0.05
+LORA_LR = 1e-4                       # Paper ref: LR 1e-4
+LORA_EPOCHS = 30                     # Paper ref: 30 epoch
 LAST_LAYER_N_BLOCKS = 1              # B8: 1-2 blok terakhir
 LAST_LAYER_HEAD_LR = 3e-4
 LAST_LAYER_BACKBONE_LR_RATIO = 1 / 50  # B8: 10-100x lebih kecil dari LR head
@@ -63,17 +64,17 @@ SMOKE_LR = {"lora": 5e-3, "last_layer": 3e-2}
 def build_variant(variant: str, encoder: nn.Module, hidden_size: int,
                   num_classes: int = 3, lr: float = None) -> tuple:
     """variant: 'lora' atau 'last_layer'. Bangun VisionClassifier + optimizer
-    sesuai parameter awal B8, siap dipakai training loop.
+    sesuai parameter hasil riset B8, siap dipakai training loop.
 
     lr: override LR (dipakai smoke_test_loop dgn SMOKE_LR). None = LR produksi B8.
     Untuk 'last_layer', lr ini adalah LR HEAD; LR backbone tetap
     lr * LAST_LAYER_BACKBONE_LR_RATIO (rasio LLRD tidak ikut berubah)."""
     model = VisionClassifier(encoder, hidden_size=hidden_size, num_classes=num_classes)
     if variant == "lora":
-        model = apply_lora(model, r=LORA_RANK, lora_alpha=LORA_ALPHA)
-        optimizer = torch.optim.AdamW(
+        model = apply_lora(model, r=LORA_RANK, lora_alpha=LORA_ALPHA, lora_dropout=LORA_DROPOUT)
+        optimizer = torch.optim.Adam(
             [p for p in model.parameters() if p.requires_grad],
-            lr=LORA_LR if lr is None else lr, weight_decay=0.05)
+            lr=LORA_LR if lr is None else lr)
     elif variant == "last_layer":
         configure_last_layer_finetuning(model, n_blocks=LAST_LAYER_N_BLOCKS)
         optimizer = build_llrd_optimizer(
@@ -179,6 +180,16 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
 
     train_loader, val_loader, _ = get_loaders_b(fold=0, cfg=cfg, data_config=data_config)
     model, optimizer = build_variant(variant, encoder, hidden_size, num_classes=cfg.num_classes)
+    
+    # Verifikasi trainable parameters (Guard #1)
+    print(f"\n--- Verifikasi trainable parameters [{variant}] ---")
+    if hasattr(model.encoder, "print_trainable_parameters"):
+        model.encoder.print_trainable_parameters()
+    else:
+        trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+        total = sum(p.numel() for p in model.parameters())
+        print(f"Trainable params: {trainable:,} / {total:,} ({100 * trainable / total:.4f}%)")
+
     model = model.to(device)
     criterion = nn.CrossEntropyLoss()
     scaler = GradScaler("cuda")

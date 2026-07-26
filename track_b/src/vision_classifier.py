@@ -18,7 +18,7 @@ string supaya benar-benar ter-scope vision only (terbukti: vision=48 text=0).
 import torch
 import torch.nn as nn
 
-VISION_ATTN_PATTERN = r"vision_model\.encoder\.layers\.\d+\.self_attn\.(q_proj|v_proj)"
+VISION_ATTN_PATTERN = r"vision_model\.encoder\.layers\.\d+\.self_attn\.(q_proj|k_proj)"
 
 
 class VisionClassifier(nn.Module):
@@ -62,15 +62,17 @@ def configure_last_layer_finetuning(model: VisionClassifier, n_blocks: int = 1) 
             p.requires_grad = True
 
 
-def apply_lora(model: VisionClassifier, r: int = 8, lora_alpha: int = 16,
+def apply_lora(model: VisionClassifier, r: int = 4, lora_alpha: int = 8,
+               lora_dropout: float = 0.05,
                target_pattern: str = VISION_ATTN_PATTERN) -> VisionClassifier:
-    """B8: rank 8-16, target q_proj & v_proj DI VISION TOWER SAJA. Backbone asli
-    dibekukan total dulu (freeze_all) -- cuma adapter LoRA kecil + head baru
-    yang trainable, risiko rusaknya representasi jauh lebih kecil dari full FT."""
+    """B8 / Paper SigLIP2-SO400M ref: rank 4, alpha 8, dropout 0.05, target q_proj & k_proj
+    DI VISION TOWER SAJA. Backbone asli dibekukan total (freeze_all) -- cuma adapter
+    LoRA kecil + head baru yang trainable."""
     from peft import LoraConfig, get_peft_model
 
     freeze_all(model.encoder)
-    lora_cfg = LoraConfig(r=r, lora_alpha=lora_alpha, target_modules=target_pattern)
+    lora_cfg = LoraConfig(r=r, lora_alpha=lora_alpha, lora_dropout=lora_dropout,
+                          target_modules=target_pattern)
     model.encoder = get_peft_model(model.encoder, lora_cfg)
     for p in model.head.parameters():
         p.requires_grad = True
