@@ -212,6 +212,12 @@ class _FakeModel:
         # menyediakan minimal satu parameter supaya jalur itu tidak AttributeError.
         yield torch.zeros(1, dtype=torch.float32)
 
+    def to(self, *args, **kwargs):
+        return self
+
+    def eval(self):
+        return self
+
     def get_image_features(self, pixel_values=None):
         return pixel_values.repeat(1, 4)      # D = 4
 
