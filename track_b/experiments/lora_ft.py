@@ -178,6 +178,14 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
     hidden_size = encoder.config.vision_config.hidden_size
     data_config = hf_processor_to_data_config(processor)
 
+    # Otomatis samakan cfg.img_size dengan native size checkpoint (misal 384 atau 256)
+    # untuk mencegah mismatch position embedding di Vision Transformer
+    model_img_size = data_config["input_size"][1]
+    if cfg.img_size != model_img_size:
+        from dataclasses import replace
+        cfg = replace(cfg, img_size=model_img_size)
+        print(f"Aligning cfg.img_size to checkpoint native size: {model_img_size}")
+
     train_loader, val_loader, _ = get_loaders_b(fold=0, cfg=cfg, data_config=data_config)
     model, optimizer = build_variant(variant, encoder, hidden_size, num_classes=cfg.num_classes)
     
