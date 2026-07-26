@@ -21,7 +21,7 @@ class Config:
     label_map: dict = field(default_factory=lambda: {0: "Recyclable", 1: "Electronic", 2: "Organic"})
 
     # Model
-    backbone: str = "convnext_tiny.in12k_ft_in1k"
+    backbone: str = "google/siglip2-so400m-patch14-384"
     backbone_revision: str | None = None  # None = revisi terbaru, atau str commit hash HF Hub (mis. 'main')
     drop_path_rate: float = 0.1
     pretrained: bool = True     # False di test/audit wiring supaya tidak unduh bobot
@@ -57,7 +57,7 @@ class Config:
     save_dir: str = OUTPUT_TRACK_B
 
     # === BARU — versioning checkpoint (fix Fase 2/3) ===
-    run_name: str = "convnext_v1"   # WAJIB diganti tiap run baru (retrain v2, eksperimen HP, family)
+    run_name: str = "siglip2_so400m_v1"   # WAJIB diganti tiap run baru (retrain v2, eksperimen HP, family)
     allow_overwrite: bool = False   # guard; True hanya kalau sengaja menimpa checkpoint sendiri
     vflip: bool = False             # dipakai src/transforms.py (Task 4), belum aktif di Task 1
 
