@@ -172,9 +172,9 @@ def load_encoder(ckpt: str, device="cuda", dtype: torch.dtype = None,
     """Load model + image processor SEKALI, pakai ulang untuk beberapa panggilan
     extract_embeddings() & lora_ft.py.
 
-    Untuk checkpoint SigLIP / SigLIP2, load HANYA Vision Model (Siglip2VisionModel / SiglipVisionModel)
-    alih-alih AutoModel (yang memuat dual-tower vision+text ~1.14B params padahal text model
-    tak pernah dipakai). Memangkas parameter dari ~1.14B -> ~400M dan menghemat VRAM signifikan.
+    Jika model berupa dual-tower (seperti SigLIP / SigLIP2), ekstrak HANYA vision_model
+    (~428M params) dan hapus text_model (~708M params). Ini memangkas parameter dari
+    ~1.14B -> ~400M, menghemat VRAM secara signifikan dan mencegah size mismatch.
 
     revision: commit hash spesifik untuk pinning checkpoint HF Hub.
     """
@@ -187,21 +187,15 @@ def load_encoder(ckpt: str, device="cuda", dtype: torch.dtype = None,
     if revision is not None:
         kwargs["revision"] = revision
 
-    lc = ckpt.lower()
-    if "siglip2" in lc:
-        try:
-            from transformers import Siglip2VisionModel
-            model = Siglip2VisionModel.from_pretrained(ckpt, **kwargs).to(device).eval()
-        except ImportError:
-            model = AutoModel.from_pretrained(ckpt, **kwargs).to(device).eval()
-    elif "siglip" in lc:
-        try:
-            from transformers import SiglipVisionModel
-            model = SiglipVisionModel.from_pretrained(ckpt, **kwargs).to(device).eval()
-        except ImportError:
-            model = AutoModel.from_pretrained(ckpt, **kwargs).to(device).eval()
+    full_model = AutoModel.from_pretrained(ckpt, **kwargs)
+    if hasattr(full_model, "vision_model"):
+        model = full_model.vision_model
+        if hasattr(full_model, "text_model"):
+            del full_model.text_model
     else:
-        model = AutoModel.from_pretrained(ckpt, **kwargs).to(device).eval()
+        model = full_model
+
+    model = model.to(device).eval()
 
     processor_kwargs = {}
     if revision is not None:

@@ -70,13 +70,14 @@ def make_vision_target_pattern(model: VisionClassifier, n_last_blocks: int | Non
     if n_last_blocks is None:
         return VISION_ATTN_PATTERN
 
-    layers = model._vision_model().encoder.layers
+    vis_model = model._vision_model()
+    layers = getattr(vis_model, "encoder", vis_model).layers
     n_total = len(layers)
     assert 1 <= n_last_blocks <= n_total, f"n_last_blocks={n_last_blocks} di luar rentang 1..{n_total}"
 
     target_idx = list(range(n_total - n_last_blocks, n_total))
     idx_pattern = "(" + "|".join(str(i) for i in target_idx) + ")"
-    return f"vision_model\\.encoder\\.layers\\.{idx_pattern}\\.self_attn\\.(q_proj|k_proj)"
+    return f"(vision_model\\.)?encoder\\.layers\\.{idx_pattern}\\.self_attn\\.(q_proj|k_proj)"
 
 
 def apply_lora(model: VisionClassifier, r: int = 4, lora_alpha: int = 8,
