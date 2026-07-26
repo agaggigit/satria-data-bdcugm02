@@ -99,6 +99,16 @@ def test_apply_lora_only_adapts_vision_tower_not_text_tower():
         "LoRA menyentuh text_model -- melanggar aturan 'image encoder saja'"
 
 
+def test_apply_lora_n_last_blocks_only_attaches_adapters_to_target_layers():
+    model = apply_lora(_model(), r=4, lora_alpha=8, n_last_blocks=2)
+    lora_names = [n for n, _ in model.named_parameters() if "lora_" in n]
+    assert len(lora_names) > 0
+    assert all("layers.2" in n or "layers.3" in n for n in lora_names), \
+        f"LoRA terpasang di luar layer 2 dan 3: {lora_names}"
+    assert not any("layers.0" in n or "layers.1" in n for n in lora_names), \
+        f"LoRA menyentuh layer 0 atau 1 padahal n_last_blocks=2: {lora_names}"
+
+
 def test_apply_lora_freezes_original_backbone_weights():
     model = apply_lora(_model(), r=4, lora_alpha=8)
     base_weight_names = [n for n, p in model.named_parameters()

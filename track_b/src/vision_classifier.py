@@ -62,18 +62,41 @@ def configure_last_layer_finetuning(model: VisionClassifier, n_blocks: int = 1) 
             p.requires_grad = True
 
 
+def make_vision_target_pattern(model: VisionClassifier, n_last_blocks: int | None = None) -> str:
+    """Buat regex target_modules LoRA scoped ke image encoder.
+    Jika n_last_blocks diberikan (misal 4), HANYA N block transformer terakhir vision encoder
+    yang diberi adapter LoRA. Jika None, SEMUA block transformer vision encoder diberi LoRA.
+    """
+    if n_last_blocks is None:
+        return VISION_ATTN_PATTERN
+
+    layers = model._vision_model().encoder.layers
+    n_total = len(layers)
+    assert 1 <= n_last_blocks <= n_total, f"n_last_blocks={n_last_blocks} di luar rentang 1..{n_total}"
+
+    target_idx = list(range(n_total - n_last_blocks, n_total))
+    idx_pattern = "(" + "|".join(str(i) for i in target_idx) + ")"
+    return f"vision_model\\.encoder\\.layers\\.{idx_pattern}\\.self_attn\\.(q_proj|k_proj)"
+
+
 def apply_lora(model: VisionClassifier, r: int = 4, lora_alpha: int = 8,
                lora_dropout: float = 0.05,
-               target_pattern: str = VISION_ATTN_PATTERN) -> VisionClassifier:
+               target_pattern: str | None = None,
+               n_last_blocks: int | None = None) -> VisionClassifier:
     """B8 / Paper SigLIP2-SO400M ref: rank 4, alpha 8, dropout 0.05, target q_proj & k_proj
-    DI VISION TOWER SAJA. Backbone asli dibekukan total (freeze_all) -- cuma adapter
-    LoRA kecil + head baru yang trainable."""
+    DI VISION TOWER SAJA. Jika n_last_blocks diset (misal 4), LoRA hanya dipasang pada
+    N block transformer terakhir vision encoder. Backbone asli dibekukan total (freeze_all)."""
     from peft import LoraConfig, get_peft_model
+
+    if target_pattern is None:
+        target_pattern = make_vision_target_pattern(model, n_last_blocks=n_last_blocks)
 
     freeze_all(model.encoder)
     lora_cfg = LoraConfig(r=r, lora_alpha=lora_alpha, lora_dropout=lora_dropout,
                           target_modules=target_pattern)
     model.encoder = get_peft_model(model.encoder, lora_cfg)
+
+    # Head baru HARUS trainable
     for p in model.head.parameters():
         p.requires_grad = True
     return model

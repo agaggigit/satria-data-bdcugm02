@@ -61,8 +61,12 @@ MAX_GRAD_NORM = 1.0
 SMOKE_LR = {"lora": 5e-3, "last_layer": 3e-2}
 
 
+LORA_N_LAST_BLOCKS = None   # None = semua 27 layer, atau int (misal 4) untuk N transformer block terakhir
+
+
 def build_variant(variant: str, encoder: nn.Module, hidden_size: int,
-                  num_classes: int = 3, lr: float = None) -> tuple:
+                  num_classes: int = 3, lr: float = None,
+                  n_last_blocks: int | None = LORA_N_LAST_BLOCKS) -> tuple:
     """variant: 'lora' atau 'last_layer'. Bangun VisionClassifier + optimizer
     sesuai parameter hasil riset B8, siap dipakai training loop.
 
@@ -71,7 +75,8 @@ def build_variant(variant: str, encoder: nn.Module, hidden_size: int,
     lr * LAST_LAYER_BACKBONE_LR_RATIO (rasio LLRD tidak ikut berubah)."""
     model = VisionClassifier(encoder, hidden_size=hidden_size, num_classes=num_classes)
     if variant == "lora":
-        model = apply_lora(model, r=LORA_RANK, lora_alpha=LORA_ALPHA, lora_dropout=LORA_DROPOUT)
+        model = apply_lora(model, r=LORA_RANK, lora_alpha=LORA_ALPHA, lora_dropout=LORA_DROPOUT,
+                           n_last_blocks=n_last_blocks)
         optimizer = torch.optim.Adam(
             [p for p in model.parameters() if p.requires_grad],
             lr=LORA_LR if lr is None else lr)
@@ -164,7 +169,8 @@ def smoke_test_loop(variant: str, encoder_factory, hidden_size: int, n_steps: in
     return final_loss
 
 
-def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2) -> dict:
+def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2,
+                         n_last_blocks: int | None = None) -> dict:
     """Entry point Colab SUNGGUHAN (B8): fold 0, gambar train asli, GPU.
     Reuse loaders.get_loaders_b apa adanya (sama seperti train.py) --
     TIDAK ditulis ulang. BELUM ADA bukti eksekusi lokal (butuh GPU + Drive) --
@@ -177,6 +183,11 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
 
     set_seed(cfg.seed)
     device = "cuda"
+
+    if torch.cuda.is_available():
+        import gc
+        gc.collect()
+        torch.cuda.empty_cache()
 
     encoder, processor = load_encoder(checkpoint, device=device)
     hidden_size = encoder.config.vision_config.hidden_size
@@ -191,7 +202,7 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
         print(f"Aligning cfg.img_size to checkpoint native size: {model_img_size}")
 
     train_loader, val_loader, _ = get_loaders_b(fold=0, cfg=cfg, data_config=data_config)
-    model, optimizer = build_variant(variant, encoder, hidden_size, num_classes=cfg.num_classes)
+    model, optimizer = build_variant(variant, encoder, hidden_size, num_classes=cfg.num_classes, n_last_blocks=n_last_blocks)
     
     # Verifikasi trainable parameters (Guard #1)
     print(f"\n--- Verifikasi trainable parameters [{variant}] ---")
