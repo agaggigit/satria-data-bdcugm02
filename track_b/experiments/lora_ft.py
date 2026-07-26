@@ -189,8 +189,9 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
         gc.collect()
         torch.cuda.empty_cache()
 
-    encoder, processor = load_encoder(checkpoint, device=device)
-    hidden_size = encoder.config.vision_config.hidden_size
+    revision = getattr(cfg, "backbone_revision", None)
+    encoder, processor = load_encoder(checkpoint, device=device, revision=revision)
+    hidden_size = getattr(getattr(encoder.config, "vision_config", encoder.config), "hidden_size", 1152)
     data_config = hf_processor_to_data_config(processor)
 
     # Otomatis samakan cfg.img_size dengan native size checkpoint (misal 384 atau 256)

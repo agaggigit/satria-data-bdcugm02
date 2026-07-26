@@ -167,29 +167,46 @@ def resolve_dtype(ckpt: str) -> torch.dtype:
     return torch.float16              # SigLIP: fp16 aman & hemat
 
 
-def load_encoder(ckpt: str, device="cuda", dtype: torch.dtype = None) -> tuple:
+def load_encoder(ckpt: str, device="cuda", dtype: torch.dtype = None,
+                 revision: str | None = None) -> tuple:
     """Load model + image processor SEKALI, pakai ulang untuk beberapa panggilan
-    extract_embeddings(). Tanpa ini, extract_all.py (5 backbone x 2 flip x 2
-    split) akan me-load model 20 kali padahal cukup 5 -- mahal, apalagi untuk
-    so400m (~3,5 GB).
+    extract_embeddings() & lora_ft.py.
 
-    dtype: kalau None, dipilih otomatis per checkpoint via resolve_dtype()
-    (fp32 untuk DINOv3 yang overflow di fp16, fp16 untuk SigLIP). Model DAN input
-    harus dtype yang sama -- extract_embeddings membaca model.dtype untuk itu.
+    Untuk checkpoint SigLIP / SigLIP2, load HANYA Vision Model (Siglip2VisionModel / SiglipVisionModel)
+    alih-alih AutoModel (yang memuat dual-tower vision+text ~1.14B params padahal text model
+    tak pernah dipakai). Memangkas parameter dari ~1.14B -> ~400M dan menghemat VRAM signifikan.
 
-    AutoImageProcessor, BUKAN AutoProcessor. AutoProcessor menarik image
-    processor DAN tokenizer; tokenizer.json (34 MB, lewat Xet CDN) sempat gagal
-    403 "SignatureError: invalid key pair id" -- masalah sisi HF, bukan token
-    kita. Kita memang tidak pernah memakai text tower (dilarang: image encoder
-    saja), jadi tokenizer itu murni beban: satu file besar yang bisa
-    menggagalkan seluruh run tanpa memberi manfaat apa pun. Terverifikasi
-    pixel_values-nya identik dengan AutoProcessor."""
+    revision: commit hash spesifik untuk pinning checkpoint HF Hub.
+    """
     from transformers import AutoImageProcessor, AutoModel
 
     if dtype is None:
         dtype = resolve_dtype(ckpt)
-    model = AutoModel.from_pretrained(ckpt, dtype=dtype).to(device).eval()
-    processor = AutoImageProcessor.from_pretrained(ckpt)   # preprocessing milik checkpoint ini
+
+    kwargs = {"dtype": dtype}
+    if revision is not None:
+        kwargs["revision"] = revision
+
+    lc = ckpt.lower()
+    if "siglip2" in lc:
+        try:
+            from transformers import Siglip2VisionModel
+            model = Siglip2VisionModel.from_pretrained(ckpt, **kwargs).to(device).eval()
+        except ImportError:
+            model = AutoModel.from_pretrained(ckpt, **kwargs).to(device).eval()
+    elif "siglip" in lc:
+        try:
+            from transformers import SiglipVisionModel
+            model = SiglipVisionModel.from_pretrained(ckpt, **kwargs).to(device).eval()
+        except ImportError:
+            model = AutoModel.from_pretrained(ckpt, **kwargs).to(device).eval()
+    else:
+        model = AutoModel.from_pretrained(ckpt, **kwargs).to(device).eval()
+
+    processor_kwargs = {}
+    if revision is not None:
+        processor_kwargs["revision"] = revision
+    processor = AutoImageProcessor.from_pretrained(ckpt, **processor_kwargs)
     return model, processor
 
 

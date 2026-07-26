@@ -22,6 +22,7 @@ class Config:
 
     # Model
     backbone: str = "convnext_tiny.in12k_ft_in1k"
+    backbone_revision: str | None = None  # None = revisi terbaru, atau str commit hash HF Hub (mis. 'main')
     drop_path_rate: float = 0.1
     pretrained: bool = True     # False di test/audit wiring supaya tidak unduh bobot
 

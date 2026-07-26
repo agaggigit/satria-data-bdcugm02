@@ -341,3 +341,27 @@ def test_merge_refuses_on_gap_between_shards(tmp_path, monkeypatch):
     with pytest.raises(AssertionError):
         merge_shards("bb", "train", 6, {"checkpoint": "fake", "flips": []})
     assert not is_cached("bb", "train")
+
+
+def test_load_encoder_accepts_revision(monkeypatch):
+    """Verifikasi load_encoder meneruskan parameter revision= tanpa error."""
+    import embed
+    class _FakeAutoModel:
+        @classmethod
+        def from_pretrained(cls, ckpt, **kwargs):
+            assert "revision" in kwargs
+            assert kwargs["revision"] == "main"
+            return _FakeModel()
+
+    class _FakeProcessorCls:
+        @classmethod
+        def from_pretrained(cls, ckpt, **kwargs):
+            assert "revision" in kwargs
+            assert kwargs["revision"] == "main"
+            return _FakeProcessor()
+
+    monkeypatch.setattr("transformers.AutoModel.from_pretrained", _FakeAutoModel.from_pretrained)
+    monkeypatch.setattr("transformers.AutoImageProcessor.from_pretrained", _FakeProcessorCls.from_pretrained)
+
+    model, proc = embed.load_encoder("dinov3_fake", device="cpu", revision="main")
+    assert model is not None

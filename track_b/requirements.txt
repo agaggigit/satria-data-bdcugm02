@@ -1,6 +1,7 @@
-# Track B -- Pinned Dependencies untuk Google Colab & Reproducibility
-# Mencegah breaking changes / konflik versi antar-sesi Colab (seperti hf_xet, huggingface_hub, peft)
+# Track B -- Pinned Dependencies untuk Reproducibility di Google Colab
+# Semua dependensi di-pin dengan versi persis (==) untuk mencegah drift versi antar-sesi
 
+timm==1.0.7
 peft==0.12.0
 transformers==4.44.2
 huggingface_hub==0.24.6
@@ -8,3 +9,6 @@ hf_xet==0.1.0
 scikit-learn==1.5.1
 lightgbm==4.5.0
 torchao==0.16.0
+numpy==1.26.4
+pandas==2.2.2
+Pillow==10.4.0
