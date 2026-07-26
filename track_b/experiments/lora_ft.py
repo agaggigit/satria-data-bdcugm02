@@ -85,35 +85,39 @@ def build_variant(variant: str, encoder: nn.Module, hidden_size: int,
     return model, optimizer
 
 
-def train_one_epoch(model, loader, optimizer, criterion, scaler, device) -> float:
-    """AMP + grad clip -- pola sama persis train.py (Fase 0-3), disesuaikan
-    ke model HF (bukan timm). AMP dilewati di CPU (autocast cuda tak berlaku
-    di sana) -- dites CPU tanpa AMP lewat smoke_test_loop, dipakai dgn AMP
-    sungguhan di GPU."""
+def train_one_epoch(model, loader, optimizer, criterion, scaler, device, accum_steps: int = 1) -> float:
+    """AMP + grad clip + gradient accumulation -- disesuaikan untuk model HF (SigLIP2-SO400M).
+    Mencegah OutOfMemoryError di T4 GPU untuk model 1B+ @ 384x384."""
     model.train()
     total_loss = 0.0
     use_amp = device == "cuda"
     trainable = [p for p in model.parameters() if p.requires_grad]
+    accum_steps = max(1, accum_steps)
 
-    for images, labels in loader:
+    optimizer.zero_grad()
+    for i, (images, labels) in enumerate(loader):
         images, labels = images.to(device), labels.to(device)
-        optimizer.zero_grad()
         if use_amp:
             with torch.autocast(device_type="cuda", dtype=torch.float16):
                 outputs = model(images)
-                loss = criterion(outputs, labels)
+                loss = criterion(outputs, labels) / accum_steps
             scaler.scale(loss).backward()
-            scaler.unscale_(optimizer)
-            torch.nn.utils.clip_grad_norm_(trainable, max_norm=MAX_GRAD_NORM)
-            scaler.step(optimizer)
-            scaler.update()
+
+            if (i + 1) % accum_steps == 0 or (i + 1) == len(loader):
+                scaler.unscale_(optimizer)
+                torch.nn.utils.clip_grad_norm_(trainable, max_norm=MAX_GRAD_NORM)
+                scaler.step(optimizer)
+                scaler.update()
+                optimizer.zero_grad()
         else:
             outputs = model(images)
-            loss = criterion(outputs, labels)
+            loss = criterion(outputs, labels) / accum_steps
             loss.backward()
-            torch.nn.utils.clip_grad_norm_(trainable, max_norm=MAX_GRAD_NORM)
-            optimizer.step()
-        total_loss += loss.item() * images.size(0)
+            if (i + 1) % accum_steps == 0 or (i + 1) == len(loader):
+                torch.nn.utils.clip_grad_norm_(trainable, max_norm=MAX_GRAD_NORM)
+                optimizer.step()
+                optimizer.zero_grad()
+        total_loss += loss.item() * accum_steps * images.size(0)
     return total_loss / len(loader.dataset)
 
 
@@ -199,14 +203,18 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
         print(f"Trainable params: {trainable:,} / {total:,} ({100 * trainable / total:.4f}%)")
 
     model = model.to(device)
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+
     criterion = nn.CrossEntropyLoss()
     scaler = GradScaler("cuda")
+    accum_steps = getattr(cfg, "accum_steps", 1)
 
     epoch_times = []
     val_f1 = None
     for epoch in range(max_epochs):
         t0 = time.time()
-        tr_loss = train_one_epoch(model, train_loader, optimizer, criterion, scaler, device)
+        tr_loss = train_one_epoch(model, train_loader, optimizer, criterion, scaler, device, accum_steps=accum_steps)
         elapsed = time.time() - t0
         epoch_times.append(elapsed)
 
