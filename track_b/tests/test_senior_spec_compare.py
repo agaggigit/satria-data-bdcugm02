@@ -21,9 +21,9 @@ def test_run_senior_spec_eval_returns_expected_keys():
     })
     folds_v2 = folds_v1.iloc[:n_v2].copy()
 
-    res = run_senior_spec_eval(X_v1, folds_v1, X_v2, folds_v2, head_name="mlp", seed=42)
+    res = run_senior_spec_eval("siglip2so400m", X_v1, folds_v1, X_v2, folds_v2, head_name="mlp", seed=42)
 
-    assert res["combo"] == "concat_siglip2b256_siglip1b256"
+    assert res["combo"] == "siglip2so400m"
     assert res["head"] == "mlp"
     assert "mean_baseline_v1" in res
     assert "mean_naif_v2" in res
