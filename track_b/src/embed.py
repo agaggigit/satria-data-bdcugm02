@@ -183,7 +183,9 @@ def load_encoder(ckpt: str, device="cuda", dtype: torch.dtype = None,
     if dtype is None:
         dtype = resolve_dtype(ckpt)
 
-    kwargs = {"dtype": dtype}
+    kwargs = {}
+    if dtype is not None:
+        kwargs["torch_dtype"] = dtype
     if revision is not None:
         kwargs["revision"] = revision
 
