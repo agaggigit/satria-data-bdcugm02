@@ -204,6 +204,13 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
 
     val_batch_size = getattr(cfg, "val_batch", 32)
     train_loader, val_loader, _ = get_loaders_b(fold=0, cfg=cfg, data_config=data_config, val_batch_size=val_batch_size)
+
+    # Loader evaluasi adil v1 (5.308 sampel) untuk perbandingan apel-ke-apel dengan baseline v1 (0.9901)
+    from config import CFG
+    from dataclasses import replace
+    cfg_v1 = replace(cfg, folds_csv=CFG.folds_csv)
+    _, val_loader_v1, _ = get_loaders_b(fold=0, cfg=cfg_v1, data_config=data_config, val_batch_size=val_batch_size)
+
     model, optimizer = build_variant(variant, encoder, hidden_size, num_classes=cfg.num_classes, n_last_blocks=n_last_blocks)
     
     # Verifikasi trainable parameters (Guard #1)
@@ -224,7 +231,10 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
     accum_steps = getattr(cfg, "accum_steps", 1)
 
     epoch_times = []
-    val_f1 = None
+    best_val_f1_adil = -1.0
+    best_val_f1_naive = -1.0
+    best_epoch = -1
+
     for epoch in range(max_epochs):
         t0 = time.time()
         tr_loss = train_one_epoch(model, train_loader, optimizer, criterion, scaler, device, accum_steps=accum_steps)
@@ -232,6 +242,7 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
         epoch_times.append(elapsed)
 
         model.eval()
+        # 1. Evaluasi pada val_loader (v2 naif jika cfg pakai v2)
         all_preds, all_labels = [], []
         with torch.no_grad():
             for images, labels in val_loader:
@@ -240,15 +251,43 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
                     outputs = model(images)
                 all_preds.append(outputs.argmax(dim=1).cpu())
                 all_labels.append(labels)
-        val_f1 = macro_f1(torch.cat(all_preds), torch.cat(all_labels))
+        val_f1_naive = macro_f1(torch.cat(all_preds), torch.cat(all_labels))
+
+        # 2. Evaluasi pada val_loader_v1 (v1 adil - 5.308 sampel)
+        all_preds_v1, all_labels_v1 = [], []
+        with torch.no_grad():
+            for images, labels in val_loader_v1:
+                images = images.to(device)
+                with torch.autocast(device_type="cuda", dtype=torch.float16):
+                    outputs = model(images)
+                all_preds_v1.append(outputs.argmax(dim=1).cpu())
+                all_labels_v1.append(labels)
+        val_f1_adil = macro_f1(torch.cat(all_preds_v1), torch.cat(all_labels_v1))
+
+        if val_f1_adil > best_val_f1_adil:
+            best_val_f1_adil = val_f1_adil
+            best_epoch = epoch + 1
+            best_val_f1_naive = val_f1_naive
+
         print(f"  [{variant}] epoch {epoch+1}/{max_epochs} | train_loss {tr_loss:.4f} | "
-              f"val_f1 {val_f1:.4f} | {elapsed/60:.1f} mnt")
+              f"val_f1_naif {val_f1_naive:.4f} | val_f1_adil_v1 {val_f1_adil:.4f} | {elapsed/60:.1f} mnt")
 
     mins_per_epoch = sum(epoch_times) / len(epoch_times) / 60
+    est_5fold_hours = mins_per_epoch * 5 * max_epochs / 60
     print(f"\n[{variant}] minutes_per_epoch = {mins_per_epoch:.2f}")
-    print(f"[{variant}] estimasi 5-fold x {LORA_EPOCHS if variant=='lora' else max_epochs} "
-          f"epoch = {mins_per_epoch * 5 * (LORA_EPOCHS if variant=='lora' else max_epochs) / 60:.1f} jam GPU")
-    return {"variant": variant, "val_f1": val_f1, "minutes_per_epoch": mins_per_epoch}
+    print(f"[{variant}] BEST Epoch: {best_epoch} | Best val_f1_adil (v1): {best_val_f1_adil:.4f} | Best val_f1_naif (v2): {best_val_f1_naive:.4f}")
+    print(f"[{variant}] Estimasi 5-fold x {max_epochs} epoch = {est_5fold_hours:.2f} jam GPU")
+
+    return {
+        "variant": variant,
+        "best_epoch": best_epoch,
+        "best_val_f1_adil_v1": best_val_f1_adil,
+        "best_val_f1_naif_v2": best_val_f1_naive,
+        "last_val_f1_adil_v1": val_f1_adil,
+        "last_val_f1_naif_v2": val_f1_naive,
+        "minutes_per_epoch": mins_per_epoch,
+        "est_5fold_hours": est_5fold_hours,
+    }
 
 
 if __name__ == "__main__":
