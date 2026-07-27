@@ -95,6 +95,9 @@ def main():
     heads_to_test = ["mlp", "knn"]
 
     for combo in combos_to_test:
+        print(f"\n==========================================")
+        print(f"--- Loading Features for Model Combo: {combo} ---")
+        print(f"==========================================")
         X_v1 = load_combo_features(combo, "train")
         X_v2 = align_to_subset(X_v1, folds_v1, folds_v2)
         for h in heads_to_test:
