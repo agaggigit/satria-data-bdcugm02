@@ -72,24 +72,44 @@ def extract_misclassified_df(X: np.ndarray, folds_df: pd.DataFrame,
     return wrong_df, summary_df
 
 
-def main():
+def main(use_v2: bool = True):
     from config import CFG
+    from embed import align_to_subset
 
-    print("--- Loading Embeddings SigLIP2-SO400M ---")
-    folds_df = pd.read_csv(CFG.folds_csv)
-    X = l2norm(load_embeddings("siglip2so400m", "train")[0])
+    folds_v1 = pd.read_csv(CFG.folds_csv)
+    target_csv = CFG.folds_v2_csv if use_v2 else CFG.folds_csv
+    dataset_name = "folds_v2.csv (Data Bersih Track A)" if use_v2 else "folds.csv (Data Asli v1)"
+
+    print(f"--- Loading Embeddings SigLIP2-SO400M & Dataset: {dataset_name} ---")
+    folds_df = pd.read_csv(target_csv)
+    X_full = l2norm(load_embeddings("siglip2so400m", "train")[0])
+    
+    if use_v2:
+        X = align_to_subset(X_full, folds_v1, folds_df)
+    else:
+        X = X_full
 
     print("--- Mengekstraksi Sampel Misclassified (SO400M + kNN) ---")
     wrong_df, summary_df = extract_misclassified_df(X, folds_df, head_name="knn", seed=CFG.seed)
 
-    print(f"\n✅ Ditemukan {len(wrong_df)} sampel salah dari total {len(folds_df)} sampel ({100*len(wrong_df)/len(folds_df):.2f}% Error Rate)")
+    error_rate = 100 * len(wrong_df) / len(folds_df)
+    accuracy = 100 - error_rate
+
+    print(f"\n=======================================================")
+    print(f"📊 HASIL EVALUASI DIAGNOSIS MISLABEL [{dataset_name}]")
+    print(f"=======================================================")
+    print(f" Total Sampel Dataset : {len(folds_df):,} gambar")
+    print(f" Akurasi Model (kNN)  : {accuracy:.2f}%")
+    print(f" Jumlah Mislabel/Salah: {len(wrong_df):,} gambar ({error_rate:.2f}% Error Rate)")
+    print(f"=======================================================")
     print("\n=== RINGKASAN PASANGAN TERTUKAR (TOP CONFUSION) ===")
     print(summary_df.to_string(index=False))
 
-    out_csv = os.path.join(os.path.dirname(__file__), "..", "results", "misclassified_so400m_knn.csv")
+    suffix = "_v2" if use_v2 else "_v1"
+    out_csv = os.path.join(os.path.dirname(__file__), "..", "results", f"misclassified_so400m_knn{suffix}.csv")
     os.makedirs(os.path.dirname(out_csv), exist_ok=True)
     wrong_df.to_csv(out_csv, index=False)
-    print(f"\n📄 Daftar lengkap 260 sampel salah tersimpan di: {out_csv}")
+    print(f"\n📄 Daftar lengkap {len(wrong_df)} sampel salah tersimpan di: {out_csv}")
 
 
 if __name__ == "__main__":

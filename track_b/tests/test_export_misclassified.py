@@ -1,7 +1,12 @@
 """test_export_misclassified.py — Unit test untuk export_misclassified.py"""
+import os
+import sys
 import numpy as np
 import pandas as pd
 import pytest
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "experiments")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
 
 from export_misclassified import extract_misclassified_df
 
