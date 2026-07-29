@@ -217,6 +217,18 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
         print(f"Trainable params: {trainable:,} / {total:,} ({100 * trainable / total:.4f}%)")
 
     model = model.to(device)
+
+    # ── FP16 gradient fix ──────────────────────────────────────────────────────
+    # load_encoder() memuat backbone SigLIP sebagai fp16 (resolve_dtype).
+    # Parameter trainable (blok yang dibuka) harus fp32 agar GradScaler bisa
+    # unscale gradientnya -- fp16 params menghasilkan fp16 grad, dan
+    # GradScaler.unscale_() menolak fp16 dengan ValueError.
+    # Solusi standar AMP: trainable params di fp32, forward pass tetap fp16
+    # lewat autocast -- tidak ada konflik.
+    for p in model.parameters():
+        if p.requires_grad:
+            p.data = p.data.float()  # cast ke fp32, in-place
+
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
 
