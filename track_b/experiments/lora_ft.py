@@ -308,13 +308,16 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
     }
 
 
-def evaluate_on_test(ckpt_path: str, cfg, batch_size: int = 32) -> list:
-    """Load model dari checkpoint terbaik, jalankan inference di test folder.
-    Mengembalikan list prediksi (integer label) dalam urutan yang sama dengan
-    file yang ditemukan di cfg.test_dir.
+def evaluate_on_test(ckpt_path: str, cfg, batch_size: int = 32,
+                     data_dir: str = None) -> list:
+    """Load model dari checkpoint terbaik, jalankan inference di folder gambar.
 
-    cfg.test_dir harus berisi gambar test mentah (tanpa subfolder label).
-    Prediksi dikembalikan bersama filepath agar bisa langsung dijadikan submission.
+    data_dir : direktori gambar yang mau di-inference. Kalau None, pakai
+               cfg.test_dir (data test kompetisi). Untuk evaluasi di data
+               TRAIN mentah, isi dengan path folder train, misal:
+               '/content/drive/MyDrive/BDC2026/train'
+
+    Mengembalikan (filepaths, preds, probs) dalam urutan alfabetis filepath.
     """
     import glob
     from PIL import Image
@@ -350,24 +353,25 @@ def evaluate_on_test(ckpt_path: str, cfg, batch_size: int = 32) -> list:
         cfg = dc_replace(cfg, img_size=img_size)
     eval_tfm = build_transforms(data_config, cfg.img_size, train=False)
 
-    # Kumpulkan semua file test
-    test_dir = cfg.test_dir
+    # Tentukan direktori sumber gambar
+    scan_dir = data_dir if data_dir is not None else cfg.test_dir
+    label = "train" if data_dir is not None else "test"
     exts = (".jpg", ".jpeg", ".png", ".bmp", ".webp")
     filepaths = sorted([
-        f for f in glob.glob(os.path.join(test_dir, "**", "*"), recursive=True)
+        f for f in glob.glob(os.path.join(scan_dir, "**", "*"), recursive=True)
         if f.lower().endswith(exts)
     ])
-    print(f"\n🔍 Test set: {len(filepaths):,} gambar ditemukan di {test_dir}")
+    print(f"\n🔍 [{label}] {len(filepaths):,} gambar ditemukan di {scan_dir}")
 
     if not filepaths:
-        raise FileNotFoundError(f"Tidak ada gambar di {test_dir}")
+        raise FileNotFoundError(f"Tidak ada gambar di {scan_dir}")
 
     # Inference
     all_preds = []
     all_probs = []
     from tqdm.auto import tqdm
     with torch.no_grad():
-        for i in tqdm(range(0, len(filepaths), batch_size), desc="Inferencing test"):
+        for i in tqdm(range(0, len(filepaths), batch_size), desc=f"Inferencing [{label}]"):
             batch_paths = filepaths[i:i + batch_size]
             imgs = []
             for p in batch_paths:
@@ -385,7 +389,7 @@ def evaluate_on_test(ckpt_path: str, cfg, batch_size: int = 32) -> list:
     from collections import Counter
     dist = Counter(all_preds)
     class_names = getattr(cfg, "class_names", ["Recyclable", "Electronic", "Organic"])
-    print("\n📊 Distribusi prediksi test:")
+    print(f"\n📊 Distribusi prediksi [{label}]:")
     for cls_id, name in enumerate(class_names):
         print(f"  Kelas {cls_id} ({name:12s}): {dist.get(cls_id, 0):,}")
     print(f"  TOTAL: {len(all_preds):,}")
