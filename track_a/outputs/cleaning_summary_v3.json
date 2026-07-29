@@ -1,0 +1,23 @@
+{
+  "version": "v3",
+  "source_folds": "folds_v2.csv",
+  "cleaning_logs": [
+    "cleaning_log_terisi.csv (review manual \u2014 raka)",
+    "cleaning_log_misclassified.csv (misclassified review \u2014 aga)"
+  ],
+  "total_before": 25985,
+  "total_after": 25826,
+  "n_dropped": 159,
+  "drop_pct": 0.61,
+  "n_relabeled": 25,
+  "class_distribution": {
+    "Recyclable": 9738,
+    "Electronic": 3933,
+    "Organic": 12155
+  },
+  "class_weights_v3": [
+    0.884028205654823,
+    2.1888295618272733,
+    0.7082407788290142
+  ]
+}
