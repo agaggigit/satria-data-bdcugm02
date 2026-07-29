@@ -53,6 +53,7 @@ class Config:
     # kolom sama dgn folds.csv, baris lebih sedikit; JANGAN dipakai sebagai
     # pengganti folds_csv, keduanya dibandingkan berdampingan (head_grid_v3.py).
     folds_v2_csv: str = os.environ.get("FOLDS_V2_CSV_OVERRIDE", os.path.join(OUTPUT_TRACK_A, "folds_v2.csv"))
+    folds_v3_csv: str = os.environ.get("FOLDS_V3_CSV_OVERRIDE", os.path.join(OUTPUT_TRACK_A, "folds_v3.csv"))
     class_weights_path: str = os.path.join(OUTPUT_TRACK_A, "class_weights.npy")
     save_dir: str = OUTPUT_TRACK_B
 
