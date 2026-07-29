@@ -46,3 +46,6 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .venv/
+
+track_a/pipeline_overview.md
+track_a/quick_report_2.md
