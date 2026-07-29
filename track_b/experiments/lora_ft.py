@@ -239,6 +239,13 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
     epoch_times = []
     best_val_f1 = -1.0
     best_epoch = -1
+    best_ckpt_path = None
+
+    # Path simpan model di Drive
+    save_dir = getattr(cfg, "save_dir", "/content/drive/MyDrive/BDC2026apace/output_trackB")
+    os.makedirs(save_dir, exist_ok=True)
+    run_name = getattr(cfg, "run_name", f"{variant}_ft_fold0")
+    ckpt_path = os.path.join(save_dir, f"{run_name}_best.pt")
 
     for epoch in range(max_epochs):
         t0 = time.time()
@@ -260,17 +267,26 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
         if val_f1 > best_val_f1:
             best_val_f1 = val_f1
             best_epoch = epoch + 1
-            
-            # --- AUTO SAVE CHECKPOINT ---
-            import os
-            os.makedirs(cfg.save_dir, exist_ok=True)
-            ckpt_name = f"{getattr(cfg, 'run_name', 'model')}_best.pt"
-            ckpt_path = os.path.join(cfg.save_dir, ckpt_name)
-            
-            # Simpan hanya parameter yang dilatih (LoRA adapters / last layer) agar file sangat kecil
-            trainable_state = {k: v.cpu() for k, v in model.state_dict().items() if model.get_parameter(k).requires_grad}
-            torch.save(trainable_state, ckpt_path)
-            print(f"    -> [SAVE] Checkpoint tersimpan ke: {ckpt_path} ({len(trainable_state)} tensor)")
+            # ── Simpan checkpoint terbaik (full + trainable-only) ──────────────
+            # 1. Full checkpoint dengan metadata (wajib untuk evaluate_on_test)
+            torch.save({
+                "epoch": epoch + 1,
+                "val_f1": val_f1,
+                "model_state_dict": model.state_dict(),
+                "optimizer_state_dict": optimizer.state_dict(),
+                "variant": variant,
+                "checkpoint": checkpoint,
+                "cfg_img_size": cfg.img_size,
+            }, ckpt_path)
+            best_ckpt_path = ckpt_path
+            print(f"  ✅ Model disimpan: {ckpt_path} (val_f1={val_f1:.4f})")
+            # 2. Trainable-only (lebih kecil, untuk distribusi / resume cepat)
+            trainable_keys = {k for k, v in model.named_parameters() if v.requires_grad}
+            trainable_state = {k: v.cpu() for k, v in model.state_dict().items() if k in trainable_keys}
+            slim_path = ckpt_path.replace("_best.pt", "_trainable_only.pt")
+            torch.save(trainable_state, slim_path)
+            n_tensors = len(trainable_state)
+            print(f"     trainable-only : {slim_path} ({n_tensors} tensor)")
 
         print(f"  [{variant}] epoch {epoch+1}/{max_epochs} | train_loss {tr_loss:.4f} | "
               f"val_f1 {val_f1:.4f} | {elapsed/60:.1f} mnt")
@@ -288,7 +304,93 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
         "last_val_f1": val_f1,
         "minutes_per_epoch": mins_per_epoch,
         "est_5fold_hours": est_5fold_hours,
+        "best_ckpt_path": best_ckpt_path,
     }
+
+
+def evaluate_on_test(ckpt_path: str, cfg, batch_size: int = 32) -> list:
+    """Load model dari checkpoint terbaik, jalankan inference di test folder.
+    Mengembalikan list prediksi (integer label) dalam urutan yang sama dengan
+    file yang ditemukan di cfg.test_dir.
+
+    cfg.test_dir harus berisi gambar test mentah (tanpa subfolder label).
+    Prediksi dikembalikan bersama filepath agar bisa langsung dijadikan submission.
+    """
+    import glob
+    from PIL import Image
+    from vision_classifier import VisionClassifier, hf_processor_to_data_config
+    from embed import load_encoder
+    from transforms import build_transforms
+    from seed_utils import set_seed
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    set_seed(cfg.seed)
+
+    # Load checkpoint
+    ckpt = torch.load(ckpt_path, map_location=device)
+    checkpoint_hf = ckpt["checkpoint"]
+    img_size = ckpt.get("cfg_img_size", cfg.img_size)
+    variant = ckpt.get("variant", "last_layer")
+    print(f"📦 Load checkpoint: {ckpt_path}")
+    print(f"   Variant={variant} | Epoch={ckpt['epoch']} | val_f1={ckpt['val_f1']:.4f} | img_size={img_size}")
+
+    # Load encoder & rebuild model
+    revision = getattr(cfg, "backbone_revision", None)
+    encoder, processor = load_encoder(checkpoint_hf, device=device, revision=revision)
+    data_config = hf_processor_to_data_config(processor)
+    hidden_size = getattr(getattr(encoder.config, "vision_config", encoder.config), "hidden_size", 1152)
+
+    model = VisionClassifier(encoder, hidden_size=hidden_size, num_classes=cfg.num_classes)
+    model.load_state_dict(ckpt["model_state_dict"])
+    model = model.to(device).eval()
+
+    # Build transform (eval mode)
+    from dataclasses import replace as dc_replace
+    if img_size != cfg.img_size:
+        cfg = dc_replace(cfg, img_size=img_size)
+    eval_tfm = build_transforms(data_config, cfg.img_size, train=False)
+
+    # Kumpulkan semua file test
+    test_dir = cfg.test_dir
+    exts = (".jpg", ".jpeg", ".png", ".bmp", ".webp")
+    filepaths = sorted([
+        f for f in glob.glob(os.path.join(test_dir, "**", "*"), recursive=True)
+        if f.lower().endswith(exts)
+    ])
+    print(f"\n🔍 Test set: {len(filepaths):,} gambar ditemukan di {test_dir}")
+
+    if not filepaths:
+        raise FileNotFoundError(f"Tidak ada gambar di {test_dir}")
+
+    # Inference
+    all_preds = []
+    all_probs = []
+    from tqdm.auto import tqdm
+    with torch.no_grad():
+        for i in tqdm(range(0, len(filepaths), batch_size), desc="Inferencing test"):
+            batch_paths = filepaths[i:i + batch_size]
+            imgs = []
+            for p in batch_paths:
+                with Image.open(p) as im:
+                    imgs.append(eval_tfm(im.convert("RGB")))
+            batch_tensor = torch.stack(imgs).to(device)
+            with torch.autocast(device_type=device, dtype=torch.float16):
+                logits = model(batch_tensor)
+            probs = torch.softmax(logits.float(), dim=-1).cpu()
+            preds = probs.argmax(dim=-1).tolist()
+            all_preds.extend(preds)
+            all_probs.extend(probs.tolist())
+
+    # Ringkasan
+    from collections import Counter
+    dist = Counter(all_preds)
+    class_names = getattr(cfg, "class_names", ["Recyclable", "Electronic", "Organic"])
+    print("\n📊 Distribusi prediksi test:")
+    for cls_id, name in enumerate(class_names):
+        print(f"  Kelas {cls_id} ({name:12s}): {dist.get(cls_id, 0):,}")
+    print(f"  TOTAL: {len(all_preds):,}")
+
+    return filepaths, all_preds, all_probs
 
 
 if __name__ == "__main__":
