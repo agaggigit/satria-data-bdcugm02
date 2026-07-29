@@ -260,6 +260,17 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
         if val_f1 > best_val_f1:
             best_val_f1 = val_f1
             best_epoch = epoch + 1
+            
+            # --- AUTO SAVE CHECKPOINT ---
+            import os
+            os.makedirs(cfg.save_dir, exist_ok=True)
+            ckpt_name = f"{getattr(cfg, 'run_name', 'model')}_best.pt"
+            ckpt_path = os.path.join(cfg.save_dir, ckpt_name)
+            
+            # Simpan hanya parameter yang dilatih (LoRA adapters / last layer) agar file sangat kecil
+            trainable_state = {k: v.cpu() for k, v in model.state_dict().items() if model.get_parameter(k).requires_grad}
+            torch.save(trainable_state, ckpt_path)
+            print(f"    -> [SAVE] Checkpoint tersimpan ke: {ckpt_path} ({len(trainable_state)} tensor)")
 
         print(f"  [{variant}] epoch {epoch+1}/{max_epochs} | train_loss {tr_loss:.4f} | "
               f"val_f1 {val_f1:.4f} | {elapsed/60:.1f} mnt")
