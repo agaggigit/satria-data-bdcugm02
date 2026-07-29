@@ -55,6 +55,7 @@ class Config:
     folds_v2_csv: str = os.environ.get("FOLDS_V2_CSV_OVERRIDE", os.path.join(OUTPUT_TRACK_A, "folds_v2.csv"))
     folds_v3_csv: str = os.environ.get("FOLDS_V3_CSV_OVERRIDE", os.path.join(OUTPUT_TRACK_A, "folds_v3.csv"))
     class_weights_path: str = os.path.join(OUTPUT_TRACK_A, "class_weights.npy")
+    class_weights_v3_path: str = os.path.join(OUTPUT_TRACK_A, "class_weights_v3.npy")
     save_dir: str = OUTPUT_TRACK_B
 
     # === BARU — versioning checkpoint (fix Fase 2/3) ===

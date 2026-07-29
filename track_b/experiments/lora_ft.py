@@ -232,7 +232,18 @@ def run_smoke_test_fold0(variant: str, cfg, checkpoint: str, max_epochs: int = 2
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
 
-    criterion = nn.CrossEntropyLoss()
+    # Load class weights jika file-nya ada
+    weight_tensor = None
+    cw_path = getattr(cfg, "class_weights_path", None)
+    if cw_path and os.path.exists(cw_path):
+        import numpy as np
+        cw = np.load(cw_path)
+        weight_tensor = torch.tensor(cw, dtype=torch.float32, device=device)
+        print(f"\n\u2696\ufe0f Menggunakan class weights: {cw}")
+    else:
+        print("\n\u26a0\ufe0f WARNING: class_weights_path tidak ditemukan. Training tanpa bobot kelas!")
+
+    criterion = nn.CrossEntropyLoss(weight=weight_tensor)
     scaler = GradScaler("cuda")
     accum_steps = getattr(cfg, "accum_steps", 1)
 
