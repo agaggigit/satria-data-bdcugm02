@@ -341,7 +341,7 @@ def evaluate_on_test(ckpt_path: str, cfg, batch_size: int = 32,
     set_seed(cfg.seed)
 
     # Load checkpoint
-    ckpt = torch.load(ckpt_path, map_location=device)
+    ckpt = torch.load(ckpt_path, map_location=device, weights_only=False)
     checkpoint_hf = ckpt["checkpoint"]
     img_size = ckpt.get("cfg_img_size", cfg.img_size)
     variant = ckpt.get("variant", "last_layer")
